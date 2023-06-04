@@ -1,15 +1,17 @@
-import { useState } from "react";
-import Header from "../../components/Header";
 import "./index.css";
+
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
+import { useEffect } from "react";
+
+import Header from "../../components/Header";
 import SignIn from "./SignIn/signIn";
 import ModalWrap from "./ModalWrap/modalWrap";
 import SignUp from "./SignUp/signUp";
 import SearchPw from "./SearchPw/searchPw";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import Alert from "./Alert";
-import { useRef } from "react";
-import { useEffect } from "react";
 
 function Start() {
   const [signInModal, setSignInModal] = useState(false);
@@ -19,11 +21,10 @@ function Start() {
 
   const userState = useSelector((state) => state.strr.token);
   const navigate = useNavigate();
-  const ref1 = useRef(null); //subFrame 1, 2, 3, 4, 5에 달아놈
+  const ref1 = useRef(null); //subFrame 1, 2, 3, 4에 달아놈
   const ref2 = useRef(null);
   const ref3 = useRef(null);
   const ref4 = useRef(null);
-  const ref5 = useRef(null);
 
   const showSignInModal = () => {
     setSignInModal((pre) => !pre);
@@ -60,7 +61,7 @@ function Start() {
     const direction = deltaY > 0 ? "down" : "up"; //마우스 휠 방향
 
     if (direction === "down") {
-      if (page === 5) {
+      if (page === 4) {
         return;
       }
       page = page + 1;
@@ -83,9 +84,6 @@ function Start() {
         break;
       case 4:
         selectedRef = ref4.current;
-        break;
-      case 5:
-        selectedRef = ref5.current;
         break;
       default:
         // 예외 처리 코드 작성
@@ -290,14 +288,6 @@ function Start() {
         </div>
         <div className="SubFrameImage"></div>
       </div>
-      {/* <div className="SubFrame5" ref={ref5}>
-        <div className="SubFrameImage"></div>
-        <div className="SubFrameParagraph">
-          <strong className="SubFrameParagraphText">
-            <span> 그래도 안된다면...</span>
-          </strong>
-        </div>
-      </div> */}
       <span className="scrollTemp"></span>
     </div>
   );
