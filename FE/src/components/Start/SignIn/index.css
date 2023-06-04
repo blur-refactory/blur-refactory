@@ -1,0 +1,227 @@
+::-webkit-scrollbar {
+  display: none;
+}
+
+.SIModal {
+  position: absolute;
+  width: 31.9444vw;
+  height: 39vw;
+  left: 34.2361vw;
+  top: 15vh;
+  background: #ffffff;
+  border-radius: 2.0833vw;
+  z-index: 30;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.SIModal .SIModalHeader {
+  position: absolute;
+  width: 31.9444vw;
+  height: 5.2083vw;
+  left: 0vw;
+  top: 0vw;
+  background: #e1f1f2;
+  border-radius: 2.0833vw 2.0833vw 0vw 0vw;
+}
+.SIModal .SIModalHeader .SIModalHeaderText {
+  position: absolute;
+  height: 2.7083vw;
+  left: 0vw;
+  right: 0vw;
+  top: 1.3542vw;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.875vw;
+  line-height: 2.7083vw;
+  text-align: center;
+  color: #50a1a3;
+}
+.SIModal .SIModalHeader .SIModalClose {
+  position: absolute;
+  right: 1.3889vw;
+  top: 1.75vw;
+  background: url(../../../assets/images/cross.png);
+  background-size: cover;
+  width: 2.0833vw;
+  height: 2.0833vw;
+  cursor: pointer;
+}
+.SIModal .ModalInputIdDiv {
+  position: absolute;
+  width: 22.9167vw;
+  height: 6.0938vw;
+  left: 4.5833vw;
+  top: 7.4479vw;
+}
+.SIModal .ModalInputIdDiv .ModalInputIdLabel {
+  position: absolute;
+  width: 22.9167vw;
+  height: 1.25vw;
+  left: 0vw;
+  top: 0vw;
+  font-family: "Happy Monkey";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.0417vw;
+  line-height: 1.25vw;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  color: #000000;
+}
+.SIModal .ModalInputIdDiv .ModalInputId {
+  position: absolute;
+  width: 22.9167vw;
+  height: 3.9063vw;
+  left: 0vw;
+  top: 2.1875vw;
+  padding-left: 0.6944vw;
+  background: #e1f1f2;
+  border-radius: 0.5208vw;
+  border: 0;
+}
+.SIModal .ModalInputPwDiv {
+  position: absolute;
+  width: 22.9167vw;
+  height: 5.9896vw;
+  left: 4.5313vw;
+  top: 14.3229vw;
+}
+.SIModal .ModalInputPwDiv .ModalInputPwLabel {
+  position: absolute;
+  width: 1.5972vw;
+  height: 1.25vw;
+  left: 0.0521vw;
+  top: 0vw;
+  font-family: "Happy Monkey";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.0417vw;
+  line-height: 1.25vw;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  color: #000000;
+}
+.SIModal .ModalInputPwDiv .ModalInputPw {
+  position: absolute;
+  width: 22.9167vw;
+  height: 3.9063vw;
+  left: 0vw;
+  top: 2.0833vw;
+  padding-left: 0.6944vw;
+  background: #e1f1f2;
+  border-radius: 0.5208vw;
+  border: 0;
+}
+.SIModal .LoginBtnDiv {
+  position: absolute;
+  width: 23.75vw;
+  height: 5.4688vw;
+  left: 4.5313vw;
+  top: 22.5521vw;
+}
+.SIModal .LoginBtnDiv .LoginBtn {
+  position: absolute;
+  width: 23.75vw;
+  height: 3.9063vw;
+  left: 0vw;
+  top: 0vw;
+  cursor: pointer;
+  background: #50a1a3;
+  border-radius: 0.5208vw;
+}
+.SIModal .LoginBtnDiv .IdSaveDiv {
+  position: absolute;
+  width: 5.625vw;
+  height: 1.0417vw;
+  left: 0.0521vw;
+  top: 4.4271vw;
+}
+.SIModal .LoginBtnDiv .IdSaveDiv .IdSaveToggle {
+  position: absolute;
+  width: 1.0417vw;
+  height: 1.0417vw;
+  left: 0vw;
+  top: 0vw;
+  background: #d9d9d9;
+}
+.SIModal .LoginBtnDiv .IdSaveDiv .IdSaveText {
+  position: absolute;
+  width: 4.5139vw;
+  height: 0.9722vw;
+  left: 1.5625vw;
+  top: 0.0521vw;
+  font-family: "Happy Monkey";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.8333vw;
+  line-height: 0.9722vw;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #8b8b8b;
+}
+.SIModal .LoginBtnDiv .SISignUpBtn {
+  position: absolute;
+  width: 4.5139vw;
+  height: 0.9722vw;
+  left: 13.8889vw;
+  top: 4.4792vw;
+  cursor: pointer;
+  font-family: "Happy Monkey";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.8333vw;
+  line-height: 0.9722vw;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #8b8b8b;
+  background-color: #ffffff;
+}
+.SIModal .LoginBtnDiv .SISearchingPwBtn {
+  position: absolute;
+  width: 6.25vw;
+  height: 0.9722vw;
+  left: 18.0556vw;
+  top: 4.4792vw;
+  cursor: pointer;
+  font-family: "Happy Monkey";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.8333vw;
+  line-height: 0.9722vw;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #8b8b8b;
+  background-color: #ffffff;
+}
+.SIModal .KakaoLoginBtn {
+  position: absolute;
+  width: 23.75vw;
+  height: 3.9063vw;
+  left: 4.5313vw;
+  top: 29vw;
+  cursor: pointer;
+  background: #fee500;
+  border-radius: 0.5208vw;
+}
+.SIModal .GoogleLoginBtn {
+  position: absolute;
+  width: 23.75vw;
+  height: 3.9063vw;
+  left: 4.5833vw;
+  top: 33.6vw;
+  cursor: pointer;
+  background: rgba(128, 152, 217, 0.9607843137);
+  border-radius: 0.5208vw;
+}
+.SIModal .PlaceHolder {
+  position: absolute;
+  width: 0.6944vw;
+  height: 0.6944vw;
+  left: 4.5833vw;
+  top: 42vw;
+}

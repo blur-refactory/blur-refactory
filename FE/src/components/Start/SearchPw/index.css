@@ -1,0 +1,133 @@
+.SPModal {
+  position: absolute;
+  width: 31.9444vw;
+  height: 26.3889vw;
+  left: 34.2361vw;
+  top: 15vh;
+  background: #ffffff;
+  border-radius: 2.0833vw;
+  z-index: 30;
+}
+.SPModal .SPModalHeader {
+  position: absolute;
+  width: 31.9444vw;
+  height: 5.2083vw;
+  left: 0vw;
+  top: 0.0347vw;
+  background: #e1f1f2;
+  border-radius: 2.0833vw 2.0833vw 0vw 0vw;
+}
+.SPModal .SPModalHeader .SPModalHeaderText {
+  position: absolute;
+  width: 17.3611vw;
+  height: 2.4306vw;
+  left: 8.6806vw;
+  top: 1.4063vw;
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.6667vw;
+  line-height: 2.4306vw;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #50a1a3;
+}
+.SPModal .SPModalHeader .SPModalClose {
+  position: absolute;
+  right: 1.3889vw;
+  top: 1.75vw;
+  background: url(../../../assets/images/cross.png);
+  background-size: cover;
+  width: 2.0833vw;
+  height: 2.0833vw;
+  cursor: pointer;
+}
+.SPModal .SPModalInputIdDiv {
+  position: absolute;
+  width: 22.9167vw;
+  height: 6.1111vw;
+  left: 4.5833vw;
+  top: 7.4653vw;
+}
+.SPModal .SPModalInputIdDiv .SPModalInputIdLabel {
+  position: absolute;
+  width: 22.9167vw;
+  height: 1.25vw;
+  left: 0vw;
+  top: 0vw;
+  font-family: "Happy Monkey";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.0417vw;
+  line-height: 1.25vw;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  color: #000000;
+}
+.SPModal .SPModalInputIdDiv .SPModalInputId {
+  position: absolute;
+  width: 22.9167vw;
+  height: 3.9063vw;
+  left: 0vw;
+  top: 2.1875vw;
+  padding-left: 0.6944vw;
+  background: #e1f1f2;
+  border-radius: 0.5208vw;
+}
+.SPModal .SPConfirmBtn {
+  position: absolute;
+  width: 23.75vw;
+  height: 3.9063vw;
+  left: 4.5313vw;
+  top: 15.2778vw;
+  cursor: pointer;
+  background: #50a1a3;
+  border-radius: 0.6944vw;
+}
+.SPModal .SPConfirmBtn .SPConfirmBtnText {
+  position: absolute;
+  width: 15.9722vw;
+  height: 1.25vw;
+  left: 4.4792vw;
+  top: 1.3542vw;
+  font-family: "Happy Monkey";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.0417vw;
+  line-height: 1.25vw;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+}
+.SPModal .SPCancleBtn {
+  position: absolute;
+  width: 23.75vw;
+  height: 3.9063vw;
+  left: 4.4792vw;
+  top: 20.1389vw;
+  cursor: pointer;
+  background: #e1f1f2;
+  border-radius: 0.6944vw;
+}
+.SPModal .SPCancleBtn .SPCancleBtnText {
+  position: absolute;
+  width: 2.0833vw;
+  height: 1.25vw;
+  left: 10.4688vw;
+  top: 1.3542vw;
+  font-family: "Happy Monkey";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.0417vw;
+  line-height: 1.25vw;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #50a1a3;
+}

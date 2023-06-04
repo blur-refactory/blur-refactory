@@ -6,12 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { useEffect } from "react";
 
-import Header from "../../components/Header";
-import SignIn from "./SignIn";
-import ModalWrap from "./ModalWrap";
-import SignUp from "./SignUp";
-import SearchPw from "./SearchPw";
-import Alert from "./Alert";
+import Header from "../../components/Common/Header";
+import SignIn from "../../components/Start/SignIn";
+import ModalWrap from "../../components/Start/ModalWrap";
+import SignUp from "../../components/Start/SignUp";
+import SearchPw from "../../components/Start/SearchPw";
+import Alert from "../../components/Start/Alert";
 
 function Start() {
   const [signInModal, setSignInModal] = useState(false);
@@ -21,7 +21,7 @@ function Start() {
 
   const userState = useSelector((state) => state.strr.token);
   const navigate = useNavigate();
-  const ref1 = useRef(null); //subFrame 1, 2, 3, 4에 달아놈
+  const ref1 = useRef(null);
   const ref2 = useRef(null);
   const ref3 = useRef(null);
   const ref4 = useRef(null);
