@@ -1,14 +1,16 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React from "react";
 import "./style/normalize.css";
 import "./App.css";
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import SocialSignInRedirect from "./components/Start/SignIn/socialSignIn";
+import ChatPage from "../src/components/Chat/ChatPage";
 import Start from "./pages/Start";
 import Home from "./pages/Home";
 import Meeting from "./pages/Meeting";
 import MyInfo from "./pages/MyInfo";
-import SocialSignInRedirect from "./pages/Start/SignIn/socialSignIn";
 import GuardedRoute from "./RouterGuard";
-import ChatPage from "./pages/Home/Chat/ChatPage";
 import NotFound from "./pages/NotFound";
 
 function App() {

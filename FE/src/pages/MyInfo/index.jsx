@@ -9,10 +9,10 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import MyInfoModal from "./MyInfoModal/myInfoModal";
-import Hash from "./Hash/Hash";
-import ModalWrap from "../Start/ModalWrap";
-import Alert from "../../pages/Start/Alert";
+import MyInfoModal from "../../components/MyInfo/Modal";
+import Hash from "../../components/MyInfo/Hash";
+import ModalWrap from "../../components/Start/ModalWrap";
+import Alert from "../../components/Start/Alert";
 
 function MyInfo() {
   //profile edit modal

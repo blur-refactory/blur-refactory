@@ -1,0 +1,109 @@
+@charset "UTF-8";
+.range-slider {
+  -webkit-appearance: none;
+  position: absolute;
+  top: -5.194vw;
+  left: 2vw;
+  right: 2vw;
+  margin: 8em auto;
+  display: flex;
+  z-index: 5;
+}
+.range-slider .slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 0.5em;
+  outline: none;
+  border-radius: 0.208vw;
+  background-color: #eaf6f6;
+  /*
+    ㅁ 슬라이더 핸들(클릭해서 드래그하는 부분)
+    Chrome, Opera, Safari, Edge 브라우저를 다루기 위해선 -webkit-
+    Firefox의 경우 -moz- 사용
+  */
+}
+.range-slider .slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.042vw;
+  height: 1.042vw;
+  background-color: rgb(168, 222, 223);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 6;
+}
+.range-slider .progressSlider {
+  position: absolute;
+  width: 50%;
+  height: 0.5em;
+  border-radius: 0.208vw;
+  background-color: #a8dedf;
+  top: 0.28vw;
+  transform: translateY(-50%);
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.range-slider1 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 0.5em;
+  background-color: transparent;
+  border-radius: 0.25em;
+  outline: none;
+  position: absolute;
+  margin: 1em auto;
+  cursor: pointer;
+  background-color: #eaf6f6;
+}
+
+.range-slider1::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 1.042vw;
+  height: 1.042vw;
+  background-color: rgb(168, 222, 223);
+  border-radius: 50%;
+  pointer-events: auto;
+}
+
+.range-bar {
+  position: absolute;
+  top: 1vw;
+  height: 0.5em;
+  background-color: #a8dedf;
+  width: 70%;
+  border-radius: 0.25em;
+  pointer-events: none;
+  z-index: 11;
+}
+
+.range-slider1-left {
+  left: 0;
+}
+
+.range-slider1-right {
+  right: 0;
+}
+
+.setsavebtn {
+  position: absolute;
+  width: 130px;
+  height: 50px;
+  left: 1120px;
+  top: 50px;
+  border-radius: 70px;
+  color: #68bbbd;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  border: solid 1px #68bbbd;
+}
+
+.setsavebtn:hover {
+  background-color: #68bbbd;
+  color: #eaf6f6;
+}
