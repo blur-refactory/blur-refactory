@@ -475,7 +475,12 @@
   left: 0px;
   top: 0px;
 }
-.Modal .SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox .SetMidPartnerLable {
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox
+  .SetMidPartnerLable {
   position: absolute;
   width: 200px;
   height: 50px;
@@ -489,7 +494,12 @@
   align-items: center;
   color: #9b9a9a;
 }
-.Modal .SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox .SetMMPartnerCheckdiv {
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox
+  .SetMMPartnerCheckdiv {
   display: flex;
   flex-direction: row;
   padding: 19.5px 0px;
@@ -507,7 +517,13 @@
   text-align: center;
   justify-content: center;
 }
-.Modal .SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox .SetMMPartnerCheckdiv .blurdiv {
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox
+  .SetMMPartnerCheckdiv
+  .blurdiv {
   background: rgba(104, 187, 189, 0.2);
   filter: blur(18.75px);
   display: flex;
@@ -519,7 +535,13 @@
   width: 340px;
   height: 58px;
 }
-.Modal .SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox .SetMMPartnerCheckdiv .SetMMPartnerCheck {
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox
+  .SetMMPartnerCheckdiv
+  .SetMMPartnerCheck {
   position: absolute;
   width: 59px;
   height: 32px;
@@ -542,7 +564,12 @@
   left: 0px;
   top: 120px;
 }
-.Modal .SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox2 .SetMidPartnerLable {
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox2
+  .SetMidPartnerLable {
   position: absolute;
   width: 200px;
   height: 50px;
@@ -556,7 +583,12 @@
   align-items: center;
   color: #9b9a9a;
 }
-.Modal .SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox2 .SetMMPartnerCheckdiv {
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox2
+  .SetMMPartnerCheckdiv {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -568,7 +600,13 @@
   left: 225px;
   top: 0px;
 }
-.Modal .SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox2 .SetMMPartnerCheckdiv .blurdiv {
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox2
+  .SetMMPartnerCheckdiv
+  .blurdiv {
   background: rgba(104, 187, 189, 0.2);
   filter: blur(18.75px);
   border-radius: 30px;
@@ -582,7 +620,13 @@
   width: 340px;
   height: 58px;
 }
-.Modal .SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox2 .SetMMPartnerCheckdiv .SetMMPartnerCheck {
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox2
+  .SetMMPartnerCheckdiv
+  .SetMMPartnerCheck {
   position: absolute;
   width: 59px;
   height: 32px;
@@ -605,7 +649,12 @@
   left: 0px;
   top: 240px;
 }
-.Modal .SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox3 .SetMidPartnerLable {
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox3
+  .SetMidPartnerLable {
   position: absolute;
   width: 200px;
   height: 50px;
@@ -619,7 +668,12 @@
   align-items: center;
   color: #9b9a9a;
 }
-.Modal .SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox3 .SetMMPartnerCheckdiv {
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox3
+  .SetMMPartnerCheckdiv {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -631,7 +685,13 @@
   left: 225px;
   top: 0px;
 }
-.Modal .SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox3 .SetMMPartnerCheckdiv .blurdiv {
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox3
+  .SetMMPartnerCheckdiv
+  .blurdiv {
   background: rgba(104, 187, 189, 0.2);
   filter: blur(18.75px);
   display: flex;
@@ -643,7 +703,13 @@
   width: 340px;
   height: 58px;
 }
-.Modal .SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox3 .SetMMPartnerCheckdiv .distancePartner {
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox3
+  .SetMMPartnerCheckdiv
+  .distancePartner {
   position: absolute;
   width: 59px;
   height: 32px;
@@ -729,4 +795,4 @@ input {
 
 select {
   border: none;
-}/*# sourceMappingURL=myInfoModal.css.map */
+}

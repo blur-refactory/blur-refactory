@@ -1,5 +1,5 @@
-import "./chatlist.css";
-import ChatItem from "./ChatItem/chatitem";
+import "./index.css";
+import ChatItem from "./ChatItem";
 
 function ChatList({ showChatPage }) {
   return (

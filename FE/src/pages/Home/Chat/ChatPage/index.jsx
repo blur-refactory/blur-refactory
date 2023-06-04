@@ -1,6 +1,6 @@
-import "./chatpage.css";
-import ChatPageDialogueMe from "./ChatDialogueMe/chatdialogueme";
-import ChatPageDialogueYou from "./ChatDialogueYou/chatdialogueyou";
+import "./index.css";
+import ChatPageDialogueMe from "./ChatDialogueMe";
+import ChatPageDialogueYou from "./ChatDialogueYou";
 
 function ChatPage({ showChatPage }) {
   return (

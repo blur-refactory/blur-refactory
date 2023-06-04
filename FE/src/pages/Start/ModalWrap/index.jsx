@@ -1,4 +1,4 @@
-import "./modalWrap.css";
+import "./index.css";
 
 function ModalWrap({
   showSignInModal,

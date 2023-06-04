@@ -1,4 +1,4 @@
-import "./chatitem.css";
+import "./index.css";
 
 function ChatItem({ showChatPage }) {
   return (

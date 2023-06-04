@@ -1,4 +1,4 @@
-import "./signIn.css";
+import "./index.css";
 import { useState } from "react";
 import axios from "axios";
 import { loginId, saveToken } from "../../../redux/reducers/saveToken";
@@ -85,13 +85,25 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
         <label className="ModalInputIdLabel" htmlFor="user_id">
           ID
         </label>
-        <input className="ModalInputId" id="user_id" placeholder="ID를 입력해 주세요" onChange={enterSignId} defaultValue={savedId}></input>
+        <input
+          className="ModalInputId"
+          id="user_id"
+          placeholder="ID를 입력해 주세요"
+          onChange={enterSignId}
+          defaultValue={savedId}
+        ></input>
       </div>
       <div className="ModalInputPwDiv">
         <label className="ModalInputPwLabel" htmlFor="user_pw">
           PW
         </label>
-        <input className="ModalInputPw" id="user_pw" placeholder="PW를 입력해 주세요" type="password" onChange={enterSignPs}></input>
+        <input
+          className="ModalInputPw"
+          id="user_pw"
+          placeholder="PW를 입력해 주세요"
+          type="password"
+          onChange={enterSignPs}
+        ></input>
       </div>
 
       <div className="LoginBtnDiv">
@@ -99,7 +111,11 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
           로그인
         </button>
         <div className="IdSaveDiv">
-          <input className="IdSaveToggle" type="checkbox" ref={checkbox}></input>
+          <input
+            className="IdSaveToggle"
+            type="checkbox"
+            ref={checkbox}
+          ></input>
 
           <label className="IdSaveText">아이디 저장</label>
         </div>
