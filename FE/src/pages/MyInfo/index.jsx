@@ -3,14 +3,16 @@
 
 import "../../App.css";
 import "./index.css";
-import MyInfoModal from "./MyInfoModal/myInfoModal";
+
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import Hash from "./Hash/Hash";
 import { useNavigate } from "react-router-dom";
-import ModalWrap from "../Start/ModalWrap/modalWrap";
+
+import MyInfoModal from "./MyInfoModal/myInfoModal";
+import Hash from "./Hash/Hash";
+import ModalWrap from "../Start/ModalWrap";
 import Alert from "../../pages/Start/Alert";
-import axios from "axios";
 
 function MyInfo() {
   //profile edit modal

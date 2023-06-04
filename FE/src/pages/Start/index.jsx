@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 import Header from "../../components/Header";
 import SignIn from "./SignIn/signIn";
-import ModalWrap from "./ModalWrap/modalWrap";
+import ModalWrap from "./ModalWrap";
 import SignUp from "./SignUp/signUp";
 import SearchPw from "./SearchPw/searchPw";
 import Alert from "./Alert";
@@ -86,7 +86,6 @@ function Start() {
         selectedRef = ref4.current;
         break;
       default:
-        // 예외 처리 코드 작성
         break;
     }
 

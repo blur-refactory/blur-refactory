@@ -123,7 +123,13 @@
   outline: none;
 }
 .SubFrame .SubLeftDiv .CommBoxFrame1.color-5 {
-  background-image: linear-gradient(to right, #50a1a3, #50a1a3, #3f8384, #50a1a3);
+  background-image: linear-gradient(
+    to right,
+    #50a1a3,
+    #50a1a3,
+    #3f8384,
+    #50a1a3
+  );
   box-shadow: 0 0.278vw 1.042vw 0 rgba(80, 161, 163, 0.85);
 }
 .SubFrame .SubLeftDiv .CommBoxFrame1 .CommBoxFrameStart {
@@ -326,4 +332,4 @@
   animation-duration: 1.5s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
-}/*# sourceMappingURL=index.css.map */
+}
