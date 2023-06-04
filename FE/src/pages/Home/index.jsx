@@ -10,7 +10,7 @@ import { MYGENDER, MYGEO } from "../../redux/reducers/MToggle";
 import { saveToken, ISMYPROFILE } from "../../redux/reducers/saveToken";
 
 import Header from "../../components/Header";
-import BlurInfo from "./BlurInfo/blurInfo";
+import BlurInfo from "./BlurInfo";
 import ModalWrap from "../Start/ModalWrap";
 import Alert from "../Start/Alert";
 import Slide1 from "./Slide1";
@@ -18,8 +18,8 @@ import Slide2 from "./Slide2";
 import Slide3 from "./Slide3";
 import Slide4 from "./Slide4";
 import Slide5 from "./Slide5";
-import ChatList from "./Chat/ChatList/chatlist";
-import ChatPage from "./Chat/ChatPage/chatpage";
+import ChatList from "./Chat/ChatList";
+import ChatPage from "./Chat/ChatPage";
 
 let myStream;
 let carousel;

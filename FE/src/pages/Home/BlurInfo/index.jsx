@@ -1,4 +1,4 @@
-import "./blurInfo.css";
+import "./index.css";
 
 function BlurInfo({ showBlurInfoModal }) {
   return (

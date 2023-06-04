@@ -7,10 +7,10 @@ import { useRef } from "react";
 import { useEffect } from "react";
 
 import Header from "../../components/Header";
-import SignIn from "./SignIn/signIn";
+import SignIn from "./SignIn";
 import ModalWrap from "./ModalWrap";
-import SignUp from "./SignUp/signUp";
-import SearchPw from "./SearchPw/searchPw";
+import SignUp from "./SignUp";
+import SearchPw from "./SearchPw";
 import Alert from "./Alert";
 
 function Start() {
