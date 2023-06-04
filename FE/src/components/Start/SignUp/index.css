@@ -1,0 +1,290 @@
+::-webkit-scrollbar {
+  display: none;
+}
+
+.SUModal {
+  position: absolute;
+  width: 31.9444vw;
+  height: 40vw;
+  left: 34.2361vw;
+  top: 15vh;
+  background: #ffffff;
+  border-radius: 2.0833vw;
+  z-index: 30;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.SUModal .SUModalHeader {
+  height: 5.2083vw;
+  background: #e1f1f2;
+  border-radius: 2.0833vw 2.0833vw 0vw 0vw;
+}
+.SUModal .SUModalHeader .SUModalHeaderText {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.875vw;
+  line-height: 2.7083vw;
+  text-align: center;
+  align-items: center;
+  color: #50a1a3;
+  width: 29.8611vw;
+  margin: 0%;
+  margin-top: 1.3889vw;
+  display: inline-block;
+}
+.SUModal .SUModalHeader .SUModalClose {
+  position: absolute;
+  right: 1.3889vw;
+  top: 1.75vw;
+  background: url(../../../assets/images/cross.png);
+  background-size: cover;
+  width: 2.0833vw;
+  height: 2.0833vw;
+  cursor: pointer;
+}
+.SUModal .SUModalInputIdDiv {
+  display: block;
+  margin-top: 0.6944vw;
+  height: 10.4167vw;
+}
+.SUModal .SUModalInputIdDiv .SUModalInputIdLabel {
+  font-family: "Happy Monkey";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.0417vw;
+  line-height: 1.25vw;
+  /* identical to box height */
+  display: block;
+  align-items: center;
+  color: #000000;
+}
+.SUModal .SUModalInputIdDiv .SUModalInputIdLabel .SUModalInputIdLabelText {
+  position: relative;
+  right: 11.1111vw;
+}
+.SUModal .SUModalInputIdDiv .SUModalInputId {
+  height: 4.0278vw;
+  width: 22.9167vw;
+  padding-left: 0.6944vw;
+  background: #e1f1f2;
+  border-radius: 0.5208vw;
+  border: 0;
+}
+.SUModal .SUModalInputIdDiv .SUModalInputBTN {
+  height: 4.0278vw;
+  width: 23.75vw;
+  display: block;
+  margin: auto;
+  margin-top: 0.6944vw;
+  border-radius: 0.5208vw;
+  border: 0;
+  background-color: #50a1a3;
+  color: #ffffff;
+  cursor: pointer;
+}
+.SUModal .SUModalInputPwDiv {
+  height: auto;
+  display: block;
+  margin-top: 0.6944vw;
+}
+.SUModal .SUModalInputPwDiv .SUModalInputPwLabel {
+  font-family: "Happy Monkey";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.0417vw;
+  line-height: 1.25vw;
+  /* identical to box height */
+  display: block;
+  align-items: center;
+  color: #000000;
+}
+.SUModal .SUModalInputPwDiv .SUModalInputPw {
+  height: 4.0278vw;
+  width: 22.9167vw;
+  padding-left: 0.6944vw;
+  background: #e1f1f2;
+  border-radius: 0.5208vw;
+  border: 0;
+}
+.SUModal .SUModalInputPwDiv .ShowPassword {
+  position: absolute;
+  width: 4%;
+  height: 4%;
+  top: 49.5%;
+  right: 17%;
+  align-items: center;
+  background: url(../../../assets/images/EyeToggleShow.png) no-repeat;
+  background-size: contain;
+  color: #000000;
+}
+.SUModal .SUModalInputPwDiv .HidePassword {
+  position: absolute;
+  width: 4%;
+  height: 4%;
+  top: 49.5%;
+  right: 17%;
+  align-items: center;
+  background: url(../../../assets/images/EyeToggleHidden.png) no-repeat;
+  background-size: contain;
+  color: #000000;
+}
+.SUModal .SUModalInputPwDiv .SUModalInputPwLabelText {
+  position: relative;
+  right: 10.7639vw;
+}
+.SUModal .SUModalInputPwChkDiv {
+  height: auto;
+  display: block;
+  margin-top: 0.6944vw;
+}
+.SUModal .SUModalInputPwChkDiv .SUModalInputPwChkLabel {
+  font-family: "Happy Monkey";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.0417vw;
+  line-height: 1.25vw;
+  /* identical to box height */
+  display: block;
+  align-items: center;
+  color: #000000;
+}
+.SUModal .SUModalInputPwChkDiv .SUModalInputPwChkLabel .SUModalInputPwChkLabelText {
+  position: relative;
+  right: 9.1667vw;
+}
+.SUModal .SUModalInputPwChkDiv .SUModalInputPwChk {
+  height: 4.0278vw;
+  width: 22.9167vw;
+  padding-left: 0.6944vw;
+  background: #e1f1f2;
+  border-radius: 0.5208vw;
+  border: 0;
+}
+.SUModal .SUModalInputEmailDiv {
+  height: 10.4167vw;
+  display: block;
+  margin-top: 0.6944vw;
+}
+.SUModal .SUModalInputEmailDiv .SUModalInputEmailLabel {
+  font-family: "Happy Monkey";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.0417vw;
+  line-height: 1.25vw;
+  /* identical to box height */
+  display: block;
+  align-items: center;
+  color: #000000;
+}
+.SUModal .SUModalInputEmailDiv .SUModalInputEmailLabelText {
+  position: relative;
+  right: 10vw;
+}
+.SUModal .SUModalInputEmailDiv .SUModalInputEmail {
+  height: 4.0278vw;
+  padding-left: 0.6944vw;
+  width: 22.9167vw;
+  background: #e1f1f2;
+  border-radius: 0.6944vw;
+  border: 0;
+}
+.SUModal .SUModalInputEmailDiv .SUModalSendEmail {
+  height: 4.0278vw;
+  width: 23.75vw;
+  display: block;
+  margin: auto;
+  margin-top: 0.6944vw;
+  border-radius: 0.5208vw;
+  border: 0;
+  background-color: #50a1a3;
+  color: #ffffff;
+  cursor: pointer;
+}
+.SUModal .SUModalInputEmailConfirmDiv {
+  height: auto;
+  display: block;
+  margin-top: 0.6944vw;
+}
+.SUModal .SUModalInputEmailConfirmDiv .SUModalInputEmailConfirmLabel {
+  font-family: "Happy Monkey";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.0417vw;
+  line-height: 1.25vw;
+  /* identical to box height */
+  display: block;
+  align-items: center;
+  color: #000000;
+}
+.SUModal .SUModalInputEmailConfirmDiv .SUModalInputEmailConfirmLabel .SUModalInputEmailConfirmLabelText {
+  position: relative;
+  right: 7.6389vw;
+}
+.SUModal .SUModalInputEmailConfirmDiv .SUModalInputEmailConfirm {
+  height: 4.0278vw;
+  padding-left: 0.6944vw;
+  width: 22.9167vw;
+  background: #e1f1f2;
+  border-radius: 0.6944vw;
+  border: 0;
+}
+.SUModal .SUModalInputEmailConfirmDiv .SUModalEmailBTN {
+  height: 4.0278vw;
+  width: 23.75vw;
+  display: block;
+  margin: auto;
+  margin-top: 0.6944vw;
+  border-radius: 0.5208vw;
+  border: 0;
+  background-color: #50a1a3;
+  color: #ffffff;
+  cursor: pointer;
+}
+.SUModal .SUSignUpBtn {
+  cursor: pointer;
+  width: 23.75vw;
+  height: 3.8889vw;
+  margin-top: 2.0833vw;
+  background: #50a1a3;
+  color: #ffffff;
+  border-radius: 0.6944vw;
+}
+.SUModal .SUSignUpBtn .SUBtnText {
+  font-family: "Happy Monkey";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.0417vw;
+  line-height: 1.25vw;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+}
+.SUModal .SUCancleBtn {
+  cursor: pointer;
+  width: 23.75vw;
+  height: 3.8889vw;
+  margin-top: 0.6944vw;
+  background: #e1f1f2;
+  border-radius: 0.6944vw;
+}
+.SUModal .SUCancleBtn .SUCancleBtnText {
+  font-family: "Happy Monkey";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.0417vw;
+  line-height: 1.25vw;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #50a1a3;
+}
+.SUModal .PlaceHolder {
+  position: absolute;
+  width: 0.6944vw;
+  height: 0.6944vw;
+  left: 4.5833vw;
+  top: 53vw;
+}

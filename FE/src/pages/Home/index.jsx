@@ -9,17 +9,17 @@ import { useNavigate } from "react-router-dom";
 import { MYGENDER, MYGEO } from "../../redux/reducers/MToggle";
 import { saveToken, ISMYPROFILE } from "../../redux/reducers/saveToken";
 
-import Header from "../../components/Header";
-import BlurInfo from "./BlurInfo";
-import ModalWrap from "../Start/ModalWrap";
-import Alert from "../Start/Alert";
-import Slide1 from "./Slide1";
-import Slide2 from "./Slide2";
-import Slide3 from "./Slide3";
-import Slide4 from "./Slide4";
-import Slide5 from "./Slide5";
-import ChatList from "./Chat/ChatList";
-import ChatPage from "./Chat/ChatPage";
+import Header from "../../components/Common/Header";
+import BlurInfo from "../../components/Home/Info";
+import ModalWrap from "../../components/Start/ModalWrap";
+import Alert from "../../components/Start/Alert";
+import Slide1 from "../../components/Home/Carousel/Slide1";
+import Slide2 from "../../components/Home/Carousel/Slide2";
+import Slide3 from "../../components/Home/Carousel/Slide3";
+import Slide4 from "../../components/Home/Carousel/Slide4";
+import Slide5 from "../../components/Home/Carousel/Slide5";
+import ChatList from "../../components/Chat/ChatList";
+import ChatPage from "../../components/Chat/ChatPage";
 
 let myStream;
 let carousel;
