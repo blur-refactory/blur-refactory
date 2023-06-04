@@ -148,7 +148,10 @@
   align-items: center;
   color: #000000;
 }
-.SUModal .SUModalInputPwChkDiv .SUModalInputPwChkLabel .SUModalInputPwChkLabelText {
+.SUModal
+  .SUModalInputPwChkDiv
+  .SUModalInputPwChkLabel
+  .SUModalInputPwChkLabelText {
   position: relative;
   right: 9.1667vw;
 }
@@ -216,7 +219,10 @@
   align-items: center;
   color: #000000;
 }
-.SUModal .SUModalInputEmailConfirmDiv .SUModalInputEmailConfirmLabel .SUModalInputEmailConfirmLabelText {
+.SUModal
+  .SUModalInputEmailConfirmDiv
+  .SUModalInputEmailConfirmLabel
+  .SUModalInputEmailConfirmLabelText {
   position: relative;
   right: 7.6389vw;
 }
@@ -287,4 +293,4 @@
   height: 0.6944vw;
   left: 4.5833vw;
   top: 53vw;
-}/*# sourceMappingURL=signUp.css.map */
+}
