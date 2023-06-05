@@ -4,6 +4,7 @@ pipeline {
 	tools {
 		nodejs "node"
 		gradle "gradle"
+		docker "docker"
 	}
 
     environment {
