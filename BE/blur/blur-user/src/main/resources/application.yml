@@ -24,6 +24,13 @@ spring:
       driver-class-name: ${spring.datasource.driver-class-name}
       data-source-properties:
         rewriteBatchedStatements: true
+
+  redis:
+    host: blurblur.kr
+    port: 6379
+    username: blur
+    password: blurblur
+
   # JPA 설정
   jpa:
     generate-ddl: false
