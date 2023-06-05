@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface ChatroomRepository extends JpaRepository<Chatroom, Integer> {
     Optional<Chatroom> findByMaleEmail(String maleEmail);
+    Optional<Chatroom> findByFemaleEmail(String femaleEmail);
 }

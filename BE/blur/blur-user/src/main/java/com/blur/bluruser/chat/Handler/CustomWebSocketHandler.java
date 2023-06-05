@@ -1,10 +1,10 @@
 package com.blur.bluruser.chat.Handler;
 
+import com.blur.bluruser.chat.dto.LatestChatsResultDto;
+import com.blur.bluruser.chat.dto.SendChatDto;
+import com.blur.bluruser.chat.service.ChatMakeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.smg.alarm.dto.LatestAlarmsResultDto;
 import com.project.smg.alarm.dto.ReceiveDto;
-import com.project.smg.alarm.dto.SendAlarmDto;
-import com.project.smg.alarm.service.AlarmMakeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.CloseStatus;
@@ -21,32 +21,32 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CustomWebSocketHandler extends TextWebSocketHandler {
     private final Map<String, WebSocketSession> userSessions = new HashMap<>();
-    private final AlarmMakeService alarmMakeService;
+    private final ChatMakeService chatMakeService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public void addSession(String memberId, WebSocketSession session) {
-        userSessions.computeIfAbsent(memberId, key -> session);
+    public void addSession(String userId, WebSocketSession session) {
+        userSessions.computeIfAbsent(userId, key -> session);
     }
 
-    public String getMemberEmail(WebSocketSession session) {
-        return (String) session.getAttributes().get("email");
+    public String getUserId(WebSocketSession session) {
+        return (String) session.getAttributes().get("id");
     }
 
-    public void removeSession(String memberId) {
-        if (userSessions.containsKey(memberId)) {
-            userSessions.remove(memberId);
+    public void removeSession(String userId) {
+        if (userSessions.containsKey(userId)) {
+            userSessions.remove(userId);
         }
     }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        String memberEmail = getMemberEmail(session);
+        String userId = getUserId(session);
         log.info("소켓 연결");
 
-        addSession(memberEmail, session);
-        log.info("연결한 유저 {}", memberEmail);
+        addSession(userId, session);
+        log.info("연결한 유저 {}", userId);
 
-        session.sendMessage(new TextMessage(sendAlarmList(alarmMakeService.alarmDtoList(memberEmail, 0.0), session)));
+        session.sendMessage(new TextMessage(sendAlarmList(chatMakeService.alarmDtoList(userId, 0.0), session)));
 
         log.info("메세지 조회 성공");
     }
@@ -57,16 +57,16 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
         ReceiveDto receivedMessage = objectMapper.readValue(jsonPayload, ReceiveDto.class);
         log.info("메세지 수신 시작");
 
-        String memberId = getMemberEmail(session);
+        String userId = getUserId(session);
 
         if (receivedMessage.getCursor() != null) {
             log.info("알람 전송");
-            session.sendMessage(new TextMessage(sendAlarmList(alarmMakeService.alarmDtoList(memberId, Double.parseDouble(receivedMessage.getCursor())), session)));
+            session.sendMessage(new TextMessage(sendAlarmList(chatMakeService.alarmDtoList(userId, Double.parseDouble(receivedMessage.getCursor())), session)));
         }
 
         if (receivedMessage.getDeleteStart() != null && receivedMessage.getDeleteEnd() != null) {
             log.info("알람 삭제 시도");
-            boolean deleteResult = alarmMakeService.deleteAlarm(memberId, Double.parseDouble(receivedMessage.getDeleteStart()), Double.parseDouble(receivedMessage.getDeleteEnd()));
+            boolean deleteResult = chatMakeService.deleteAlarm(userId, Double.parseDouble(receivedMessage.getDeleteStart()), Double.parseDouble(receivedMessage.getDeleteEnd()));
             if (deleteResult) {
                 log.info("알람 삭제 성공");
             } else {
@@ -77,9 +77,9 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        String memberId = getMemberEmail(session);
-        removeSession(memberId);
-        log.info("유저 로그아웃 {}", memberId);
+        String userId = getUserId(session);
+        removeSession(userId);
+        log.info("유저 로그아웃 {}", userId);
         log.info("소켓 연결 종료 {}", status);
         session.close();
     }
@@ -87,30 +87,30 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
     /**
      * 이벤트 발생 시 알람 전송
      *
-     * @param memberId
-     * @param sendAlarmDto
+     * @param userId
+     * @param sendChatDto
      * @throws Exception
      */
-    public void sendMessageToUser(String memberId, SendAlarmDto sendAlarmDto) throws Exception {
-        WebSocketSession session = userSessions.get(memberId);
+    public void sendMessageToUser(String userId, SendChatDto sendChatDto) throws Exception {
+        WebSocketSession session = userSessions.get(userId);
         if (session != null && session.isOpen()) {
-            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(sendAlarmDto)));
+            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(sendChatDto)));
         } else {
-            log.warn("수신자의 세션이 닫혀있거나 존재하지 않음 : {}", memberId);
+            log.warn("수신자의 세션이 닫혀있거나 존재하지 않음 : {}", userId);
         }
     }
 
     /**
      * 알람 목록 전송
      *
-     * @param latestAlarmsResultDto
+     * @param latestChatsResultDto
      * @param session
      * @return
      * @throws Exception
      */
-    private String sendAlarmList(LatestAlarmsResultDto latestAlarmsResultDto, WebSocketSession session) throws Exception {
-        List<SendAlarmDto> alarmDtoList = latestAlarmsResultDto.getAlarms();
-        double nextScore = latestAlarmsResultDto.getLastScore();
+    private String sendAlarmList(LatestChatsResultDto latestChatsResultDto, WebSocketSession session) throws Exception {
+        List<SendChatDto> alarmDtoList = latestChatsResultDto.getChats();
+        double nextScore = latestChatsResultDto.getLastScore();
 
         log.info("메세지 갯수 조회 {}", alarmDtoList.size());
 

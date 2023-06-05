@@ -54,13 +54,11 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 
-
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     // swagger
     implementation "io.springfox:springfox-boot-starter:3.0.0"
+
 }
 
 test {

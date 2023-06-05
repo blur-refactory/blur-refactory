@@ -1,8 +1,8 @@
 package com.blur.auth.oauth2;
 
-import com.blur.auth.api.entity.Member;
 import com.blur.auth.api.entity.Role;
 import com.blur.auth.api.entity.SocialType;
+import com.blur.auth.api.entity.User;
 import com.blur.auth.oauth2.userinfo.KakaoOAuth2UserInfo;
 import com.blur.auth.oauth2.userinfo.OAuth2UserInfo;
 import lombok.Builder;
@@ -48,12 +48,11 @@ public class OAuthAttributes {
      * email에는 UUID로 중복 없는 랜덤 값 생성
      * role은 GUEST로 설정
      */
-    public Member toEntity(OAuth2UserInfo oauth2UserInfo, SocialType socialType) {
-        return Member.builder()
+    public User toEntity(OAuth2UserInfo oauth2UserInfo, SocialType socialType) {
+        return User.builder()
                 .socialType(socialType)
                 .role(Role.GUEST)
-                .email(oauth2UserInfo.getEmail())
-                .id((oauth2UserInfo.getId()))
+                .id(oauth2UserInfo.getEmail())
                 .build();
     }
 }

@@ -38,24 +38,23 @@ public class RedisChatRepositoryImpl implements RedisChatRepository {
      */
     @Override
     public void save(ChatDto chatDto) {
-        zSetOperations.add(chatDto.getEmail(), chatDto, chatUtils.changeLocalDateTimeToDouble(chatDto.getCreatedAt()));
+        zSetOperations.add(chatDto.getId(), chatDto, chatUtils.changeLocalDateTimeToDouble(chatDto.getCreatedAt()));
     }
-
 
     /**
      * 최신 알람을 조회합니다.
      *
-     * @param memberEmail 알람을 조회할 사용자 ID
+     * @param userId 알람을 조회할 사용자 ID
      * @param lastScore   이전 조회의 마지막 점수
      * @return 최신 알람과 마지막 점수를 담은 결과 맵
      */
     @Override
-    public LatestChatsResultDto getLatestChats(String memberEmail, double lastScore) {
+    public LatestChatsResultDto getLatestChats(String userId, double lastScore) {
         LatestChatsResultDto latestChatsResultDto = new LatestChatsResultDto();
 
         if (lastScore == 0) {
             // 처음부터 조회하는 경우
-            Set<ZSetOperations.TypedTuple<ChatDto>> chats = zSetOperations.reverseRangeByScoreWithScores(memberEmail, 0, Double.POSITIVE_INFINITY, 0, MAX_ALARM_COUNT);
+            Set<ZSetOperations.TypedTuple<ChatDto>> chats = zSetOperations.reverseRangeByScoreWithScores(userId, 0, Double.POSITIVE_INFINITY, 0, MAX_ALARM_COUNT);
             if (chats == null || chats.isEmpty()) {
                 return sendLastPoint(latestChatsResultDto);
             } else {
@@ -64,7 +63,7 @@ public class RedisChatRepositoryImpl implements RedisChatRepository {
 
         } else if (lastScore > 0) {
             // 이전 조회의 시작점을 기준으로 이어서 조회하는 경우
-            Set<ZSetOperations.TypedTuple<ChatDto>> alarms = zSetOperations.reverseRangeByScoreWithScores(memberEmail, 0, lastScore, 0, MAX_ALARM_COUNT);
+            Set<ZSetOperations.TypedTuple<ChatDto>> alarms = zSetOperations.reverseRangeByScoreWithScores(userId, 0, lastScore, 0, MAX_ALARM_COUNT);
             if (alarms == null || alarms.isEmpty()) {
                 return sendLastPoint(latestChatsResultDto);
             } else {
@@ -78,7 +77,7 @@ public class RedisChatRepositoryImpl implements RedisChatRepository {
         return latestChatsResultDto;
     }
 
-    public boolean delete(String memberEmail, double deleteStart, double deleteEnd) {
+    public boolean delete(String userId, double deleteStart, double deleteEnd) {
         log.info("초기 시작값, 종료값 {}, {}", deleteStart, deleteEnd);
         if (deleteStart > deleteEnd) {
             double tmp = deleteStart;
@@ -87,26 +86,26 @@ public class RedisChatRepositoryImpl implements RedisChatRepository {
         }
         log.info("변경된 시작값, 종료값 {}, {}", deleteStart, deleteEnd);
 
-        Set<ChatDto> valuesToDelete = zSetOperations.rangeByScore(memberEmail, deleteStart, deleteEnd);
+        Set<ChatDto> valuesToDelete = zSetOperations.rangeByScore(userId, deleteStart, deleteEnd);
 
         if (valuesToDelete == null || valuesToDelete.isEmpty())
             return false;
 
-        Long removedCount = zSetOperations.remove(memberEmail, valuesToDelete.toArray());
+        Long removedCount = zSetOperations.remove(userId, valuesToDelete.toArray());
         return removedCount != null && removedCount > 0;
     }
 
     /**
      * getLatestAlarms의 실행 결과로 나온 알람들을 처리하고 결과를 맵에 저장합니다.
      *
-     * @param alarms               처리할 알람 목록
+     * @param chats               처리할 알람 목록
      * @param latestChatsResultDto 처리 결과를 저장할 LatestAlarmsResultDto
      */
-    private void processAlarms(Set<ZSetOperations.TypedTuple<ChatDto>> alarms, LatestChatsResultDto latestChatsResultDto) {
+    private void processAlarms(Set<ZSetOperations.TypedTuple<ChatDto>> chats, LatestChatsResultDto latestChatsResultDto) {
         List<SendChatDto> alarmList = new ArrayList<>();
         double minScore = Double.MAX_VALUE;
 
-        for (ZSetOperations.TypedTuple<ChatDto> tuple : alarms) {
+        for (ZSetOperations.TypedTuple<ChatDto> tuple : chats) {
             double score = tuple.getScore();
             ChatDto chatDto = tuple.getValue();
             if (chatDto != null) {

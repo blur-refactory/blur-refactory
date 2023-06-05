@@ -1,14 +1,13 @@
 package com.blur.auth.api.service;
 
-import com.blur.auth.api.entity.Member;
-import com.blur.auth.api.repository.MemberRepository;
+import com.blur.auth.api.entity.User;
+import com.blur.auth.api.repository.UserRepository;
 import com.blur.auth.config.email.EmailHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -16,18 +15,12 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 public class PasswordService {
-
-    @Autowired
-    private final MemberRepository memberRepository;
-
-    @Autowired
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     private JavaMailSender mailSender;
-
     @Value("${mail.username}")
     private String userName;
 
-    @Autowired
-    private final BCryptPasswordEncoder encoder;
 
     public static String createTempPassword() {
         StringBuffer key = new StringBuffer();
@@ -74,13 +67,13 @@ public class PasswordService {
     }
 
     public Boolean sendTempPassword(String userId) throws Exception {
-        Member user = memberRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElse(null);
 
         if (user == null) {
             return false;
         } else {
-            String to = user.getEmail();
+            String to = user.getId();
             String tPw = createTempPassword();
             String message = createMessage(to, tPw);
             EmailHandler emailHandler = new EmailHandler(mailSender);
@@ -90,8 +83,8 @@ public class PasswordService {
             emailHandler.setFrom(userName);//보내는 사람
             try {//예외처리
                 emailHandler.send();
-                user.updatePassword(encoder.encode(tPw));
-                memberRepository.save(user);
+                user.updatePassword(passwordEncoder.encode(tPw));
+                userRepository.save(user);
                 return true;
             } catch (MailException es) {
                 es.printStackTrace();
@@ -101,11 +94,11 @@ public class PasswordService {
     }
 
     public void updatePassword(String userId, String newPassword) throws Exception {
-        Member user = memberRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElse(null);
 
-        user.updatePassword(encoder.encode(newPassword));
-        memberRepository.save(user);
+        user.updatePassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
         System.out.println("비밀번호 변경");
     }
 }

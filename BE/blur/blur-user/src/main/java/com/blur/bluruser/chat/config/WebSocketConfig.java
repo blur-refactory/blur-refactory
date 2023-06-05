@@ -2,6 +2,7 @@ package com.blur.bluruser.chat.config;
 
 import com.blur.bluruser.chat.Handler.CustomHandshakeInterceptor;
 import com.blur.bluruser.chat.Handler.CustomWebSocketHandler;
+import com.blur.bluruser.chat.service.ChatMakeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,18 +15,18 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 @EnableWebSocket
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketConfigurer {
-    private final AlarmMakeService alarmMakeService;
+    private final ChatMakeService chatMakeService;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(customWebSocketHandler(), "/ws")
                 .addInterceptors(customHandshakeInterceptor())
-                .setAllowedOrigins("http://localhost:8080", "http://www.shinemustget.com", "https://www.shinemustget.com");
+                .setAllowedOrigins("http://localhost:8080", "http://blurblur.kr", "https://blurblur.kr");
     }
 
     @Bean
     public CustomWebSocketHandler customWebSocketHandler() {
-        return new CustomWebSocketHandler(alarmMakeService);
+        return new CustomWebSocketHandler(chatMakeService);
     }
 
     @Bean

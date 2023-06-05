@@ -12,20 +12,16 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Builder
-@Table(name = "member")
+@Table(name = "user")
 @AllArgsConstructor
-public class Member {
+public class User {
     @Id
-    @Column(name = "member_id", unique = true)
+    @Column(name = "user_id")
     @NotNull
     private String id;
 
     @JsonIgnore
     private String password;
-
-    @Column(name = "email")
-    @NotNull
-    private String email;
 
     @Column(name = "social_type")
     @Enumerated(EnumType.STRING)
@@ -34,7 +30,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private RefreshToken refreshToken;
 
     // 비밀번호 암호화 메소드

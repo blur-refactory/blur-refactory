@@ -58,13 +58,13 @@ public class JwtService {
     /**
      * AccessToken 생성
      */
-    public String createAccessToken(String email) {
+    public String createAccessToken(String userId) {
         Date now = new Date();
         log.info("지금시간 {}", now);
         return JWT.create() // JWT 토큰을 생성하는 빌더 반환
                 .withSubject(ACCESS_TOKEN_SUBJECT) // JWT의 Subject 지정 -> AccessToken이므로 AccessToken
                 .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod)) // 토큰 만료 시간 설정
-                .withClaim(EMAIL_CLAIM, email)
+                .withClaim(EMAIL_CLAIM, userId)
                 .sign(Algorithm.HMAC512(secretKey)); // HMAC512 알고리즘 사용, application-jwt.yml에서 지정한 secret 키로 암호화
     }
 
@@ -100,9 +100,9 @@ public class JwtService {
                     .build()
                     .verify(newToken.get());
 
-            String kakaoIdStr = decodedJWT.getClaim(EMAIL_CLAIM).asString();  // ID_CLAIM 이름의 클레임에서 문자열 값을 추출하여 변수에 저장
+            String userId = decodedJWT.getClaim(EMAIL_CLAIM).asString();  // ID_CLAIM 이름의 클레임에서 문자열 값을 추출하여 변수에 저장
 
-            return kakaoIdStr;
+            return userId;
         } else {
             throw new IllegalArgumentException("검증되지 않는 토큰");
         }
@@ -193,8 +193,8 @@ public class JwtService {
      * RefreshToken DB 저장(업데이트)
      */
     @Transactional
-    public void updateRefreshToken(String email, String refreshToken) {
-        refreshTokenRepository.findByMemberEmail(email)
+    public void updateRefreshToken(String userId, String refreshToken) {
+        refreshTokenRepository.findByUserId(userId)
                 .ifPresentOrElse(
                         token -> token.setRefreshToken(refreshToken),
                         () -> new Exception("일치하는 회원이 없습니다.")
