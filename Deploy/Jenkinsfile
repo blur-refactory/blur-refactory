@@ -144,7 +144,7 @@ pipeline {
                       		expression {
                         		currentBuild.result == null || currentBuild.result == 'SUCCESS'
                       		}
-							changeset "FE/**"
+							// changeset "FE/**"
                     	}
                   	}
                     steps {
