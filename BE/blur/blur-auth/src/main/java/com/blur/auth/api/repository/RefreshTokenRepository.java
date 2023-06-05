@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
-    @Query(value = "select rt from RefreshToken rt where rt.member.email =:memail")
-    Optional<RefreshToken> findByMemberEmail(@Param("memail") String email);
+    @Query(value = "select rt from RefreshToken rt where rt.user.id =:mid")
+    Optional<RefreshToken> findByUserId(@Param("mid") String userId);
 
     Optional<RefreshToken> findByRefreshToken(String refreshToken);
 }

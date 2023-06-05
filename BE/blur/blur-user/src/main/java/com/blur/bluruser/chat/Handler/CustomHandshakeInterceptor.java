@@ -30,10 +30,10 @@ public class CustomHandshakeInterceptor implements HandshakeInterceptor {
             // ServletServerHttpRequest를 사용하여 HttpServletRequest를 가져옴
             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
             HttpServletRequest httpServletRequest = servletRequest.getServletRequest();
-            String memberEmail = (String) httpServletRequest.getAttribute("email");
-            if (memberEmail != null) {
+            String userId = (String) httpServletRequest.getAttribute("id");
+            if (userId != null) {
                 // "id" 속성을 attributes 맵에 추가
-                attributes.put("email", memberEmail);
+                attributes.put("id", userId);
                 return true;
             }
         }

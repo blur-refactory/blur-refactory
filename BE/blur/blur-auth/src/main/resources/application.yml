@@ -1,5 +1,5 @@
 server:
-  port: 9999
+  port: 8080
 
 spring:
   application:
@@ -13,22 +13,16 @@ spring:
   # 데이터 소스 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://i8b307.p.ssafy.io:3307/blurAuth?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
-#    url: jdbc:mysql://localhost:3306/ssafy?createDatabaseIfNotExist=true
+    url: jdbc:mysql://blurblur.kr:3306/blur_auth?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
     username: blur
-    password: blur
-#    username: ssafy
-#    password: ssaft
+    password: blurblur
 
   #redis 설정
   redis:
-    host: 127.0.0.1
+    host: blurblur.kr
     port: 6379
-
-  #  redis:
-  #    host: k8b109.p.ssafy.io
-  #    port: 3301
-  #    password: ns
+    username: blur
+    password: blurblur
 
   # JPA 설정
   jpa:
@@ -66,14 +60,11 @@ spring:
           kakao:
             client-id: 2820dd0f9d4da11c57a25ab3f29de16c
             client-secret: cXiw9put8fVqQ0rW436JqzJIdtSyRDWp
-            redirect-uri: http://blurblur.kr/api/login/oauth2/code/kakao
+#            redirect-uri: http://blurblur.kr/api/login/oauth2/code/kakao
+            redirect-uri: http://localhost:8080/api/login/oauth2/code/kakao
             client-authentication-method: POST
             authorization-grant-type: authorization_code
             client-name: Kakao
-            scope:
-              - profile_nickname
-              - profile_image
-
 
         provider:
           kakao:
@@ -96,16 +87,6 @@ mail:
     ssl:
       trust: smtp.gmail.com
       enable: true
-
-# Eureka 설정
-eureka:
-  instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-  client:
-    service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
-    fetch-registry: true
-    register-with-eureka: true
 
 jwt:
   secretKey: SN5OUPJANIZLB/hZ1q7CsJbHvvuZ5xahm6DZMxTZyDI=

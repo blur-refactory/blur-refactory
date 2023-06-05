@@ -1,9 +1,9 @@
 package com.blur.auth.api.controller;
 
-import com.blur.auth.api.dto.MemberSignUpDto;
+import com.blur.auth.api.dto.UserSignUpDto;
 import com.blur.auth.api.service.EmailService;
-import com.blur.auth.api.service.MemberService;
 import com.blur.auth.api.service.PasswordService;
+import com.blur.auth.api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +14,14 @@ import java.util.Map;
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
-public class MemberController {
+public class UserController {
     private final EmailService emailService;
-    private final MemberService memberService;
+    private final UserService userService;
     private final PasswordService passwordService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(MemberSignUpDto memberSignUpDto) throws Exception{
-        memberService.register(memberSignUpDto);
+    public ResponseEntity<?> register(UserSignUpDto memberSignUpDto) throws Exception {
+        userService.register(memberSignUpDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -35,7 +35,7 @@ public class MemberController {
     @PostMapping("/checkId") // 아이디 중복체크
     public ResponseEntity<Boolean> checkId(@RequestBody Map<String, String> param) {
         String userId = param.get("userId");
-        Boolean res = memberService.checkId(userId);
+        Boolean res = userService.checkId(userId);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
@@ -67,7 +67,7 @@ public class MemberController {
 
     @GetMapping("/getEmail")
     public ResponseEntity<?> getEmail(@RequestParam("userId") String userId) throws Exception {
-        String userEmail = memberService.getEmail(userId);
+        String userEmail = userService.getEmail(userId);
         return ResponseEntity.status(HttpStatus.OK).body(userEmail);
     }
 }

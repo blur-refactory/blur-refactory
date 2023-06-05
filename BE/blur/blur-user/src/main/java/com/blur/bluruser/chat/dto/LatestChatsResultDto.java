@@ -12,6 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class LatestChatsResultDto {
-    private List<SendChatDto> alarms;
+    private List<SendChatDto> chats;
     private double lastScore;
 }

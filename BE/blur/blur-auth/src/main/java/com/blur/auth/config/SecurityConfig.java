@@ -1,6 +1,6 @@
 package com.blur.auth.config;
 
-import com.blur.auth.api.repository.MemberRepository;
+import com.blur.auth.api.repository.UserRepository;
 import com.blur.auth.jwt.filter.JwtAuthenticationProcessingFilter;
 import com.blur.auth.jwt.service.JwtService;
 import com.blur.auth.oauth2.handler.OAuth2LoginFailureHandler;
@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -32,7 +33,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtService jwtService;
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
@@ -97,20 +98,18 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter() {
-        JwtAuthenticationProcessingFilter jwtAuthenticationFilter = new JwtAuthenticationProcessingFilter(jwtService, memberRepository);
+        JwtAuthenticationProcessingFilter jwtAuthenticationFilter = new JwtAuthenticationProcessingFilter(jwtService, userRepository);
         return jwtAuthenticationFilter;
     }
-
+    
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://shinemustget.com");
-        config.addAllowedOrigin("https://shinemustget.com");
-        config.addAllowedOrigin("http://www.shinemustget.com");
-        config.addAllowedOrigin("https://www.shinemustget.com");
+        config.addAllowedOrigin("http://blurblur.kr");
+        config.addAllowedOrigin("https://blurblur.kr");
         config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedOrigin("http://localhost:8080");
         config.addAllowedHeader("*");

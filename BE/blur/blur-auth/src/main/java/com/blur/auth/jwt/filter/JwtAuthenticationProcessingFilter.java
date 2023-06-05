@@ -1,7 +1,7 @@
 package com.blur.auth.jwt.filter;
 
-import com.blur.auth.api.entity.Member;
-import com.blur.auth.api.repository.MemberRepository;
+import com.blur.auth.api.entity.User;
+import com.blur.auth.api.repository.UserRepository;
 import com.blur.auth.jwt.service.JwtService;
 import com.blur.auth.utils.PasswordUtil;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ import java.io.IOException;
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     private static final String[] NO_CHECK_URLS = {"/swagger-ui", "/api/login/**", "/login/**"};
     private final JwtService jwtService;
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
     @Override
@@ -57,7 +57,6 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             }
         }
 
-
         String accessToken = jwtService.extractAccessToken(request)
                 .filter(jwtService::isTokenValid)
                 .orElse(null);
@@ -70,12 +69,12 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
                     .filter(jwtService::isTokenValid)
                     .orElse(null);
 
-            Member member = memberRepository.findByRefreshToken(refreshToken)
+            User user = userRepository.findByRefreshToken(refreshToken)
                     .orElseThrow(() -> new IllegalStateException("존재하지 않는 유저"));
-            String memberId = member.getId();
+            String userId = user.getId();
 
-            checkRefreshTokenAndReIssueAccessToken(response, memberId);
-            request.setAttribute("id", memberId);
+            checkRefreshTokenAndReIssueAccessToken(response, userId);
+            request.setAttribute("id", userId);
             filterChain.doFilter(request, response);
             return;
         }
@@ -83,10 +82,10 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         if (accessToken != null) {
             log.info("필터에서 Access Token 사용");
             jwtService.extractId(accessToken)
-                    .ifPresent(id -> memberRepository.findById(id)
+                    .ifPresent(id -> userRepository.findById(id)
                             .ifPresent(this::saveAuthentication));
-            String memberId = jwtService.getUserIdFromToken(accessToken);
-            request.setAttribute("id", memberId);
+            String userId = jwtService.getUserIdFromToken(accessToken);
+            request.setAttribute("id", userId);
 
             filterChain.doFilter(request, response);
         }
@@ -99,9 +98,9 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
      * 그 후 JwtService.refreshTokenAddCookie()으로 쿠키에 리프레시 토큰 저장
      */
 
-    public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String memberId) {
-        String reIssuedRefreshToken = reIssueRefreshToken(memberId);
-        String reIssuedAccessToken = jwtService.createAccessToken(memberId);
+    public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String userId) {
+        String reIssuedRefreshToken = reIssueRefreshToken(userId);
+        String reIssuedAccessToken = jwtService.createAccessToken(userId);
         jwtService.refreshTokenAddCookie(response, reIssuedRefreshToken);
         jwtService.setAccessTokenHeader(response, reIssuedAccessToken);
     }
@@ -111,9 +110,9 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
      * jwtService.createRefreshToken()으로 리프레시 토큰 재발급 후
      * DB에 재발급한 리프레시 토큰 업데이트 후 Flush
      */
-    private String reIssueRefreshToken(String memberId) {
+    private String reIssueRefreshToken(String userId) {
         String reIssuedRefreshToken = jwtService.createRefreshToken();
-        jwtService.updateRefreshToken(memberId, reIssuedRefreshToken);
+        jwtService.updateRefreshToken(userId, reIssuedRefreshToken);
         return reIssuedRefreshToken;
     }
 
@@ -132,7 +131,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
      * SecurityContextHolder.getContext()로 SecurityContext를 꺼낸 후,
      * setAuthentication()을 이용하여 위에서 만든 Authentication 객체에 대한 인증 허가 처리
      */
-    public void saveAuthentication(Member myUser) {
+    public void saveAuthentication(User myUser) {
         String password = myUser.getPassword();
         if (password == null) { // 소셜 로그인 유저의 비밀번호 임의로 설정 하여 소셜 로그인 유저도 인증 되도록 설정
             password = PasswordUtil.generateRandomPassword();

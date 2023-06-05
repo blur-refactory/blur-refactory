@@ -1,6 +1,5 @@
 package com.blur.auth.api.entity;
 
-import com.blur.auth.api.entity.Member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -23,9 +22,9 @@ public class RefreshToken {
     private String refreshToken;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "user_id")
     @JsonIgnore
-    private Member member;
+    private User user;
 
     public void updateRefreshToken(String updateRefreshToken) {
         this.refreshToken = updateRefreshToken;

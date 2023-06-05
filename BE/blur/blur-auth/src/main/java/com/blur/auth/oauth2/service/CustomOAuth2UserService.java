@@ -1,8 +1,8 @@
 package com.blur.auth.oauth2.service;
 
-import com.blur.auth.api.entity.Member;
 import com.blur.auth.api.entity.SocialType;
-import com.blur.auth.api.repository.MemberRepository;
+import com.blur.auth.api.entity.User;
+import com.blur.auth.api.repository.UserRepository;
 import com.blur.auth.oauth2.CustomOAuth2User;
 import com.blur.auth.oauth2.OAuthAttributes;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
     private static final String KAKAO = "kakao";
 
     @Override
@@ -52,7 +52,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // socialType에 따라 유저 정보를 통해 OAuthAttributes 객체 생성
         OAuthAttributes extractAttributes = OAuthAttributes.of(socialType, userNameAttributeName, attributes);
 
-        Member createdUser = getUser(extractAttributes, socialType); // getUser() 메소드로 User 객체 생성 후 반환
+        User createdUser = getUser(extractAttributes, socialType); // getUser() 메소드로 User 객체 생성 후 반환
 
         log.info("유저정보 : {}", createdUser.getRole().getKey());
 
@@ -60,7 +60,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 Collections.singleton(new SimpleGrantedAuthority(createdUser.getRole().getKey())),
                 attributes,
                 extractAttributes.getNameAttributeKey(),
-                createdUser.getEmail(),
+                createdUser.getId(),
                 createdUser.getRole()
         );
     }
@@ -79,8 +79,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
      * attributes에 들어있는 소셜 로그인의 식별값 id를 통해 회원을 찾아 반환하는 메소드
      * 만약 찾은 회원이 있다면, 그대로 반환하고 없다면 saveUser()를 호출하여 회원을 저장한다.
      */
-    private Member getUser(OAuthAttributes attributes, SocialType socialType) {
-        Member findUser = memberRepository.findById((attributes.getOauth2UserInfo().getId()))
+    private User getUser(OAuthAttributes attributes, SocialType socialType) {
+        User findUser = userRepository.findById((attributes.getOauth2UserInfo().getEmail()))
                 .orElse(null);
 
         if (findUser == null) {
@@ -93,10 +93,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
      * OAuthAttributes의 toEntity() 메소드를 통해 빌더로 User 객체 생성 후 반환
      * 생성된 User 객체를 DB에 저장
      */
-    private Member saveUser(OAuthAttributes attributes, SocialType socialType) {
-        Member createdUser = attributes.toEntity(attributes.getOauth2UserInfo(), socialType);
-        log.info("신규 유저 가입 {}");
-        memberRepository.save(createdUser);
+    private User saveUser(OAuthAttributes attributes, SocialType socialType) {
+        User createdUser = attributes.toEntity(attributes.getOauth2UserInfo(), socialType);
+        log.info("신규 유저 가입 {}", createdUser.getId());
+        userRepository.save(createdUser);
         return createdUser;
     }
 }

@@ -1,7 +1,7 @@
 package com.blur.bluruser.chat.service;
 
 import com.blur.bluruser.chat.dto.ChatDto;
-import com.blur.bluruser.chat.dto.MakeChatroomDto;
+import com.blur.bluruser.chat.dto.LatestChatsResultDto;
 import com.blur.bluruser.chat.entity.Chatroom;
 import com.blur.bluruser.chat.repository.ChatroomRepository;
 import com.blur.bluruser.chat.repository.RedisChatRepository;
@@ -47,30 +47,30 @@ public class ChatMakeServiceImpl implements ChatMakeService {
         }
     }
 
+//    @Override
+//    public AlarmDto savePodoAlarm(String memberId) {
+//        String message = "축하합니다. 26일 동안 스페셜 포도🍇를 사용할 수 있습니다.";
+//        LocalDateTime time = LocalDateTime.now();
+//
+//        AlarmDto alarmDto = AlarmDto.builder()
+//                .memberId(memberId)
+//                .message(message)
+//                .createdAt(time)
+//                .formattedCreatedAt(time.format(FORMATTER))
+//                .build();
+//
+//        redisAlarmRepository.save(alarmDto);
+//
+//        return alarmDto;
+//    }
+
     @Override
-    public AlarmDto savePodoAlarm(String memberId) {
-        String message = "축하합니다. 26일 동안 스페셜 포도🍇를 사용할 수 있습니다.";
-        LocalDateTime time = LocalDateTime.now();
-
-        AlarmDto alarmDto = AlarmDto.builder()
-                .memberId(memberId)
-                .message(message)
-                .createdAt(time)
-                .formattedCreatedAt(time.format(FORMATTER))
-                .build();
-
-        redisAlarmRepository.save(alarmDto);
-
-        return alarmDto;
+    public LatestChatsResultDto chatDtoList(String userId, double lastSocre) {
+        return redisChatRepository.getLatestChats(userId, lastSocre);
     }
 
     @Override
-    public LatestAlarmsResultDto alarmDtoList(String memberId, double lastSocre) {
-        return redisAlarmRepository.getLatestAlarms(memberId, lastSocre);
-    }
-
-    @Override
-    public boolean deleteAlarm(String memberId, double deleteStart, double deleteEnd) {
-        return redisAlarmRepository.delete(memberId, deleteStart, deleteEnd);
+    public boolean deleteChat(String userId, double deleteStart, double deleteEnd) {
+        return redisChatRepository.delete(userId, deleteStart, deleteEnd);
     }
 }
