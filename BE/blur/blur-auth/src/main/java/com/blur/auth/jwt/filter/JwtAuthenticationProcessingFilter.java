@@ -43,10 +43,10 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("필터 시작");
-        log.info("Access Token 쿠키에서 조회");
+        log.info("Access Token 헤더에서 조회");
 
         String domain = request.getRequestURI();
-        log.info("도메인 {}", domain);
+        log.info("현재 도메인 {}", domain);
 
         //필터 제외 url 체크
         for (int i = 0; i < NO_CHECK_URLS.length; i++) {
