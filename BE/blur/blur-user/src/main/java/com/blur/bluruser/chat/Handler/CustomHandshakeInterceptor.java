@@ -31,9 +31,11 @@ public class CustomHandshakeInterceptor implements HandshakeInterceptor {
             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
             HttpServletRequest httpServletRequest = servletRequest.getServletRequest();
             String userId = (String) httpServletRequest.getAttribute("id");
-            if (userId != null) {
+            String roomId = (String) httpServletRequest.getAttribute("roodId");
+            if (userId != null && roomId != null) {
                 // "id" 속성을 attributes 맵에 추가
                 attributes.put("id", userId);
+                attributes.put("roodId", roomId);
                 return true;
             }
         }
