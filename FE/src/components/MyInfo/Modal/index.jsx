@@ -222,13 +222,12 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
     <div className="Modal">
       {setModal ? <SetModal showSettingModal={showSettingModal} /> : null}
       <div className="leftModal">
+        <form onSubmit={handleSubmit}>
+          <button type="submit" className="imageEditBtn">
+            저장
+          </button>
+        </form>
         <div className="imgbox">
-          <form onSubmit={handleSubmit}>
-            <button type="submit" className="imageEditBtn" htmlFor="profileImg">
-              저장
-            </button>
-          </form>
-
           <label htmlFor="profileImg">
             {previewImage ? (
               <img
@@ -254,6 +253,7 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
             style={{ display: "none" }}
           />
         </div>
+
         <div className="leftModalNameDiv">
           <span className="leftModalName">
             welcome {proFile.nickname || "Guest"}
@@ -264,76 +264,81 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
             className="leftModalEditbtn"
             onClick={() => {
               setSettingmodal(false);
-            }}
-          >
+            }}>
             <span className="leftModalProText"> Profile Edit</span>
           </button>
+        </div>
+        <div className="leftModalbtnDiv">
           <button className="leftModalSetbtn" onClick={showSettingModal}>
             <span className="leftModalSetText"> Setting</span>
           </button>
         </div>
       </div>
+
       <div className="ProfileModal">
         <span className="PMLabel">Profile Edit</span>
-        <div className="PMIdDiv">
-          <span className="PMIdLable">NickName </span>
-          <input
-            type="text"
-            className="PMIdInput"
-            value={proFile.nickname ? proFile.nickname : nameInput}
-            onChange={handleInputChange}
-            placeholder="10자까지만 가능합니다."
-            onKeyPress={handleOnKeyPress}
-          ></input>
-        </div>
-        <div className="PMAge">
-          <span className="PMAgeLabel">Age</span>
-          <input
-            type="text"
-            className="PMAgeSelect"
-            value={proFile.age ? proFile.age : ageInput}
-            onChange={handleAgeChange}
-            placeholder="숫자만 입력 가능합니다."
-          ></input>
-        </div>
-        <div className="PMMBTI">
-          <span className="PMMBTILabel">MBTI</span>
-          <select
-            value={mbti}
-            onChange={handleSelectChange}
-            className="PMMBTISelect"
-          >
-            {mbtiOptions.map((mbtiOptions) => (
-              <option key={mbtiOptions.value} value={mbtiOptions.value}>
-                {mbtiOptions.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="PMMEmail">
-          <span className="PMMEmailLabel">E-mail </span>
-          <input type="text" className="PMMEmailInput" value={proFile.email} />
+        <div className="fieldsGrid">
+          <div className="fieldContainer">
+            <span className="fieldLabel">NickName </span>
+            <input
+              type="text"
+              className="fieldInput narrow"
+              value={proFile.nickname ? proFile.nickname : nameInput}
+              onChange={handleInputChange}
+              placeholder="10자까지만 가능합니다."
+              onKeyPress={handleOnKeyPress}></input>
+          </div>
+          <div className="fieldContainer">
+            <span className="fieldLabel">Age</span>
+            <input
+              type="text"
+              className="fieldInput narrow"
+              value={proFile.age ? proFile.age : ageInput}
+              onChange={handleAgeChange}
+              placeholder="숫자만 입력 가능합니다."></input>
+          </div>
+          <div className="fieldContainer">
+            <span className="fieldLabel">MBTI</span>
+            <select
+              value={mbti}
+              onChange={handleSelectChange}
+              className="fieldInput wide">
+              {mbtiOptions.map((mbtiOptions) => (
+                <option key={mbtiOptions.value} value={mbtiOptions.value}>
+                  {mbtiOptions.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="fieldContainer">
+            <span className="fieldLabel">E-mail </span>
+            <input
+              type="text"
+              className="fieldInput narrow"
+              value={proFile.email}
+            />
+          </div>
         </div>
 
         <div className="PMMGender">
           <span className="PMMGenderLable">Gender</span>
           <div className="PMMGenderdiv">
             <button
-              className={`btn ${genderCheck === "check" ? "active" : ""}`}
-              onClick={() => handleButtonClick("check")} // 'M'에 해당하는 버튼을 클릭했을 때 genderCheck 값을 'check'로 변경
-            >
+              className={`btn genderButton ${
+                genderCheck === "check" ? "active" : ""
+              }`}
+              onClick={() => handleButtonClick("check")}>
               {gender[0]}
             </button>
             <button
-              className={`btn ${genderCheck === "prev" ? "active" : ""}`}
-              onClick={() => handleButtonClick("prev")} // 'F'에 해당하는 버튼을 클릭했을 때 genderCheck 값을 'prev'로 변경
-            >
+              className={`btn genderButton ${
+                genderCheck === "prev" ? "active" : ""
+              }`}
+              onClick={() => handleButtonClick("prev")}>
               {gender[1]}
             </button>
           </div>
         </div>
-
         <div className="PMIntroducing">
           <span className="PMIntroducingLabel">Introducing</span>
           <input
@@ -344,14 +349,14 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
           />
         </div>
       </div>
+
       <button
         className="ModalOut"
         onClick={() => {
           showMyinfoModal();
           showAlertModal();
           handleSave();
-        }}
-      >
+        }}>
         <span className="ModalOutText">confirm</span>
       </button>
     </div>
