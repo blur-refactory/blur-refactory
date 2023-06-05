@@ -13,7 +13,6 @@ function SetModal() {
   const id = useSelector((state) => {
     return state.strr.id;
   });
-  // const id = "123123";
 
   // 컴포넌트 켜지자말자 데이터 받아 오기
   const [proFile, setProFile] = useState([]);
@@ -46,9 +45,9 @@ function SetModal() {
     dispatch(setAgeRange([leftSliderValue, rightSliderValue]));
   };
   // 파트너 셩별 고정
-  const gender = proFile.gender === "F" ? "Male" : "Femail";
+  const gender = proFile.gender === "F" ? "Male" : "Female";
 
-  // //range
+  //range
   const [distance, setDistance] = useState();
   const changeDistance = () => {
     const slider = document.querySelector(".slider");
@@ -105,8 +104,7 @@ function SetModal() {
                   className="slider"
                   min="0"
                   max="50"
-                  onChange={changeDistance}
-                ></input>
+                  onChange={changeDistance}></input>
                 <div className="progressSlider"></div>
               </div>
             </div>

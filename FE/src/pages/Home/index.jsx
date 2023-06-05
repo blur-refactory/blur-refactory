@@ -73,10 +73,16 @@ function Home() {
 
   const showChatList = () => {
     setChatList((pre) => !pre);
+    if (chatPage) {
+      setChatPage(false);
+    }
   };
 
   const showChatPage = () => {
     setChatPage((pre) => !pre);
+    if (chatList) {
+      setChatList(false);
+    }
   };
 
   //캐러셀 화면
@@ -186,8 +192,9 @@ function Home() {
 
   return (
     <div className="Home">
-      {chatList ? <ChatList showChatPage={showChatPage} /> : null}
-      {chatPage ? <ChatPage showChatPage={showChatPage} /> : null}
+      {chatList && !chatPage ? <ChatList showChatPage={showChatPage} /> : null}
+      {chatPage && !chatList ? <ChatPage showChatPage={showChatPage} /> : null}
+
       {blurInfoModal || alertModal ? (
         <ModalWrap
           blurInfoModal={blurInfoModal}
