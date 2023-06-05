@@ -1,12 +1,6 @@
 package com.blur.bluruser.chat.utils;
 
-import com.project.smg.alarm.dto.AlarmDto;
-import com.project.smg.mandalart.entity.Title;
-import com.project.smg.mandalart.repository.LikeRepository;
-import com.project.smg.mandalart.service.MandalartLikeService;
-import com.project.smg.mandalart.service.MandalartService;
-import com.project.smg.member.entity.Likes;
-import com.project.smg.member.entity.Member;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -25,11 +25,8 @@ import java.util.*;
 @RequestMapping("/profile/{id}")
 @Api(value = "프로필", description = "프로필 관련 API")
 public class ProfileController {
-
     private final ProfileService profileService;
-
     private final InterestRepository interestRepository;
-
     private final InterestService interestService;
 
     @PostMapping("/test")

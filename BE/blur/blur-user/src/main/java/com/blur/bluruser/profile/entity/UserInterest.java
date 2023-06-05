@@ -15,7 +15,6 @@ import javax.persistence.*;
 @Builder
 @Table(name = "user_interest")
 public class UserInterest {
-
     @Id
     @Column(name = "seq")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

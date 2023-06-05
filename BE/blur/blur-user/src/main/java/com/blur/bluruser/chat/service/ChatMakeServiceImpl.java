@@ -1,10 +1,10 @@
 package com.blur.bluruser.chat.service;
 
-import com.blur.chat.api.dto.ChatDto;
-import com.blur.chat.api.dto.MakeChatroomDto;
-import com.blur.chat.api.entity.Chatroom;
-import com.blur.chat.api.repository.ChatroomRepository;
-import com.blur.chat.api.repository.RedisChatRepository;
+import com.blur.bluruser.chat.dto.ChatDto;
+import com.blur.bluruser.chat.dto.MakeChatroomDto;
+import com.blur.bluruser.chat.entity.Chatroom;
+import com.blur.bluruser.chat.repository.ChatroomRepository;
+import com.blur.bluruser.chat.repository.RedisChatRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,19 +20,6 @@ public class ChatMakeServiceImpl implements ChatMakeService {
     private final RedisChatRepository redisChatRepository;
     private final ChatroomRepository chatroomRepository;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM-dd HH:mm");
-
-
-    @Override
-    public void makeChatroom(MakeChatroomDto makeChatroomDto) {
-        Chatroom chatroom = Chatroom.builder()
-                .maleName(makeChatroomDto.getMaleName())
-                .femaleName(makeChatroomDto.getFemaleName())
-                .maleEmail(makeChatroomDto.getMaleEmail())
-                .femaleEmail(makeChatroomDto.getFemaleEmail())
-                .build();
-
-        chatroomRepository.save(chatroom);
-    }
 
     @Override
     public ChatDto saveChat(String memberId, int id, String nickname) {
