@@ -1,0 +1,87 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: blur-gateway
+  cloud:
+    gateway:
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: Spring Cloud Gateway Global Filter
+            preLogger: true
+            postLogger: true
+      routes:
+        - id: blur-auth
+          uri: lb://BLUR-AUTH
+          predicates:
+            - Path=/blur-auth/**
+            - Method= GET, POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/blur-auth/(?<segment>.*), /$\{segment}
+        - id: blur-profile
+          uri: lb://BLUR-PROFILE
+          predicates:
+            - Path=/blur-profile/swagger-ui/**
+            - Method= GET, POST, PUT, OPTIONS
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/blur-profile/(?<segment>.*), /$\{segment}
+        - id: blur-match
+          uri: lb://BLUR-MATCH
+          predicates:
+            - Path=/blur-match/swagger-ui/**
+            - Method= GET, POST, PUT, OPTIONS
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/blur-match/(?<segment>.*), /$\{segment}
+        - id: blur-chat
+          uri: lb://BLUR-CHAT
+          predicates:
+            - Path=/blur-chat/swagger-ui/**
+            - Method= GET, POST, PUT, OPTIONS
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/blur-chat/(?<segment>.*), /$\{segment}
+        - id: blur-profile
+          uri: lb://BLUR-PROFILE
+          predicates:
+            - Path=/blur-profile/**
+            - Method= GET, POST, PUT, OPTIONS
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/blur-profile/(?<segment>.*), /$\{segment}
+#            - AuthorizationHeaderFilter
+        - id: blur-match
+          uri: lb://BLUR-MATCH
+          predicates:
+            - Path=/blur-match/**
+            - Method= GET, POST, PUT, OPTIONS
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/blur-match/(?<segment>.*), /$\{segment}
+#            - AuthorizationHeaderFilter
+        - id: blur-chat
+          uri: lb://BLUR-CHAT
+          predicates:
+            - Path=/blur-chat/**
+          filters:
+#            - RemoveRequestHeader=Cookie
+#            - RewritePath=/blur-chat/(?<segment>.*), /$\{segment}
+#            - AuthorizationHeaderFilter
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+  #token:
+  #  secret: blurUserTokenblurUserTokenblurUserTokenblurUserTokenblurUserTokenblurUserTokenblurUserTokenblurUserToken
+
+  
+  # jwt secret key 설정
+jwt.secret: '8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds'

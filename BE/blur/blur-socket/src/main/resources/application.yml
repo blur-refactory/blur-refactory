@@ -1,0 +1,17 @@
+server:
+  port: 7777
+  ssl:
+    key-store: /etc/letsencrypt/live/i8b307.p.ssafy.io:fullchain.pem
+    key-store-type: PEM
+
+
+spring:
+  messages:
+    cache:
+      destinations: /queue/**, /topic/**
+  websocket:
+    prefix: /ws
+    app-destination-prefixes: /app
+    stomp-endpoint: /websocket
+    allowed-origins: "*"
+    with-sockjs: true

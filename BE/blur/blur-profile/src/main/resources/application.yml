@@ -1,0 +1,71 @@
+server:
+  port: 0
+
+spring:
+  application:
+    name: blur-profile
+
+  #스웨거 설정
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://i8b307.p.ssafy.io:3310/blurProfile?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+    username: blur
+    password: blur
+    hikari:
+      pool-name: jpa-hikari-pool
+      maximum-pool-size: 5
+      jdbc-url: ${spring.datasource.url}
+      username: ${spring.datasource.username}
+      password: ${spring.datasource.password}
+      driver-class-name: ${spring.datasource.driver-class-name}
+      data-source-properties:
+        rewriteBatchedStatements: true
+  # JPA 설정
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: mysql
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        hbm2ddl.import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+        default_batch_fetch_size: ${chunkSize:100}
+        jdbc.batch_size: 20
+        order_inserts: true
+        order_updates: true
+        format_sql: true
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAXM2ROBDTA7R7L6M4      # AWS IAM AccessKey 적기
+      secretKey: 9RJ1UENpMmk6c/3DZmPV2YQoZhOvTWSgAXh5JOOo   # AWS IAM SecretKey 적기
+    s3:
+      bucket: blur307bucket    # ex) marryting-gyunny
+      dir: /blur # ex) /gyunny
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+
+blur-match:
+  url: https://i8b307.p.ssafy.io/blur-match/match
+
+blur-auth:
+  url: https://i8b307.p.ssafy.io/blur-auth/user
