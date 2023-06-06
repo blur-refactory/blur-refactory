@@ -6,7 +6,7 @@ import { Server as SocketIO } from "socket.io";
 import cors from "cors";
 
 const app = express();
-const fs = require("fs");
+import fs from "fs";
 app.use(cors());
 
 // express를 이용해 http 서버를 만듦(노출 서버)
