@@ -30,7 +30,6 @@ const server = https.createServer(
 // 로컬 / ec2서버
 // cors: http://localhost:3000  /  [https://admin.socket.io]
 // httpServer.listen: 3001  /  https://i8b307.p.ssafy.io
-
 // // http 서버 위에 ws(webSocket) 서버를 만듦
 const io = new SocketIO(server, {
   path: "/socket",
