@@ -20,7 +20,6 @@ let socket = io("https://blurblur.kr", {
   secure: true,
 });
 
-
 console.log(`socket: `, socket);
 function Start() {
   const [signInModal, setSignInModal] = useState(false);
