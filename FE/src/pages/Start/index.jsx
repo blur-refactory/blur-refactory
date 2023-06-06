@@ -37,6 +37,16 @@ function Start() {
   socket.on("connect", () => {
     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
   });
+  
+  socket.on('error', function()
+  {
+      console.log("Sorry, there seems to be an issue with the connection!");
+  });
+
+  socket.on('connect_error', function(err)
+  {
+      console.log("connect failed"+err);
+  });
 
   const showSignInModal = () => {
     setSignInModal((pre) => !pre);
