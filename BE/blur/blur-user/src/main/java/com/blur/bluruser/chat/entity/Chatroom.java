@@ -17,13 +17,14 @@ public class Chatroom {
     @Id
     @Column(name = "chatroom_id")
     private String id;
+
     private String maleName;
 
     private String femaleName;
 
-    private String maleEmail;
+    private String maleId;
 
-    private String femaleEmail;
+    private String femaleId;
 
     @OneToMany(mappedBy = "chatroom")
     private List<Chat> chats = new ArrayList<>();

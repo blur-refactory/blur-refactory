@@ -9,12 +9,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.Collections;
+import java.util.List;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ChatroomServiceImpl implements ChatroomService{
+public class ChatroomServiceImpl implements ChatroomService {
     private final ChatroomRepository chatroomRepository;
     private final UserProfileRepository userProfileRepository;
 
@@ -23,7 +24,7 @@ public class ChatroomServiceImpl implements ChatroomService{
         UserProfile maleProfile = userProfileRepository.findByUserId(makeChatroomDto.getMaleId());
         UserProfile femaleProfile = userProfileRepository.findByUserId(makeChatroomDto.getFemaleId());
 
-        if(maleProfile != null && femaleProfile != null){
+        if (maleProfile != null && femaleProfile != null) {
             int maleIndex = maleProfile.getUserId().indexOf("@");
             String maleId = maleProfile.getUserId().substring(0, maleIndex);
 
@@ -34,8 +35,8 @@ public class ChatroomServiceImpl implements ChatroomService{
                     .id(maleId + femaleId)
                     .maleName(maleProfile.getNickname())
                     .femaleName(femaleProfile.getNickname())
-                    .maleEmail(makeChatroomDto.getMaleId())
-                    .femaleEmail(makeChatroomDto.getFemaleId())
+                    .maleId(makeChatroomDto.getMaleId())
+                    .femaleId(makeChatroomDto.getFemaleId())
                     .build();
 
             chatroomRepository.save(chatroom);
@@ -43,10 +44,21 @@ public class ChatroomServiceImpl implements ChatroomService{
     }
 
     @Override
-    public Chatroom getChatroom(String email) {
-        Chatroom chatroom = chatroomRepository.findByMaleEmail(email)
-                .orElse(null);
+    public List<Chatroom> getChatroom(String userId) {
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
 
-        return chatroom;
+        if (userProfile != null) {
+            if (userProfile.getGender().equals("M")) {
+                List<Chatroom> chatroomList = chatroomRepository.findByMaleId(userId)
+                        .orElse(Collections.emptyList());
+                return chatroomList;
+            } else {
+                List<Chatroom> chatroomList = chatroomRepository.findByFemaleId(userId)
+                        .orElse(Collections.emptyList());
+                return chatroomList;
+            }
+        }
+
+        return Collections.emptyList();
     }
 }

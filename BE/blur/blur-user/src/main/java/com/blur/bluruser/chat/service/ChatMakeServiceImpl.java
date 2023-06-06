@@ -2,6 +2,7 @@ package com.blur.bluruser.chat.service;
 
 import com.blur.bluruser.chat.dto.ChatDto;
 import com.blur.bluruser.chat.dto.LatestChatsResultDto;
+import com.blur.bluruser.chat.dto.ReceiveDto;
 import com.blur.bluruser.chat.entity.Chatroom;
 import com.blur.bluruser.chat.repository.ChatroomRepository;
 import com.blur.bluruser.chat.repository.RedisChatRepository;
@@ -25,17 +26,17 @@ public class ChatMakeServiceImpl implements ChatMakeService {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM-dd HH:mm");
 
     @Override
-    public ChatDto saveChat(String userId, String roodId, String message) {
+    public ChatDto saveChat(String userId, String roodId, ReceiveDto receiveDto) {
         Optional<Chatroom> optionalChatroom = chatroomRepository.findById(roodId);
-        UserProfile userProfile = userProfileRepository.findByUserId(userId);
+//        UserProfile userProfile = userProfileRepository.findByUserId(userId);
 
-        if (optionalChatroom.isPresent() && userProfile != null) {
+        if (optionalChatroom.isPresent()) {
             LocalDateTime time = LocalDateTime.now();
 
             ChatDto chatDto = ChatDto.builder()
                     .userId(userId)
-                    .nickname(userProfile.getNickname())
-                    .message(message)
+                    .nickname(receiveDto.getNickname())
+                    .message(receiveDto.getMessage())
                     .roomId(roodId)
                     .createdAt(time)
                     .formattedCreatedAt(time.format(FORMATTER))
