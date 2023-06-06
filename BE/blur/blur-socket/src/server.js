@@ -1,14 +1,25 @@
 import express from "express"; // express를 사용한 일반적인 NodeJS
-import http from "http";
+const https = require("https");
 import { Server } from "socket.io";
 import cors from "cors";
 
 const app = express();
-
+const fs = require("fs");
 app.use(cors());
 
 // express를 이용해 http 서버를 만듦(노출 서버)
-const httpServer = http.createServer(app);
+const server = https.createServer(
+  {
+    key: fs.readFileSync("/etc/letsencrypt/live/blurblur.kr/privkey.pem"),
+    cert: fs.readFileSync("/etc/letsencrypt/live/blurblur.kr/cert.pem"),
+    ca: fs.readFileSync("/etc/letsencrypt/live/blurblur.kr/chain.pem"),
+    requestCert: false,
+    rejectUnauthorized: false,
+  },
+  app
+);
+server.listen(5000);
+
 
 // 로컬 / ec2서버
 // cors: http://localhost:3000  /  [https://admin.socket.io]
@@ -62,5 +73,4 @@ wsServer.on("connection", (socket) => {
     });
   });
 });
-const handleListen = () => console.log(`Listening on https://i8b307.p.ssafy.io`);
-httpServer.listen(3001, handleListen);
+const handleListen = () => console.log(`Listening on https://blurblur.kr`);
