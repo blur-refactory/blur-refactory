@@ -1,35 +1,53 @@
 import express from "express"; // express를 사용한 일반적인 NodeJS
-import http from "http";
+const https = require("https");
 import { Server } from "socket.io";
+const SocketIO = require("socket.io");
 import cors from "cors";
 
 const app = express();
-
+const fs = require("fs");
 app.use(cors());
 
 // express를 이용해 http 서버를 만듦(노출 서버)
-const httpServer = http.createServer(app);
+const server = https.createServer(
+  {
+    key: fs.readFileSync("/etc/letsencrypt/live/blurblur.kr/privkey.pem"),
+    cert: fs.readFileSync("/etc/letsencrypt/live/blurblur.kr/cert.pem"),
+    ca: fs.readFileSync("/etc/letsencrypt/live/blurblur.kr/chain.pem"),
+    requestCert: false,
+    rejectUnauthorized: false,
+  },
+  app
+);
+server.listen(5000);
+
 
 // 로컬 / ec2서버
 // cors: http://localhost:3000  /  [https://admin.socket.io]
 // httpServer.listen: 3001  /  https://i8b307.p.ssafy.io
 
 // // http 서버 위에 ws(webSocket) 서버를 만듦
-const wsServer = new Server(httpServer, {
+const io = SocketIO(server, {
+  path: "/socket",
   cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-    credentials: true,
+    // 개발시
+    // origin: "http://localhost:3000",
+    // 배포시
+    origin: "https://blurblur.kr",
   },
+  transports: ["websocket", "polling"],
+  allowEIO3: true,
 });
+app.set("io", io);
+
 
 const {
   sockets: {
     adapter: { sids, rooms },
   },
-} = wsServer;
+} = io;
 
-wsServer.on("connection", (socket) => {
+io.on("connection", (socket) => {
   console.log("connecting 성공, 서버에 도달");
 
   socket.on("join_room", async (roomName) => {
@@ -62,5 +80,4 @@ wsServer.on("connection", (socket) => {
     });
   });
 });
-const handleListen = () => console.log(`Listening on https://i8b307.p.ssafy.io`);
-httpServer.listen(3001, handleListen);
+const handleListen = () => console.log(`Listening on https://blurblur.kr`);
