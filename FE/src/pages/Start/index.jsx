@@ -16,7 +16,7 @@ import { io } from "socket.io-client";
 
 let socket = io("https://blurblur.kr", {
   path: "/socket",
-  transports: ["websocket", "polling"],
+  transports: ["websocket"],
   secure: true,
 });
 
@@ -37,7 +37,7 @@ function Start() {
   socket.on("connect", () => {
     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
   });
-  
+
   socket.on('error', function()
   {
       console.log("Sorry, there seems to be an issue with the connection!");
