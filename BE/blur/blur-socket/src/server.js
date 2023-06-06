@@ -28,7 +28,7 @@ server.listen(5000);
 // httpServer.listen: 3001  /  https://i8b307.p.ssafy.io
 
 // // http 서버 위에 ws(webSocket) 서버를 만듦
-const io = SocketIO(server, {
+const io = new SocketIO(server, {
   path: "/socket",
   cors: {
     // 개발시
