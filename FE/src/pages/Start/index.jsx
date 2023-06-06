@@ -12,7 +12,12 @@ import ModalWrap from "../../components/Start/ModalWrap";
 import SignUp from "../../components/Start/SignUp";
 import SearchPw from "../../components/Start/SearchPw";
 import Alert from "../../components/Start/Alert";
+import { io } from "socket.io-client";
 
+let socket = io("wss://i8b307.p.ssafy.io/socket.io", {
+  cors: { origin: "*", credentials: false },
+});
+console.log(`socket: `, socket);
 function Start() {
   const [signInModal, setSignInModal] = useState(false);
   const [signUpModal, setSignUpModal] = useState(false);
