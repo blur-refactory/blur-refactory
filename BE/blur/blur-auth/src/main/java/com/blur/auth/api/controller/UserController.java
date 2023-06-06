@@ -21,7 +21,7 @@ public class UserController {
     private final PasswordService passwordService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(UserSignUpDto memberSignUpDto) throws Exception {
+    public ResponseEntity<?> register(@RequestBody UserSignUpDto memberSignUpDto) throws Exception {
         userService.register(memberSignUpDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
