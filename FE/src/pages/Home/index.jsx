@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import "./index.css";
-import axios from "axios";
 
 import { useEffect, useState } from "react";
 import { useRef } from "react";
@@ -20,15 +19,24 @@ import Slide4 from "../../components/Home/Carousel/Slide4";
 import Slide5 from "../../components/Home/Carousel/Slide5";
 import ChatList from "../../components/Chat/ChatList";
 import ChatPage from "../../components/Chat/ChatPage";
-
+import { CustomAxios } from "../../api/CustomAxios";
 let myStream;
 let carousel;
 function Home() {
   let userId = useSelector((state) => state.strr.id); // Redux에 저장되어있는 MToggle
   let myToken = useSelector((state) => state.strr.token); // store에 저장되어있는 토큰
-  const dispatch = useDispatch();
+  const profiled = useSelector((state) => state.strr.profiled);
 
-  const API_URL = `${process.env.REACT_APP_API_ROOT_WONWOONG}`;
+  const [toggleStartVideo, setToggleStartVideo] = useState(false);
+  const [blurInfoModal, setBlurInfoModal] = useState(false);
+  const [alertModal, setalertModal] = useState(false);
+  const [chatList, setChatList] = useState(false);
+  const [chatPage, setChatPage] = useState(false);
+  const [slideNumber, setSlideNumber] = useState(0);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   // startVideo 함수 실행하면 자신의 모습 볼수있음
   const videoRef = useRef(null);
   const CONSTRAINTS = {
@@ -46,17 +54,6 @@ function Home() {
       }
     }
   };
-
-  const [toggleStartVideo, setToggleStartVideo] = useState(false);
-  const [blurInfoModal, setBlurInfoModal] = useState(false);
-  const [alertModal, setalertModal] = useState(false);
-  const [chatList, setChatList] = useState(false);
-  const [chatPage, setChatPage] = useState(false);
-  const [slideNumber, setSlideNumber] = useState(0);
-
-  //프로필 설정이 완료여부 알려주는 변수
-  const profiled = useSelector((state) => state.strr.profiled);
-  const navigate = useNavigate();
 
   const showBlurInfoModal = () => {
     setBlurInfoModal((pre) => !pre);
@@ -85,30 +82,11 @@ function Home() {
   }, [slideNumber]);
 
   useEffect(() => {
-    axios({
-      method: "get",
-      url: `${API_URL}/blur-profile/profile/${userId}/check`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${myToken}`,
-      },
-    })
+    const axiosInstance = CustomAxios;
+    axiosInstance
+      .get(`/api/profile/${userId}/check`)
       .then((res) => {
-        // console.log(`res.data: ${res.data}`);
         dispatch(ISMYPROFILE(res.data));
-
-        // if (res.data === true) {
-        //   axios({
-        //     method: "get",
-        //     url: `${API_URL}/blur-match/match/settingCheck`,
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //       Authorization: `Bearer ${myToken}`,
-        //     },
-        //   }).then((res) => {
-        //     console.log(`settingCheck res data: ${res.data}`);
-        //   });
-        // }
       })
       .catch((err) => console.log(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -134,25 +112,15 @@ function Home() {
           dispatch(
             MYGEO({ lat: loc.coords.latitude, lng: loc.coords.longitude })
           );
-          axios({
-            method: "post",
-            url: `${API_URL}/blur-match/match/start`,
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${myToken}`,
-            },
-            data: {
-              lat: loc.coords.latitude,
-              lng: loc.coords.longitude,
-              userId: userId,
-            },
-          })
+          const matchStartReqData = {
+            lat: loc.coords.latitude,
+            lng: loc.coords.longitude,
+            userId: userId,
+          };
+          console.log(CustomAxios);
+          CustomAxios.post(`/api/match/start`, matchStartReqData)
             .then((res) => {
-              // [response data : myGender/partnerId/sessionId(방번호)]
-              // 남자의 경우 O/X/X
-              // 여자의 경우 O/X/X
-              console.log(`res : `, res.data);
-              console.log(`res myGender: `, res.data.myGender);
+              // [response data : myGender/partnerId/sessionId(방번호)] - OXX
               dispatch(MYGENDER(res.data.myGender));
               alert("start: 백에 통신 성공");
 
@@ -162,13 +130,6 @@ function Home() {
             })
             .catch((err) => {
               console.log(err);
-              console.log(`token: ${myToken}`);
-
-              // if (err.response.status === 401) {
-              //   dispatch(saveToken(""));
-              //   navigate("/");
-              // }
-              // 실패 시 알람 띄움
               alert(
                 "error\n서버와 통신에 실패했습니다.\n잠시후 다시 한번 시도해 주세요!"
               );
