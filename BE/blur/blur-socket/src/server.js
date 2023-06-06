@@ -55,6 +55,9 @@ const {
 io.on("connection", (socket) => {
   console.log("connecting 성공, 서버에 도달");
 
+  socket.on('connect_failed', function() {
+    console.log("connecting 성공, 서버에 도달");
+ })
   socket.on("join_room", async (roomName) => {
     console.log("브라우저에서 받은 roomName : ", roomName);
     socket.join(roomName); // 방에 들어가는거
