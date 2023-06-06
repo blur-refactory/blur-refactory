@@ -1,5 +1,6 @@
 import express from "express"; // express를 사용한 일반적인 NodeJS
 import https from "https";
+import fs from "fs";
 import SocketIO from "socket.io";
 
 // const SocketIO = require("socket.io");
@@ -7,7 +8,7 @@ import SocketIO from "socket.io";
 import cors from "cors";
 
 const app = express();
-import fs from "fs";
+
 app.use(cors());
 
 // express를 이용해 http 서버를 만듦(노출 서버)
