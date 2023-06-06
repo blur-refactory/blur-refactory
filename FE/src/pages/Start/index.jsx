@@ -14,9 +14,12 @@ import SearchPw from "../../components/Start/SearchPw";
 import Alert from "../../components/Start/Alert";
 import { io } from "socket.io-client";
 
-let socket = io("wss://i8b307.p.ssafy.io/socket.io", {
-  cors: { origin: "*", credentials: false },
+let socket = io("https://blurblur.kr", {
+  path: "/socket",
+  transports: ["websocket", "polling"],
+  secure: true,
 });
+
 console.log(`socket: `, socket);
 function Start() {
   const [signInModal, setSignInModal] = useState(false);
@@ -30,6 +33,15 @@ function Start() {
   const ref2 = useRef(null);
   const ref3 = useRef(null);
   const ref4 = useRef(null);
+
+  socket.on("welcome", async () => {
+    console.log("node로 부터 온 welcome ");
+    // const offer = await myPeerConnection.createOffer();
+    // myPeerConnection.setLocalDescription(offer);
+    // // console.log(myPeerConnection.setLocalDescription(offer));
+    // console.log("send the offer");
+    // socket.emit("offer", offer, roomName);
+  });
 
   const showSignInModal = () => {
     setSignInModal((pre) => !pre);
