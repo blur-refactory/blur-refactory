@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MakeChatroomDto {
-    private String maleId;
-    private String femaleId;
+public class ReceiveDto {
+    private String nickname;
+    private String message;
+    private String cursor;
+    private String deleteStart;
+    private String deleteEnd;
 }

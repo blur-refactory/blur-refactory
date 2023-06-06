@@ -1,8 +1,12 @@
 package com.blur.bluruser.chat.Handler;
 
+import com.blur.bluruser.chat.dto.ChatDto;
 import com.blur.bluruser.chat.dto.LatestChatsResultDto;
+import com.blur.bluruser.chat.dto.ReceiveDto;
 import com.blur.bluruser.chat.dto.SendChatDto;
 import com.blur.bluruser.chat.service.ChatMakeService;
+import com.blur.bluruser.chat.service.ChatSendService;
+import com.blur.bluruser.chat.utils.ChatUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,44 +16,39 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
 public class CustomWebSocketHandler extends TextWebSocketHandler {
     private final Map<String, Map<String, WebSocketSession>> userSessions = new HashMap<>();
     private final ChatMakeService chatMakeService;
+    private final ChatSendService chatSendService;
+    private final ChatUtils chatUtils;
     private final ObjectMapper objectMapper = new ObjectMapper();
-
-//    public void addSession(String userId, WebSocketSession session) {
-//        userSessions.computeIfAbsent(userId, key -> session);
-//    }
 
     public void addSession(String userId, String roomId, WebSocketSession session) {
         Map<String, WebSocketSession> roomSessions = userSessions.computeIfAbsent(userId, key -> new HashMap<>());
         roomSessions.put(roomId, session);
     }
 
-    public WebSocketSession getSession(String userId, String roomId) {
-        Map<String, WebSocketSession> roomSessions = userSessions.get(userId);
-        if (roomSessions != null) {
-            return roomSessions.get(roomId);
-        }
-        return null;
-    }
+//    public WebSocketSession getSession(String userId, String roomId) {
+//        Map<String, WebSocketSession> roomSessions = userSessions.get(userId);
+//        if (roomSessions != null) {
+//            return roomSessions.get(roomId);
+//        }
+//        return null;
+//    }
 
     public String getUserId(WebSocketSession session) {
         return (String) session.getAttributes().get("id");
     }
+
     public String getRoomId(WebSocketSession session) {
         return (String) session.getAttributes().get("roomId");
     }
-
-//    public void removeSession(String userId) {
-//        if (userSessions.containsKey(userId)) {
-//            userSessions.remove(userId);
-//        }
-//    }
 
     public void removeSession(String userId, String roomId) {
         Map<String, WebSocketSession> roomSessions = userSessions.get(userId);
@@ -66,8 +65,9 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
 
         addSession(userId, roomId, session);
         log.info("연결한 유저 {}", userId);
+        log.info("연결한 채팅방 {}", roomId);
 
-        session.sendMessage(new TextMessage(sendAlarmList(chatMakeService.alarmDtoList(userId, 0.0), session)));
+        session.sendMessage(new TextMessage(sendChatList(chatMakeService.chatDtoList(roomId, 0.0), session)));
 
         log.info("메세지 조회 성공");
     }
@@ -79,19 +79,25 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
         log.info("메세지 수신 시작");
 
         String userId = getUserId(session);
+        String roomId = getRoomId(session);
+
+        if (receivedMessage.getNickname() != null) {
+            ChatDto chatDto = chatSendService.sendChat(userId, roomId, receivedMessage.getNickname(), receivedMessage.getMessage());
+            sendMessageToUser(roomId, chatDto);
+        }
 
         if (receivedMessage.getCursor() != null) {
-            log.info("알람 전송");
-            session.sendMessage(new TextMessage(sendAlarmList(chatMakeService.alarmDtoList(userId, Double.parseDouble(receivedMessage.getCursor())), session)));
+            log.info("메세지 전송");
+            session.sendMessage(new TextMessage(sendChatList(chatMakeService.chatDtoList(roomId, Double.parseDouble(receivedMessage.getCursor())), session)));
         }
 
         if (receivedMessage.getDeleteStart() != null && receivedMessage.getDeleteEnd() != null) {
-            log.info("알람 삭제 시도");
-            boolean deleteResult = chatMakeService.deleteAlarm(userId, Double.parseDouble(receivedMessage.getDeleteStart()), Double.parseDouble(receivedMessage.getDeleteEnd()));
+            log.info("메세지 삭제 시도");
+            boolean deleteResult = chatMakeService.deleteChat(roomId, Double.parseDouble(receivedMessage.getDeleteStart()), Double.parseDouble(receivedMessage.getDeleteEnd()));
             if (deleteResult) {
-                log.info("알람 삭제 성공");
+                log.info("메세지 삭제 성공");
             } else {
-                log.info("알람 삭제 실패");
+                log.info("메세지 삭제 실패");
             }
         }
     }
@@ -99,8 +105,10 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         String userId = getUserId(session);
-        removeSession(userId);
-        log.info("유저 로그아웃 {}", userId);
+        String roomId = getRoomId(session);
+
+        removeSession(userId, roomId);
+        log.info("유저 로그아웃 {}", userId, roomId);
         log.info("소켓 연결 종료 {}", status);
         session.close();
     }
@@ -108,16 +116,25 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
     /**
      * 이벤트 발생 시 알람 전송
      *
-     * @param userId
-     * @param sendChatDto
+     * @param roomId
+     * @param chatDto
      * @throws Exception
      */
-    public void sendMessageToUser(String userId, SendChatDto sendChatDto) throws Exception {
-        WebSocketSession session = userSessions.get(userId);
-        if (session != null && session.isOpen()) {
-            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(sendChatDto)));
-        } else {
-            log.warn("수신자의 세션이 닫혀있거나 존재하지 않음 : {}", userId);
+    public void sendMessageToUser(String roomId, ChatDto chatDto) throws Exception {
+        for (Map<String, WebSocketSession> roomSessions : userSessions.values()) {
+            WebSocketSession session = roomSessions.get(roomId);
+            if (session != null && session.isOpen()) {
+                session.sendMessage(new TextMessage(objectMapper.writeValueAsString(
+                                new SendChatDto(chatDto.getUserId(),
+                                        chatDto.getNickname(),
+                                        chatDto.getMessage(),
+                                        chatDto.getFormattedCreatedAt(),
+                                        chatUtils.changeLocalDateTimeToDouble(chatDto.getCreatedAt())))
+                        )
+                );
+            } else {
+                log.warn("수신자의 세션이 닫혀있거나 존재하지 않음 : {}", roomId);
+            }
         }
     }
 
@@ -129,7 +146,7 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
      * @return
      * @throws Exception
      */
-    private String sendAlarmList(LatestChatsResultDto latestChatsResultDto, WebSocketSession session) throws Exception {
+    private String sendChatList(LatestChatsResultDto latestChatsResultDto, WebSocketSession session) throws Exception {
         List<SendChatDto> alarmDtoList = latestChatsResultDto.getChats();
         double nextScore = latestChatsResultDto.getLastScore();
 

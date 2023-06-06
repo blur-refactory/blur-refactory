@@ -37,7 +37,7 @@ pipeline {
 					steps {
 						dir('FE') {
 							sh 'npm install'
-							sh 'echo -e "REACT_APP_API_ROOT=\'${REACT_APP_API_ROOT}\'\nREACT_APP_API_ROOT_DONGHO=\'${REACT_APP_API_ROOT_DONGHO}\'\nREACT_APP_SOCIAL_SIGN_API_URL=\'${REACT_APP_SOCIAL_SIGN_API_URL}\'\nREACT_APP_API_ROOT_WONWOONG=\'${REACT_APP_API_ROOT_WONWOONG}\'\nREACT_APP_API_ROOT_SOCKET=\'${REACT_APP_API_ROOT_SOCKET}\'" > .env.local'
+							sh 'echo -e "REACT_APP_API_ROOT=\'${REACT_APP_API_ROOT}\'\nREACT_APP_API_ROOT_DONGHO=\'${REACT_APP_API_ROOT_DONGHO}\'\nREACT_APP_SOCIAL_SIGN_API_URL=\'${REACT_APP_SOCIAL_SIGN_API_URL}\'\nREACT_APP_API_ROOT_WONWOONG=\'${REACT_APP_API_ROOT_WONWOONG}\'\nREACT_APP_API_ROOT_SOCKET=\'${REACT_APP_API_ROOT_SOCKET}\'" > .env.production'
 							sh 'CI=false npm run build'
 							sh 'docker build -t ${DOCKER_REGISTRY}:${CLIENT_IMAGE_TAG} .'
 							sh 'docker push ${DOCKER_REGISTRY}:${CLIENT_IMAGE_TAG}'
@@ -119,7 +119,7 @@ pipeline {
 					steps {
 						dir('socket-service') {
 							sh 'npm install'
-							// sh 'echo -e "COOKIE_SECRET=\'${COOKIE_SECRET}\'\nCOOKIE_SECRET=\'${COOKIE_SECRET}\'\nMONGO_ID=\'${MONGO_ID}\'\nMONGO_PASSWORD=\'${MONGO_PASSWORD}\'\nREDIS_HOST=\'${REDIS_HOST}\'\nREDIS_PORT=\'${REDIS_PORT}\'\nREDIS_USERNAME=\'${REDIS_USERNAME}\'\nREDIS_PASSWORD=\'${REDIS_PASSWORD}\'" > .env'
+							sh 'echo -e "REACT_APP_API_ROOT=\'${REACT_APP_API_ROOT}\'" > .env'
 							sh 'docker build -t ${DOCKER_REGISTRY}:${SOCKET_SERVICE_IMAGE_TAG} .'
 							sh 'docker push ${DOCKER_REGISTRY}:${SOCKET_SERVICE_IMAGE_TAG}'
 						}

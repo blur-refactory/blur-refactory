@@ -5,6 +5,8 @@ import com.blur.bluruser.chat.dto.LatestChatsResultDto;
 import com.blur.bluruser.chat.entity.Chatroom;
 import com.blur.bluruser.chat.repository.ChatroomRepository;
 import com.blur.bluruser.chat.repository.RedisChatRepository;
+import com.blur.bluruser.profile.entity.UserProfile;
+import com.blur.bluruser.profile.repository.UserProfileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,58 +21,41 @@ import java.util.Optional;
 public class ChatMakeServiceImpl implements ChatMakeService {
     private final RedisChatRepository redisChatRepository;
     private final ChatroomRepository chatroomRepository;
+    private final UserProfileRepository userProfileRepository;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM-dd HH:mm");
 
     @Override
-    public ChatDto saveChat(String memberId, int id, String nickname) {
-        Optional<Chatroom> optionalTitle = chatroomRepository.findById(id);
+    public ChatDto saveChat(String userId, String roodId, String message) {
+        Optional<Chatroom> optionalChatroom = chatroomRepository.findById(roodId);
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
 
-        if (optionalTitle.isPresent()) {
-            Title title = optionalTitle.get();
-            String message = nickname + "님이 " + title.getContent() + " 만다라트를 좋아합니다.💖";
+        if (optionalChatroom.isPresent() && userProfile != null) {
             LocalDateTime time = LocalDateTime.now();
 
-            AlarmDto alarmDto = AlarmDto.builder()
-                    .memberId(memberId)
-                    .titleName(title.getContent())
-                    .titleId(title.getId())
+            ChatDto chatDto = ChatDto.builder()
+                    .userId(userId)
+                    .nickname(userProfile.getNickname())
                     .message(message)
+                    .roomId(roodId)
                     .createdAt(time)
                     .formattedCreatedAt(time.format(FORMATTER))
                     .build();
 
-            redisAlarmRepository.save(alarmDto);
-            return alarmDto;
+            redisChatRepository.save(chatDto);
+            return chatDto;
         } else {
-            log.warn("존재하지 않는 title");
+            log.warn("존재하지 않는 채팅방");
             return null;
         }
     }
 
-//    @Override
-//    public AlarmDto savePodoAlarm(String memberId) {
-//        String message = "축하합니다. 26일 동안 스페셜 포도🍇를 사용할 수 있습니다.";
-//        LocalDateTime time = LocalDateTime.now();
-//
-//        AlarmDto alarmDto = AlarmDto.builder()
-//                .memberId(memberId)
-//                .message(message)
-//                .createdAt(time)
-//                .formattedCreatedAt(time.format(FORMATTER))
-//                .build();
-//
-//        redisAlarmRepository.save(alarmDto);
-//
-//        return alarmDto;
-//    }
-
     @Override
-    public LatestChatsResultDto chatDtoList(String userId, double lastSocre) {
-        return redisChatRepository.getLatestChats(userId, lastSocre);
+    public LatestChatsResultDto chatDtoList(String roomId, double lastSocre) {
+        return redisChatRepository.getLatestChats(roomId, lastSocre);
     }
 
     @Override
-    public boolean deleteChat(String userId, double deleteStart, double deleteEnd) {
-        return redisChatRepository.delete(userId, deleteStart, deleteEnd);
+    public boolean deleteChat(String roomId, double deleteStart, double deleteEnd) {
+        return redisChatRepository.delete(roomId, deleteStart, deleteEnd);
     }
 }
