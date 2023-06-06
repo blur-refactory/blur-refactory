@@ -16,20 +16,34 @@ import ProgressBar from "../../../components/Meeting/ProgressBar";
 import BlockModal from "../../../components/Meeting/BlockModal";
 import Alert from "../../../components/Start/Alert";
 
-let socket = io("wss://i8b307.p.ssafy.io/socket.io", {
-  cors: { origin: "*", credentials: false },
-});
-console.log(`socket: `, socket);
+let socket = null;
 let roomName;
 let myPeerConnection;
 let myStream;
 let firstRendering = false;
 let meetingInTmp = 0;
-// let videoDevices = [];
-
 // console.log("MeetingIn 페이지 렌더링");
 function MeetingIn() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [lightToggle, setLightToggle] = useState(false);
+  const [smileToggle, setSmileToggle] = useState(false);
+  const [camToggle, setCamToggle] = useState(true);
+  const [myMicToggle, setMyMicToggle] = useState(true);
+  const [partnerMicToggle, setPartnerMicToggle] = useState(true);
+  const [mysoundToggle, setMySoundToggle] = useState(false);
+  const [partnerSoundToggle, setPartnerSoundToggle] = useState(false);
+  const [mySoundVal, setMySoundVal] = useState(50);
+  const [partnerSoundVal, setPartnerSoundVal] = useState(50);
+  const [blockToggle, setBlockToggle] = useState(false);
+
+  const isShowBlockModal = useSelector((state) => state.mt.isShowBlockModal);
+  const closeAlertToggle = useSelector((state) => state.mt.closeAlertToggle);
+  const camOpenToggle = useSelector((state) => state.mt.camOpenToggle);
+  const sendRoomName = useSelector((state) => state.mt.roomNumber);
+  const partnerInterests = useSelector((state) => state.mt.partnerInterests);
+  const partnerNick = useSelector((state) => state.mt.partnerNick);
 
   // 컴퓨터와 연결되어있는 모든 장치를 가져옴
   const getCameras = async () => {
@@ -99,25 +113,6 @@ function MeetingIn() {
       videoSender.replaceTrack(videoTrack);
     }
   }
-
-  const [lightToggle, setLightToggle] = useState(false);
-  const [smileToggle, setSmileToggle] = useState(false);
-  const [camToggle, setCamToggle] = useState(true);
-  const [myMicToggle, setMyMicToggle] = useState(true);
-  const [partnerMicToggle, setPartnerMicToggle] = useState(true);
-  const [mysoundToggle, setMySoundToggle] = useState(false);
-  const [partnerSoundToggle, setPartnerSoundToggle] = useState(false);
-  const [mySoundVal, setMySoundVal] = useState(50);
-  const [partnerSoundVal, setPartnerSoundVal] = useState(50);
-  const [blockToggle, setBlockToggle] = useState(false);
-
-  const dispatch = useDispatch();
-  const isShowBlockModal = useSelector((state) => state.mt.isShowBlockModal);
-  const closeAlertToggle = useSelector((state) => state.mt.closeAlertToggle);
-  const camOpenToggle = useSelector((state) => state.mt.camOpenToggle);
-  const sendRoomName = useSelector((state) => state.mt.roomNumber);
-  const partnerInterests = useSelector((state) => state.mt.partnerInterests);
-  const partnerNick = useSelector((state) => state.mt.partnerNick);
 
   // socket Code
 
