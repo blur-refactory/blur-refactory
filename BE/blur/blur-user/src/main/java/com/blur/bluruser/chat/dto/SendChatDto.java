@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SendChatDto {
+    private String userId;
+    private String nickname;
     private String message;
     private String formattedCreatedAt;
     private double score;

@@ -15,9 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Chatroom {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chatroom_id")
-    private int id;
+    private String id;
     private String maleName;
 
     private String femaleName;
@@ -26,6 +25,6 @@ public class Chatroom {
 
     private String femaleEmail;
 
-    @OneToMany(mappedBy = "chat")
+    @OneToMany(mappedBy = "chatroom")
     private List<Chat> chats = new ArrayList<>();
 }
