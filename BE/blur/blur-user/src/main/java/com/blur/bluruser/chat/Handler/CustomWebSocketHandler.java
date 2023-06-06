@@ -34,14 +34,6 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
         roomSessions.put(roomId, session);
     }
 
-//    public WebSocketSession getSession(String userId, String roomId) {
-//        Map<String, WebSocketSession> roomSessions = userSessions.get(userId);
-//        if (roomSessions != null) {
-//            return roomSessions.get(roomId);
-//        }
-//        return null;
-//    }
-
     public String getUserId(WebSocketSession session) {
         return (String) session.getAttributes().get("id");
     }
@@ -82,8 +74,8 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
         String roomId = getRoomId(session);
 
         if (receivedMessage.getNickname() != null) {
-            ChatDto chatDto = chatSendService.sendChat(userId, roomId, receivedMessage.getNickname(), receivedMessage.getMessage());
-            sendMessageToUser(roomId, chatDto);
+            ChatDto chatDto = chatSendService.sendChat(userId, roomId, receivedMessage);
+            sendMessageToUser(userId, roomId, chatDto);
         }
 
         if (receivedMessage.getCursor() != null) {
@@ -120,12 +112,12 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
      * @param chatDto
      * @throws Exception
      */
-    public void sendMessageToUser(String roomId, ChatDto chatDto) throws Exception {
+    public void sendMessageToUser(String userId, String roomId, ChatDto chatDto) throws Exception {
         for (Map<String, WebSocketSession> roomSessions : userSessions.values()) {
             WebSocketSession session = roomSessions.get(roomId);
             if (session != null && session.isOpen()) {
                 session.sendMessage(new TextMessage(objectMapper.writeValueAsString(
-                                new SendChatDto(chatDto.getUserId(),
+                                new SendChatDto(userId,
                                         chatDto.getNickname(),
                                         chatDto.getMessage(),
                                         chatDto.getFormattedCreatedAt(),
