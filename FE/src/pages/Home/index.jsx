@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { MYGENDER, MYGEO } from "../../redux/reducers/MToggle";
+import { MTOGGLE, MYGENDER, MYGEO } from "../../redux/reducers/MToggle";
 import { saveToken, ISMYPROFILE } from "../../redux/reducers/saveToken";
 
 import Header from "../../components/Common/Header";
@@ -40,7 +40,7 @@ function Home() {
   // startVideo 함수 실행하면 자신의 모습 볼수있음
   const videoRef = useRef(null);
   const CONSTRAINTS = {
-    video: { width: { exact: 440 }, height: { exact: 340 } },
+    video: { width: { exact: 50 }, height: { exact: 36 } },
   };
 
   const startVideo = async () => {
@@ -107,47 +107,46 @@ function Home() {
      *         실패 시 : 알람 띄움
      */
     // console.log(`profiled: ${profiled}`);
-    // dispatch(MTOGGLE(true));
-    // navigate("/meeting");
+    dispatch(MTOGGLE(true));
+    navigate("/meeting");
 
-    if (profiled) {
-      // meeting Not In 로 이동
-      if (!alert("미팅 대기 페이지로 이동합니다.")) {
-        // 데이터 백에 넘겨줌
-        navigator.geolocation.getCurrentPosition((loc) => {
-          console.log(
-            `lat: ${loc.coords.latitude}, lng: ${loc.coords.longitude}`
-          );
-          dispatch(
-            MYGEO({ lat: loc.coords.latitude, lng: loc.coords.longitude })
-          );
-          const matchStartReqData = {
-            lat: loc.coords.latitude,
-            lng: loc.coords.longitude,
-            userId: userId,
-          };
-          console.log(CustomAxios);
-          CustomAxios.post(`/api/match/start`, matchStartReqData)
-            .then((res) => {
-              // [response data : myGender/partnerId/sessionId(방번호)] - OXX
-              dispatch(MYGENDER(res.data.myGender));
-              alert("start: 백에 통신 성공");
+    // if (profiled) {
+    //   // meeting Not In 로 이동
+    //   if (!alert("미팅 대기 페이지로 이동합니다.")) {
+    //     // 데이터 백에 넘겨줌
+    //     navigator.geolocation.getCurrentPosition((loc) => {
+    //       console.log(
+    //         `lat: ${loc.coords.latitude}, lng: ${loc.coords.longitude}`
+    //       );
+    //       dispatch(
+    //         MYGEO({ lat: loc.coords.latitude, lng: loc.coords.longitude })
+    //       );
+    //       const matchStartReqData = {
+    //         lat: loc.coords.latitude,
+    //         lng: loc.coords.longitude,
+    //         userId: userId,
+    //       };
+    //       CustomAxios.post(`/api/match/start`, matchStartReqData)
+    //         .then((res) => {
+    //           // [response data : myGender/partnerId/sessionId(방번호)] - OXX
+    //           dispatch(MYGENDER(res.data.myGender));
+    //           alert("start: 백에 통신 성공");
 
-              // 성공 시 미팅 페이지로 이동
-              clearTimeout(carousel);
-              navigate("/meeting");
-            })
-            .catch((err) => {
-              console.log(err);
-              alert(
-                "error\n서버와 통신에 실패했습니다.\n잠시후 다시 한번 시도해 주세요!"
-              );
-            });
-        });
-      }
-    } else {
-      showAlertModal();
-    }
+    //           // 성공 시 미팅 페이지로 이동
+    //           clearTimeout(carousel);
+    //           navigate("/meeting");
+    //         })
+    //         .catch((err) => {
+    //           console.log(err);
+    //           alert(
+    //             "error\n서버와 통신에 실패했습니다.\n잠시후 다시 한번 시도해 주세요!"
+    //           );
+    //         });
+    //     });
+    //   }
+    // } else {
+    //   showAlertModal();
+    // }
   };
   //프로필 설정페이지로 가는 함수
   const goMyInfo = () => {

@@ -313,15 +313,21 @@ function MeetingIn() {
 
   // (관심사/이미지가 켜져있을 때) 바깥 배경 누르게되면 토글 off 처리
   const lightAndSmileBgOut = () => {
-    // if (smileToggle) {
-    //   setSmileToggle((prev) => !prev);
-    //   document.querySelector(".clickSmileChangeDiv").classList.replace("clickSmileChangeDiv", "basicSmileChangeDiv");
-    // }
-    // if (lightToggle) {
-    //   setLightToggle((prev) => !prev);
-    //   document.querySelector(".clickLight").classList.replace("clickLight", "basicLight");
-    //   document.querySelector(".clickLightChangeDiv").classList.replace("clickLightChangeDiv", "basicLightChangeDiv");
-    // }
+    if (smileToggle) {
+      setSmileToggle((prev) => !prev);
+      document
+        .querySelector(".clickSmileChangeDiv")
+        .classList.replace("clickSmileChangeDiv", "basicSmileChangeDiv");
+    }
+    if (lightToggle) {
+      setLightToggle((prev) => !prev);
+      document
+        .querySelector(".clickLight")
+        .classList.replace("clickLight", "basicLight");
+      document
+        .querySelector(".clickLightChangeDiv")
+        .classList.replace("clickLightChangeDiv", "basicLightChangeDiv");
+    }
   };
 
   // 나의 캠 토글
@@ -448,6 +454,7 @@ function MeetingIn() {
   // 나의 캠 세팅 토글
   const showSetting = () => {
     dispatch(CAM_OPEN_TOGGLE(true));
+    console.log("hi");
   };
 
   if (!firstRendering) {

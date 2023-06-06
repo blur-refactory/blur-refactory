@@ -1,4 +1,4 @@
-import slideImage5 from "../../../../assets/images/slideImage5.jpg";
+import slideImage5 from "../../../../assets/images/slideImage4.svg";
 
 function Slide5() {
   return (
