@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PortListener implements ApplicationListener<ServletWebServerInitializedEvent> {
-
     @Override
     public void onApplicationEvent(ServletWebServerInitializedEvent servletWebServerInitializedEvent) {
         ServletWebServerApplicationContext applicationContext = servletWebServerInitializedEvent.getApplicationContext();

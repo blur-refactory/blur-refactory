@@ -1,5 +1,5 @@
 server:
-  port: 9999
+  port: 8080
 
 spring:
   application:
@@ -13,21 +13,17 @@ spring:
   # 데이터 소스 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://i8b307.p.ssafy.io:3307/blurAuth?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
-#    url: jdbc:mysql://localhost:3306/ssafy?createDatabaseIfNotExist=true
+    url: jdbc:mysql://blurblur.kr:3306/blur_auth?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
     username: blur
-    password: blur
-#    username: ssafy
-#    password: ssaft
-    hikari:
-      pool-name: jpa-hikari-pool
-      maximum-pool-size: 5
-      jdbc-url: ${spring.datasource.url}
-      username: ${spring.datasource.username}
-      password: ${spring.datasource.password}
-      driver-class-name: ${spring.datasource.driver-class-name}
-      data-source-properties:
-        rewriteBatchedStatements: true
+    password: blurblur
+
+  #redis 설정
+  redis:
+    host: blurblur.kr
+    port: 6379
+    username: blur
+    password: blurblur
+
   # JPA 설정
   jpa:
     generate-ddl: false
@@ -45,53 +41,39 @@ spring:
         order_inserts: true
         order_updates: true
         format_sql: true
-  
-  #redis 설정
-  redis:
-    host: 127.0.0.1
-    port: 6379
-  
+
+  logging.level:
+    #    org.hibernate.SQL: debug
+    #    org.hibernate.type: trace
+    #    org.springframework.security: DEBUG
+    #    org.springframework.security.oauth2: TRACE
+    org.hibernate.SQL: error
+    org.hibernate.type: error
+    org.springframework.security: error
+    org.springframework.security.oauth2: error
+
   # Security OAuth
   security:
-    oauth2.client:
-      registration:
-        google:
-          clientId: '871343491779-e59od5bh6t12qa41cce5lkbu4ok745s5.apps.googleusercontent.com'
-          clientSecret: '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'
-          scope:
-            - email
-        naver:
-          clientId: 'kbnqJ8MXe1ujGFy2Bd77'
-          clientSecret: 'FhgB0qWTta'
-          clientAuthenticationMethod: post
-          authorizationGrantType: authorization_code
-          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
-          scope:
-            - email
-          clientName: Naver
-        kakao:
-          clientId: '2820dd0f9d4da11c57a25ab3f29de16c'
-          clientSecret: 'cXiw9put8fVqQ0rW436JqzJIdtSyRDWp'
-          clientAuthenticationMethod: post
-          authorizationGrantType: authorization_code
-          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
-          scope:
-            - account_email
-          clientName: Kakao
-          
-      # Provider 설정
-      provider:
-        naver:
-          authorizationUri: https://nid.naver.com/oauth2.0/authorize
-          tokenUri: https://nid.naver.com/oauth2.0/token
-          userInfoUri: https://openapi.naver.com/v1/nid/me
-          userNameAttribute: response
-        kakao:
-          authorizationUri: https://kauth.kakao.com/oauth/authorize
-          tokenUri: https://kauth.kakao.com/oauth/token
-          userInfoUri: https://kapi.kakao.com/v2/user/me
-          userNameAttribute: id
-          
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 2820dd0f9d4da11c57a25ab3f29de16c
+            client-secret: cXiw9put8fVqQ0rW436JqzJIdtSyRDWp
+#            redirect-uri: http://blurblur.kr/api/login/oauth2/code/kakao
+            redirect-uri: http://localhost:8080/api/login/oauth2/code/kakao
+            client-authentication-method: POST
+            authorization-grant-type: authorization_code
+            client-name: Kakao
+
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+
 mail:
   host: smtp.gmail.com
   port: 465
@@ -106,37 +88,22 @@ mail:
       trust: smtp.gmail.com
       enable: true
 
-# Eureka 설정
-eureka:
-  instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-  client:
-    service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
-    fetch-registry: true
-    register-with-eureka: true
+jwt:
+  secretKey: SN5OUPJANIZLB/hZ1q7CsJbHvvuZ5xahm6DZMxTZyDI=
 
-# cors 설정
-#cors:
-##  allowed-origins: 'http://localhost:3000'
-#  allowed-origins: '*'
-#  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
-#  allowed-headers: '*'
-#  max-age: 3600
+  access:
+    expiration: 1800000 # 1??(60?) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h)) 밀리초
+    header: Authorization
 
-# jwt secret key 설정
-jwt.secret: '8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds'
+  refresh:
+    expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> ??) * 14(2?)) 밀리초
 
-# 토큰 관련 secret Key 및 RedirectUri 설정
-app:
-  auth:
-    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
-    tokenExpiry: 1800000
-    refreshTokenExpiry: 604800000
-  oauth2:
-    authorizedRedirectUris:
-      - https://i8b307.p.ssafy.io/oauth/redirect
+cookie:
+  access:
+    expiration: 1800 # 초
+
+  refresh:
+    expiration: 1209600 # 초
+
       
 
-#token:
-#  secret: blurUserTokenblurUserTokenblurUserTokenblurUserTokenblurUserTokenblurUserTokenblurUserTokenblurUserToken
