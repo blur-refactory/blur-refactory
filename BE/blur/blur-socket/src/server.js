@@ -6,8 +6,12 @@ import { Server as SocketIO } from "socket.io";
 import cors from "cors";
 
 const app = express();
+const corsOpt = {
+  origin: "https://blurblur.kr",
+  credentials: true,
+};
 
-app.use(cors());
+app.use(cors(corsOpt));
 
 // express를 이용해 http 서버를 만듦(노출 서버)
 const server = https.createServer(
@@ -20,7 +24,7 @@ const server = https.createServer(
   },
   app
 );
-server.listen(5000);
+
 
 
 // 로컬 / ec2서버
@@ -82,3 +86,4 @@ io.on("connection", (socket) => {
   });
 });
 const handleListen = () => console.log(`Listening on https://blurblur.kr`);
+server.listen(5000);
