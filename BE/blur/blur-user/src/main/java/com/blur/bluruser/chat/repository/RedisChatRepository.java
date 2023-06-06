@@ -5,5 +5,6 @@ import com.blur.bluruser.chat.dto.LatestChatsResultDto;
 
 public interface RedisChatRepository {
     void save(ChatDto chatDto);
-    LatestChatsResultDto getLatestChats(String memberEmail, double lastScore);
+    LatestChatsResultDto getLatestChats(String roomId, double lastScore);
+    boolean delete(String roomId, double deleteStart, double deleteEnd);
 }

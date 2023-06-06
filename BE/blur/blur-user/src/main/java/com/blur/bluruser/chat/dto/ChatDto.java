@@ -13,9 +13,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class ChatDto {
-    private String id;
+    private String userId;
+    private String nickname;
     private String message;
-    private int ChatroomId;
+    private String roomId;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
     private String formattedCreatedAt;

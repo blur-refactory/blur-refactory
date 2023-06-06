@@ -3,6 +3,8 @@ package com.blur.bluruser.chat.config;
 import com.blur.bluruser.chat.Handler.CustomHandshakeInterceptor;
 import com.blur.bluruser.chat.Handler.CustomWebSocketHandler;
 import com.blur.bluruser.chat.service.ChatMakeService;
+import com.blur.bluruser.chat.service.ChatSendService;
+import com.blur.bluruser.chat.utils.ChatUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +18,8 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketConfigurer {
     private final ChatMakeService chatMakeService;
-
+    private final ChatSendService chatSendService;
+    private final ChatUtils chatUtils;
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(customWebSocketHandler(), "/ws")
@@ -26,7 +29,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public CustomWebSocketHandler customWebSocketHandler() {
-        return new CustomWebSocketHandler(chatMakeService);
+        return new CustomWebSocketHandler(chatMakeService, chatSendService, chatUtils);
     }
 
     @Bean
