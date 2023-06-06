@@ -117,7 +117,7 @@ pipeline {
 						}
 					}
 					steps {
-						dir('socket-service') {
+						dir('BE/blur/blur-socket') {
 							sh 'npm install'
 							sh 'echo -e "REACT_APP_API_ROOT=\'${REACT_APP_API_ROOT}\'" > .env'
 							sh 'docker build -t ${DOCKER_REGISTRY}:${SOCKET_SERVICE_IMAGE_TAG} .'
