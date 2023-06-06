@@ -107,6 +107,9 @@ function Home() {
      *         실패 시 : 알람 띄움
      */
     // console.log(`profiled: ${profiled}`);
+    // dispatch(MTOGGLE(true));
+    // navigate("/meeting");
+
     if (profiled) {
       // meeting Not In 로 이동
       if (!alert("미팅 대기 페이지로 이동합니다.")) {

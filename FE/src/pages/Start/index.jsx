@@ -12,15 +12,7 @@ import ModalWrap from "../../components/Start/ModalWrap";
 import SignUp from "../../components/Start/SignUp";
 import SearchPw from "../../components/Start/SearchPw";
 import Alert from "../../components/Start/Alert";
-import { io } from "socket.io-client";
 
-let socket = io("https://blurblur.kr", {
-  path: "/socket",
-  transports: ["websocket"],
-  secure: true,
-});
-
-console.log(`socket: `, socket);
 function Start() {
   const [signInModal, setSignInModal] = useState(false);
   const [signUpModal, setSignUpModal] = useState(false);
@@ -38,14 +30,12 @@ function Start() {
     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
   });
 
-  socket.on('error', function()
-  {
-      console.log("Sorry, there seems to be an issue with the connection!");
+  socket.on("error", function () {
+    console.log("Sorry, there seems to be an issue with the connection!");
   });
 
-  socket.on('connect_error', function(err)
-  {
-      console.log("connect failed"+err);
+  socket.on("connect_error", function (err) {
+    console.log("connect failed" + err);
   });
 
   const showSignInModal = () => {

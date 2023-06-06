@@ -15,8 +15,16 @@ import SettingModal from "../../../components/Meeting/SettingModal";
 import ProgressBar from "../../../components/Meeting/ProgressBar";
 import BlockModal from "../../../components/Meeting/BlockModal";
 import Alert from "../../../components/Start/Alert";
+import Imoticon from "../../../components/Meeting/Imoticon";
+import LightTag from "../../../components/Meeting/LightTag";
+import MyCamSubDiv from "../../../components/Meeting/MyCamSubDiv";
 
-let socket = null;
+let socket = io("https://blurblur.kr", {
+  path: "/socket",
+  transports: ["websocket", "polling"],
+  secure: true,
+});
+console.log(`socket: `, socket);
 let roomName;
 let myPeerConnection;
 let myStream;
@@ -204,7 +212,7 @@ function MeetingIn() {
       //     transports: ["websocket", "polling"],
       //     secure: true,
       // });
-      // 인터벌 초기화 해줘야 함!!!!!!!!!!!!!!!!!!!!!!! -> 인터벌 왜쓰는지부터 알기
+      // 인터벌 초기화 해줘야 함!!!!!!!!!!!!!!!!!!!!!!!
       navigate("/home");
     });
   }
@@ -233,7 +241,6 @@ function MeetingIn() {
       myStream
         .getTracks()
         .forEach((track) => myPeerConnection.addTrack(track, myStream));
-
       console.log(`makeConnection이 성공했습니다.`);
     } catch (error) {
       console.log(`${error} makeConnection이 실패했습니다.`);
@@ -489,71 +496,32 @@ function MeetingIn() {
     <div className="MeetingIn">
       <div className="MeetingIn_CamDiv">
         <select id="cameras" onChange={handleCameraChange}></select>
-
         {closeAlertToggle ? (
           <Alert
             showAlertModal={showAlertModal}
             content="신고가 완료되었습니다:)"
           />
-        ) : (
-          ""
-        )}
+        ) : undefined}
         {isShowBlockModal ? <BlockModal /> : ""}
         {camOpenToggle ? <SettingModal /> : ""}
         <div className="tempBackDiv" onClick={lightAndSmileBgOut}></div>
         <div className="MLeftDiv1">
-          <div className="ImotionDiv">
-            <div className="Imotion1"></div>
-            <div className="Imotion2"></div>
-            <div className="Imotion3"></div>
-            <div className="Imotion4"></div>
-            <div className="Imotion5"></div>
-            <div className="Imotion6"></div>
-            <div className="Imotion7"></div>
-          </div>
+          <Imoticon />
           <div className="ImotionBtn" onClick={showSmile}></div>
           <div className="MMyCamDiv">
             <video className="MMyCamDiv1" autoPlay playsInline></video>
           </div>
-          <div className="MMyCamSubDiv">
-            <span className="MMyCamSubText">My Camera</span>
-            <div className="MMyCamSubBtnsDiv">
-              <div
-                className="MMyCamSubCamSettingBtn"
-                onClick={showSetting}
-              ></div>
-              <div
-                className="MMyCamSubCamToggleBtn camOn"
-                onClick={showCam}
-              ></div>
-              <div
-                className="MMyCamSubMicBtn myMicOn"
-                onClick={openMyMic}
-              ></div>
-              <div className="MMyCamSubSoundBtn" onClick={showMySound}></div>
-              <div className="MMyCamSubSoundDesc">
-                <div className="MMyCamSubSoundDescTop"></div>
-                <div className="MMyCamSubSoundDescMain"></div>
-                <span className="MMyCamSubSoundDescSoundVal">{mySoundVal}</span>
-                <div className="MMyCamSubSoundDescBar">
-                  <div className="range-slider">
-                    <input
-                      type="range"
-                      className="slider"
-                      min="0"
-                      max="100"
-                      onChange={onChangeMySoundSlider}
-                    ></input>
-                    <div className="progressSlider"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <MyCamSubDiv
+            showSetting={showSetting}
+            showCam={showCam}
+            openMyMic={openMyMic}
+            showMySound={showMySound}
+            mySoundVal={mySoundVal}
+            onChangeMySoundSlider={onChangeMySoundSlider}
+          />
         </div>
         <div className="MRightDiv1">
-          <div className="lightTagsDiv"></div>
-          <div className="lightTagBtn" onClick={showLight}></div>
+          <LightTag showLight={showLight} />
           <div className="MPartenerCamDiv">
             <div className="blurEffect"></div>
             <video className="MPartenerCamDiv1" autoPlay playsInline></video>

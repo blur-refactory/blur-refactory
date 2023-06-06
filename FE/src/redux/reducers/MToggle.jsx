@@ -87,4 +87,16 @@ const MToggle = createSlice({
 
 // 리듀서메서드명.reducer에 해당 리듀서가 담겨있음
 export default MToggle.reducer;
-export const { MTOGGLE, BTOGGLE, ROOM_NUM, CLOSE_ALERT_TOGGLE, CAM_OPEN_TOGGLE, MYGENDER, MYGEO, PARTNERINTERESTS, PARTNERNICK, PARTNERID, ROOMTOKEN } = MToggle.actions;
+export const {
+  MTOGGLE,
+  BTOGGLE,
+  ROOM_NUM,
+  CLOSE_ALERT_TOGGLE,
+  CAM_OPEN_TOGGLE,
+  MYGENDER,
+  MYGEO,
+  PARTNERINTERESTS,
+  PARTNERNICK,
+  PARTNERID,
+  ROOMTOKEN,
+} = MToggle.actions;
