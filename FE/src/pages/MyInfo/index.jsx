@@ -116,10 +116,10 @@ function MyInfo() {
         onClick={() => {
           navigate("/home");
         }}
-        className="MIbackbtn"
-      >
+        className="MIbackbtn">
         out
       </div>
+
       <div className="MIImgDiv">
         {proFile.image ? (
           <img className="MIImg" src={proFile.image} />
@@ -132,8 +132,7 @@ function MyInfo() {
         <div
           className="showint"
           onClick={showHashModal}
-          disabled={alertModal === true ? true : false}
-        >
+          disabled={alertModal === true ? true : false}>
           {userInterests.map((item, idx) => {
             return (
               <div className="showintdiv" key={item.userinterests}>
@@ -148,14 +147,13 @@ function MyInfo() {
         <div
           className="MIHashSet"
           onClick={showHashModal}
-          disabled={alertModal === true ? true : false}
-        >
+          disabled={alertModal === true ? true : false}>
           <div className="MIHashSetIcon">
             <span className="MIHashSetText">설정하기</span>
           </div>
         </div>
       )}
-      {/*  */}
+
       <div className="MINameAgeDiv">
         <span className="MIAge"> {age === "" ? proFile.age : age}</span>
         <span className="MIName">{user === "" ? proFile.nickname : user}</span>
@@ -172,8 +170,7 @@ function MyInfo() {
         onClick={() => {
           showMyinfoModal();
         }}
-        disabled={alertModal === true ? true : false}
-      >
+        disabled={alertModal === true ? true : false}>
         profile edit
       </div>
     </div>

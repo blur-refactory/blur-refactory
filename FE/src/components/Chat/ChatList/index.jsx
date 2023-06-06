@@ -13,7 +13,7 @@ function ChatList({ showChatPage }) {
     const fetchedChatRooms = [
       {
         id: "chat_room_1",
-        name: "상대방 이름",
+        nickname: "상대방 이름",
         picture: "상대방 사진 URL",
         lastMessage: "웹소켓에서 마지막으로 보낸 메시지",
         unreadCount: 5,
@@ -27,9 +27,7 @@ function ChatList({ showChatPage }) {
     <div className="ChatBackground">
       <div className="ChatHeader">
         <div className="ChatHeaderEmoticon"></div>
-        <div className="ChatHeaderText">
-          <h3>Chatting</h3>
-        </div>
+        <div className="ChatHeaderText">Chatting</div>
       </div>
       <div className="ChatList">
         {chatRooms.map((chatRoom) => (

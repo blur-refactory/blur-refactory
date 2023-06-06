@@ -9,7 +9,7 @@ function ChatItem({ chatRoom, showChatPage }) {
     <div className="ChatItem" onClick={showChatPage}>
       <div className="ChatPicture">
         {/* 여기에는 상대방의 사진을 렌더링합니다. */}
-        <img src={chatRoom.picture} alt={chatRoom.name} />
+        <img src={chatRoom.picture} />
       </div>
       <div className="ChatContent">
         <div className="ChatName">

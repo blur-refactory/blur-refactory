@@ -1,9 +1,11 @@
-function ChatPageDialogueYou({ content }) {
+import React from "react";
+
+function ChatPageDialogueYou({ content, picture }) {
   return (
     <div className="ChatPageDialogueYou">
       <div className="ChatPageDialogueContent">{content}</div>
       <div className="ChatPageProfilePicture">
-        db에 저장되어있는 상대방 사진 띄워야 하고
+        <img src={picture} alt="상대방 프로필 사진" />
       </div>
     </div>
   );

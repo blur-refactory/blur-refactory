@@ -16,9 +16,7 @@ import ProgressBar from "../../../components/Meeting/ProgressBar";
 import BlockModal from "../../../components/Meeting/BlockModal";
 import Alert from "../../../components/Start/Alert";
 
-let socket = io("wss://i8b307.p.ssafy.io/socket.io", {
-  cors: { origin: "*", credentials: false },
-});
+let socket = null;
 console.log(`socket: `, socket);
 let roomName;
 let myPeerConnection;
@@ -519,16 +517,13 @@ function MeetingIn() {
             <div className="MMyCamSubBtnsDiv">
               <div
                 className="MMyCamSubCamSettingBtn"
-                onClick={showSetting}
-              ></div>
+                onClick={showSetting}></div>
               <div
                 className="MMyCamSubCamToggleBtn camOn"
-                onClick={showCam}
-              ></div>
+                onClick={showCam}></div>
               <div
                 className="MMyCamSubMicBtn myMicOn"
-                onClick={openMyMic}
-              ></div>
+                onClick={openMyMic}></div>
               <div className="MMyCamSubSoundBtn" onClick={showMySound}></div>
               <div className="MMyCamSubSoundDesc">
                 <div className="MMyCamSubSoundDescTop"></div>
@@ -541,8 +536,7 @@ function MeetingIn() {
                       className="slider"
                       min="0"
                       max="100"
-                      onChange={onChangeMySoundSlider}
-                    ></input>
+                      onChange={onChangeMySoundSlider}></input>
                     <div className="progressSlider"></div>
                   </div>
                 </div>
@@ -563,25 +557,21 @@ function MeetingIn() {
               <div className="MPartenerCamSubExitBtn" onClick={hangUp}></div>
               <div
                 className="MPartenerCamSubBlockBtn"
-                onClick={openBlock}
-              ></div>
+                onClick={openBlock}></div>
               <div className="MPartenerCamSubBlockDesc">
                 <div className="MPartenerCamSubBlockDescTop"></div>
                 <div
                   className="MPartenerCamSubBlockDescMain"
-                  onClick={showBlockModal}
-                >
+                  onClick={showBlockModal}>
                   <span className="MPartenerCamSubBlockDescText">Report</span>
                 </div>
               </div>
               <div
                 className="MPartenerCamSubMicBtn partMicOn"
-                onClick={openPartnerMic}
-              ></div>
+                onClick={openPartnerMic}></div>
               <div
                 className="MPartenerCamSubSoundBtn"
-                onClick={showPartnerSound}
-              ></div>
+                onClick={showPartnerSound}></div>
               <div className="MPartenerCamSubSoundDesc">
                 <div className="MPartenerCamSubSoundDescTop"></div>
                 <div className="MPartenerCamSubSoundDescMain"></div>
@@ -595,8 +585,7 @@ function MeetingIn() {
                       className="partSlider"
                       min="0"
                       max="100"
-                      onChange={onChangePartnerSoundSlider}
-                    ></input>
+                      onChange={onChangePartnerSoundSlider}></input>
                     <div className="partProgressSlider"></div>
                   </div>
                 </div>

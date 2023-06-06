@@ -2,41 +2,42 @@ import React, { useEffect, useState } from "react";
 import "./index.css";
 import ChatPageDialogueMe from "./ChatDialogueMe";
 import ChatPageDialogueYou from "./ChatDialogueYou";
-import chatsocket from "../chatsocket";
 
 function ChatPage({ showChatPage }) {
-  // useState를 사용하여 현재 입력된 메시지와 이전 메시지를 저장하는 상태를 만듭니다.
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState(""); // 현재 입력된 메시지를 상태로 관리
+  const [messages, setMessages] = useState([]); // 이전 메시지를 상태로 관리
 
-  // useEffect를 사용하여 컴포넌트가 마운트될 때 웹소켓 리스너를 설정합니다.
   useEffect(() => {
-    // 'new message' 이벤트를 수신할 때마다, 이전 메시지에 새 메시지를 추가합니다.
-    chatsocket.on("new message", (data) => {
+    const chatsocket = new WebSocket("wss://www.shinemustget.com/api/ws");
+
+    // 웹소켓으로부터 새 메시지를 수신할 때마다 이전 메시지에 새 메시지를 추가
+    chatsocket.addEventListener("message", (event) => {
+      const data = JSON.parse(event.data);
       setMessages((prevMessages) => [...prevMessages, data]);
     });
 
-    // 컴포넌트가 언마운트될 때 이 리스너를 제거합니다.
+    // 컴포넌트가 언마운트될 때 웹소켓 연결을 닫음
     return () => {
-      chatsocket.off("new message");
+      chatsocket.close();
     };
   }, []);
 
-  // 메시지 입력 필드의 값이 변경될 때마다 이 함수가 호출되어 상태를 업데이트합니다.
+  // 메시지 입력 필드의 값이 변경될 때 호출되어 상태를 업데이트
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
   };
 
-  // "send message" 버튼이 클릭되었을 때 이 함수가 호출됩니다.
+  // "send message" 버튼 클릭 시 현재 입력된 메시지를 서버로 전송하고 입력 필드를 비움
   const handleSendClick = () => {
-    // 현재 입력된 메시지를 서버로 전송합니다.
-    chatsocket.emit("new message", { text: message });
-    // 메시지를 전송한 후에는 입력 필드를 비웁니다.
+    const chatsocket = new WebSocket("wss://www.blurblur.kr/user-service/ws");
+    chatsocket.addEventListener("open", () => {
+      chatsocket.send(JSON.stringify({ text: message }));
+      chatsocket.close();
+    });
     setMessage("");
   };
 
   return (
-    // 이 아래는 React 컴포넌트의 렌더링 부분입니다. HTML과 유사한 JSX 문법을 사용합니다.
     <div className="ChatPageBack">
       <div className="ChatPageHeader">
         <div className="ChatPageHeaderBtn" onClick={showChatPage}></div>
@@ -44,7 +45,7 @@ function ChatPage({ showChatPage }) {
       </div>
       <div className="ChatPageContent">
         <div className="ChatPageDialogue">
-          {/* 이전에 받았던 모든 메시지를 순회하면서 화면에 표시합니다. */}
+          {/* 이전에 받은 모든 메시지를 순회하면서 화면에 표시 */}
           {messages.map((message, index) =>
             message.sender === "me" ? (
               <ChatPageDialogueMe key={index} content={message.text} />
@@ -60,9 +61,9 @@ function ChatPage({ showChatPage }) {
               value={message}
               onChange={handleMessageChange}
             />
-            <button className="ChatPageInputButton" onClick={handleSendClick}>
-              Send message
-            </button>
+            <button
+              className="ChatPageInputButton"
+              onClick={handleSendClick}></button>
           </div>
         </div>
       </div>

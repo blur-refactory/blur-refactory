@@ -18,7 +18,6 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
   const id = useSelector((state) => {
     return state.strr.id;
   });
-  // const id = "123123";
 
   // 컴포넌트 켜지자말자 데이터 받아 오기
   const [proFile, setProFile] = useState([]);
