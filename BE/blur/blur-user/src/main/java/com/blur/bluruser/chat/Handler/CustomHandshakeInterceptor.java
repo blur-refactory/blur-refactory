@@ -9,8 +9,6 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Slf4j
 public class CustomHandshakeInterceptor implements HandshakeInterceptor {
