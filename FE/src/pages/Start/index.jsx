@@ -34,13 +34,8 @@ function Start() {
   const ref3 = useRef(null);
   const ref4 = useRef(null);
 
-  socket.on("welcome", async () => {
-    console.log("node로 부터 온 welcome ");
-    // const offer = await myPeerConnection.createOffer();
-    // myPeerConnection.setLocalDescription(offer);
-    // // console.log(myPeerConnection.setLocalDescription(offer));
-    // console.log("send the offer");
-    // socket.emit("offer", offer, roomName);
+  socket.on("connect", () => {
+    console.log(socket.id); // x8WIv7-mJelg7on_ALbx
   });
 
   const showSignInModal = () => {
