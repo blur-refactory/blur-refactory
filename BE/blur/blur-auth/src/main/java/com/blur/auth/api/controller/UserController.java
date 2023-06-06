@@ -14,6 +14,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+//TODO: 전반적으로 DTO를 구성하지 않는 상황이 있는데, Dto를 좀 많이 고쳐야 할 것 같다.
 public class UserController {
     private final EmailService emailService;
     private final UserService userService;

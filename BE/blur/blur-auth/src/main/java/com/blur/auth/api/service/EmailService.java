@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 public class EmailService {
 	
     private final JavaMailSender mailSender;
-//    private RedisRepository redisRepository;
     private final RedisTemplate<String, String> redisTemplate;
 
     @Value("${mail.username}")
@@ -72,9 +71,7 @@ public class EmailService {
 
     public String sendAuthMessage(String to) throws Exception {
         String ePw = createKey();
-        System.out.println("1");
         String message = createMessage(to, ePw);
-        System.out.println("2");
         EmailHandler emailHandler = new EmailHandler(mailSender);
         emailHandler.setTo(to);
         emailHandler.setSubject("이메일 인증 테스트");
@@ -97,7 +94,6 @@ public class EmailService {
     
     
     public Boolean getAuthKey(String email, String authKey) {
-//    	if(authKey == redisRepository.findByEmail(email).getAuthKey())
     	System.out.println(authKey + " " + redisTemplate.opsForValue().get(email));
     	System.out.println(redisTemplate.opsForValue().get(email).getClass().getName());
     	if(authKey.equals(redisTemplate.opsForValue().get(email)))

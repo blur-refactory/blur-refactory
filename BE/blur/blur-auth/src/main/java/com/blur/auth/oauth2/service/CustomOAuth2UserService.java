@@ -1,6 +1,6 @@
 package com.blur.auth.oauth2.service;
 
-import com.blur.auth.api.entity.SocialType;
+import com.blur.auth.api.dto.SocialType;
 import com.blur.auth.api.entity.User;
 import com.blur.auth.api.repository.UserRepository;
 import com.blur.auth.oauth2.CustomOAuth2User;

@@ -2,7 +2,7 @@ package com.blur.auth.api.service;
 
 import com.blur.auth.api.dto.UserSignUpDto;
 import com.blur.auth.api.entity.User;
-import com.blur.auth.api.entity.Role;
+import com.blur.auth.api.dto.Role;
 import com.blur.auth.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

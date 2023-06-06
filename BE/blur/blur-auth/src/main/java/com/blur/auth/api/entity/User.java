@@ -1,5 +1,7 @@
 package com.blur.auth.api.entity;
 
+import com.blur.auth.api.dto.Role;
+import com.blur.auth.api.dto.SocialType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;

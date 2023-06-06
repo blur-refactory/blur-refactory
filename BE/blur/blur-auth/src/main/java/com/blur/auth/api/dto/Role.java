@@ -1,4 +1,4 @@
-package com.blur.auth.api.entity;
+package com.blur.auth.api.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
