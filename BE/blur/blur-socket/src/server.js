@@ -40,7 +40,7 @@ const io = new SocketIO(server, {
     // 배포시
     origin: "https://blurblur.kr",
   },
-  transports: ["websocket", "polling"],
+  transports: ["websocket"],
   allowEIO3: true,
 });
 app.set("io", io);
