@@ -26,21 +26,27 @@ server.listen(5000);
 // httpServer.listen: 3001  /  https://i8b307.p.ssafy.io
 
 // // http 서버 위에 ws(webSocket) 서버를 만듦
-const wsServer = new Server(httpServer, {
+const io = SocketIO(server, {
+  path: "/socket",
   cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-    credentials: true,
+    // 개발시
+    // origin: "http://localhost:3000",
+    // 배포시
+    origin: "https://blurblur.kr",
   },
+  transports: ["websocket", "polling"],
+  allowEIO3: true,
 });
+app.set("io", io);
+
 
 const {
   sockets: {
     adapter: { sids, rooms },
   },
-} = wsServer;
+} = io;
 
-wsServer.on("connection", (socket) => {
+io.on("connection", (socket) => {
   console.log("connecting 성공, 서버에 도달");
 
   socket.on("join_room", async (roomName) => {

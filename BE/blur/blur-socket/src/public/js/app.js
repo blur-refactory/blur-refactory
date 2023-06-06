@@ -1,5 +1,4 @@
-const SocketIO = require("socket.io");
-// const socket = io();
+const socket = io();
 
 const myFace = document.querySelector("#myFace");
 const muteBtn = document.querySelector("#mute");
@@ -116,20 +115,6 @@ camerasSelect.addEventListener("input", handleCameraChange);
 welcomeForm.addEventListener("submit", handleWelcomeSubmit);
 
 // Socket Code
-const socket = SocketIO(server, {
-  path: "/socket",
-  cors: {
-    // 개발시
-    // origin: "http://localhost:3000",
-    // 배포시
-    origin: "https://blurblur.kr",
-  },
-  transports: ["websocket", "polling"],
-  allowEIO3: true,
-});
-
-
-
 socket.on("welcome", async () => {
   const offer = await myPeerConnection.createOffer();
   myPeerConnection.setLocalDescription(offer);
