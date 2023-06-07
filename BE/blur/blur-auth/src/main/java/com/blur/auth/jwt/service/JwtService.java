@@ -27,6 +27,7 @@ import java.util.Optional;
 @Slf4j
 public class JwtService {
 
+    // TODO: SecretKey 코드에 직접 노출됨 환경변수로 숨길 필요 있음.
     @Value("${jwt.secretKey}")
     private String secretKey;
 
@@ -71,7 +72,12 @@ public class JwtService {
     /**
      * RefreshToken 생성
      * RefreshToken은 Claim에 id도 넣지 않으므로 withClaim() X
+     * 그 이유에 RefreshToken은 DB에 저장되기 때문에, id를 토큰안에 넣을 필요가 없음.
      */
+
+    //TODO: 1. refreshToken을 DB에 넣는게 맞는지
+    //      2. 토큰에 id값을 안 넣는게 정말 맞는 것인지 생각해볼 필요가 있음.
+    //      예외가 발생할 경우가 무엇인지 생각해봐야함. ex) accesstoken, refresh토큰이 둘다 만료되었을 때 id식별 어떻게 할꺼?
     public String createRefreshToken() {
         Date now = new Date();
         return JWT.create()
@@ -204,6 +210,8 @@ public class JwtService {
     /**
      * 토큰 유효성 검증
      */
+
+    // TODO: UserController에 있는 validate에 있는 로직이랑 대비시켜서 합칠 필요가 있다고 생각됨.
     public boolean isTokenValid(String token) {
         try {
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);

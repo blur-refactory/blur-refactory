@@ -2,6 +2,12 @@ package com.blur.auth.utils;
 
 import java.security.SecureRandom;
 
+/**
+ * SpringSecurity에서 유저 인증할 때, 비밀번호가 필요함.
+ * 소셜로그인의 경우 비밀번호가 필요가 없기 때문에, 임의의 난수를 생성하여 UserDetails에 들어갈 Password에 넣어준다.
+ * 즉, 소셜로그인을 통해 로그인할 때마다 해당 유저는 새로운 비밀번호를 UserDetails에 저장하게되는 형식
+ * 실질적으로 소셜로그인 유저의 Password는 사용할 일이 없기 때문에, 형식적인 Password임.
+ */
 public class PasswordUtil {
     private static SecureRandom random = new SecureRandom();
     public static String generateRandomPassword() {
@@ -22,7 +28,6 @@ public class PasswordUtil {
 
             password.append(charSet[index]);
         }
-        System.out.println(password);
         return password.toString();
     }
 }

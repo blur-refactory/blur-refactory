@@ -1,6 +1,6 @@
 package com.blur.auth.oauth2;
 
-import com.blur.auth.api.entity.Role;
+import com.blur.auth.api.dto.Role;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;

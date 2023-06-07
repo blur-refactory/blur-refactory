@@ -40,6 +40,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         }
     }
 
+    // TODO: jwt인증과정 살펴보기
     private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
         String getId = oAuth2User.getAttributes().get("id").toString();
         Optional<User> findMember = userRepository.findById(getId);
