@@ -1,10 +1,13 @@
 package com.blur.auth.api.controller;
 
-import com.blur.auth.api.dto.UserSignUpDto;
+import com.blur.auth.api.dto.UserSignUpReq;
+import com.blur.auth.api.dto.UserSignUpRes;
+import com.blur.auth.api.repository.UserRepository;
 import com.blur.auth.api.service.EmailService;
 import com.blur.auth.api.service.PasswordService;
 import com.blur.auth.api.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +22,14 @@ public class UserController {
     private final EmailService emailService;
     private final UserService userService;
     private final PasswordService passwordService;
+//    private final UserRepository userRepository;
+//    @Value("${jwt.secretKey}")
+//    private final String secretKey;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserSignUpDto memberSignUpDto) throws Exception {
-        userService.register(memberSignUpDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<UserSignUpRes> register(@RequestBody UserSignUpReq userSignUpReq) throws Exception {
+        ResponseEntity<UserSignUpRes> userSignUpRes = userService.register(userSignUpReq);
+        return userSignUpRes;
     }
 
     @PostMapping("/sendAuthEmail") // 이메일 인증메일 발송
@@ -31,6 +37,7 @@ public class UserController {
         String email = param.get("email");
         emailService.sendAuthMessage(email);
         return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
     @PostMapping("/checkId") // 아이디 중복체크
@@ -83,7 +90,7 @@ public class UserController {
 //        });
 //        String accessToken = headers.get("authorization").replace("Bearer ", "");
 //        String userId = null;
-//        String secretKey = env.getProperty("jwt.secret");
+////        String secretKey = env.getProperty("jwt.secret");
 //        try {
 //            Claims claims = Jwts.parserBuilder()
 //                    .setSigningKey(secretKey.getBytes())
@@ -103,7 +110,7 @@ public class UserController {
 //        if (userId == null || userId.isEmpty()) {
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid access token");
 //        }
-//        User user = userRepository.findByUserId(userId);
+//        Optional<User> user = userRepository.findById(userId);
 //        if (user == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid user");
 //        return ResponseEntity.ok()
 //                .header("X-Username", userId)

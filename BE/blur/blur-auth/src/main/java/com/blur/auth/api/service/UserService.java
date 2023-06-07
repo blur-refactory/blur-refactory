@@ -1,15 +1,21 @@
 package com.blur.auth.api.service;
 
-import com.blur.auth.api.dto.UserSignUpDto;
+import com.blur.auth.api.dto.UserSignUpReq;
+import com.blur.auth.api.dto.UserSignUpRes;
+import com.blur.auth.api.entity.RefreshToken;
 import com.blur.auth.api.entity.User;
 import com.blur.auth.api.dto.Role;
+import com.blur.auth.api.repository.RefreshTokenRepository;
 import com.blur.auth.api.repository.UserRepository;
+import com.blur.auth.jwt.service.JwtService;
+import com.blur.auth.utils.error.CustomException;
+import com.blur.auth.utils.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -17,21 +23,36 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RefreshTokenRepository refreshTokenRepository;
+    private final JwtService jwtService;
 
-    public void register(UserSignUpDto userSignUpDto) throws Exception {
-        log.info("유저이메일 들어오는지 확인", userSignUpDto.getEmail() );
-        if (userRepository.findById(userSignUpDto.getEmail()).isPresent()) {
-            throw new Exception("이미 존재하는 이메일");
+    public ResponseEntity<UserSignUpRes> register(UserSignUpReq userSignUpReq) throws Exception {
+        log.info("유저이메일 들어오는지 확인", userSignUpReq.getEmail() );
+        if (userRepository.findById(userSignUpReq.getEmail()).isPresent()) {
+            throw new CustomException(ErrorCode.CONFLICT);
         }
 
         User user = User.builder()
                 .role(Role.GUEST)
-                .id(userSignUpDto.getEmail())
-                .password(userSignUpDto.getPassword())
+                .id(userSignUpReq.getEmail())
+                .password(userSignUpReq.getPassword())
                 .build();
-
         user.passwordEncode(passwordEncoder);
         userRepository.save(user);
+        UserSignUpRes userSignUpRes = UserSignUpRes.builder()
+                .email(userSignUpReq.getEmail())
+                .build();
+
+        String accessToken = jwtService.createAccessToken(userSignUpReq.getEmail());
+        String refreshToken = jwtService.createRefreshToken();
+        RefreshToken refreshTokenBuild = RefreshToken.builder()
+                .refreshToken(refreshToken)
+                .user(user)
+                .build();
+        refreshTokenRepository.save(refreshTokenBuild);
+        return ResponseEntity.ok()
+                .header("accessToken", accessToken)
+                .body(userSignUpRes);
     }
 
     public Boolean checkId(String userId) {
