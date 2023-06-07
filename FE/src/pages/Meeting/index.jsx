@@ -9,7 +9,9 @@ function Meeting() {
 
   return (
     <div className="Meeting">
-      <div className="togglePage">{mToggle ? "" : <MeetingNotIn />}</div>
+      <div className="togglePage">
+        {mToggle ? <MeetingIn /> : <MeetingNotIn />}
+      </div>
     </div>
   );
 }

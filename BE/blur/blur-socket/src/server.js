@@ -1,12 +1,17 @@
 import express from "express"; // express를 사용한 일반적인 NodeJS
-const https = require("https");
-import { Server } from "socket.io";
-const SocketIO = require("socket.io");
+import https from "https";
+import fs from "fs";
+import { Server as SocketIO } from "socket.io";
+
 import cors from "cors";
 
 const app = express();
-const fs = require("fs");
-app.use(cors());
+const corsOpt = {
+  origin: "https://blurblur.kr",
+  credentials: true,
+};
+
+app.use(cors(corsOpt));
 
 // express를 이용해 http 서버를 만듦(노출 서버)
 const server = https.createServer(
@@ -19,15 +24,14 @@ const server = https.createServer(
   },
   app
 );
-server.listen(5000);
+
 
 
 // 로컬 / ec2서버
 // cors: http://localhost:3000  /  [https://admin.socket.io]
 // httpServer.listen: 3001  /  https://i8b307.p.ssafy.io
-
 // // http 서버 위에 ws(webSocket) 서버를 만듦
-const io = SocketIO(server, {
+const io = new SocketIO(server, {
   path: "/socket",
   cors: {
     // 개발시
@@ -35,7 +39,7 @@ const io = SocketIO(server, {
     // 배포시
     origin: "https://blurblur.kr",
   },
-  transports: ["websocket", "polling"],
+  transports: ["websocket"],
   allowEIO3: true,
 });
 app.set("io", io);
@@ -50,6 +54,9 @@ const {
 io.on("connection", (socket) => {
   console.log("connecting 성공, 서버에 도달");
 
+  socket.on('connect_failed', function() {
+    console.log("connecting 성공, 서버에 도달");
+ })
   socket.on("join_room", async (roomName) => {
     console.log("브라우저에서 받은 roomName : ", roomName);
     socket.join(roomName); // 방에 들어가는거
@@ -81,3 +88,4 @@ io.on("connection", (socket) => {
   });
 });
 const handleListen = () => console.log(`Listening on https://blurblur.kr`);
+server.listen(5000);

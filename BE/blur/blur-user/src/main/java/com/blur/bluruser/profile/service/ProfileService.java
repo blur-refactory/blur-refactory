@@ -3,7 +3,6 @@ package com.blur.bluruser.profile.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.blur.bluruser.match.dto.MatchSettingDto;
 import com.blur.bluruser.profile.dto.ProfileDto;
 import com.blur.bluruser.profile.dto.request.RequestProfileSettingDto;
 import com.blur.bluruser.profile.dto.request.RequestUserInterestDto;
@@ -19,10 +18,7 @@ import com.blur.bluruser.profile.repository.UserProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -41,12 +37,8 @@ public class ProfileService {
 
     private final InterestRepository interestRepository;
 
-    private final Environment env;
-
-    private final RestTemplate restTemplate;
-
     @Value("${cloud.aws.s3.bucket}")
-    private final String bucket;
+    private String bucket;
 
     private final AmazonS3 amazonS3;
 
@@ -87,14 +79,7 @@ public class ProfileService {
             userProfileRepository.save(userProfile);
         }
         ProfileDto profileDto = new ModelMapper().map(userProfile, ProfileDto.class);
-        String getMatchSettingUrl = String.format(env.getProperty("blur-match.url")) + "/getSetting?userId=" + userId;
-        ResponseEntity<MatchSettingDto> response = restTemplate.getForEntity(getMatchSettingUrl, MatchSettingDto.class);
-        MatchSettingDto matchSetting = response.getBody();
-        String getUserEmailUrl = String.format(env.getProperty("blur-auth.url")) + "/getEmail?userId=" + userId;
-        ResponseEntity<String> email = restTemplate.getForEntity(getUserEmailUrl, String.class);
-        String userEmail = email.getBody();
-        ResponseProfileSettingDto responseProfileSettingDto = new ResponseProfileSettingDto(profileDto, matchSetting, userEmail);
-        return responseProfileSettingDto;
+        return null;
     }
 
     public RequestProfileSettingDto updateProfile(RequestProfileSettingDto requestProfileSettingDto) {
@@ -103,14 +88,7 @@ public class ProfileService {
         userProfile.updateProfile(requestProfileSettingDto.getAge(), requestProfileSettingDto.getNickname(),
                 requestProfileSettingDto.getGender(), requestProfileSettingDto.getIntroduce(), requestProfileSettingDto.getMbti());
         userProfileRepository.save(userProfile);
-        MatchSettingDto matchSettingDto = new ModelMapper().map(requestProfileSettingDto, MatchSettingDto.class);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<MatchSettingDto> request = new HttpEntity<>(matchSettingDto, headers);
-        String updateMatchSettingUrl = String.format(env.getProperty("blur-match.url")) + "/updateSetting";
-        System.out.println(updateMatchSettingUrl);
-        ResponseEntity<String> response = restTemplate.exchange(updateMatchSettingUrl, HttpMethod.PUT, request, String.class);
-        return requestProfileSettingDto;
+        return null;
     }
 
     public String updateImage(String userId, MultipartFile profileImage) throws IOException {

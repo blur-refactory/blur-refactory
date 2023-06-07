@@ -2,9 +2,11 @@ package com.blur.bluruser.profile.repository;
 
 import com.blur.bluruser.profile.entity.Interest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface InterestRepository extends JpaRepository<Interest, String> {
 
     public List<Interest> findAll();

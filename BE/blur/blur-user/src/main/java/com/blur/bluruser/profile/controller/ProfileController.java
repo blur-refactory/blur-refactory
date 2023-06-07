@@ -29,18 +29,6 @@ public class ProfileController {
     private final InterestRepository interestRepository;
     private final InterestService interestService;
 
-    @PostMapping("/test")
-    public void test(@PathVariable("id") String userId) {
-        List<Interest> interestList = interestRepository.findAll();
-        Integer num = interestList.size();
-        Set<Interest> interests = new HashSet<Interest>();
-        Random rand = new Random();
-        while (interests.size() < 5) {
-            Interest randomInterest = interestList.get(rand.nextInt(num));
-            interests.add(randomInterest);
-        }
-    }
-
     @ApiOperation(value = "프로필 유무 확인", response = ResponseCardDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "프로필 유무 확인"),
@@ -171,9 +159,9 @@ public class ProfileController {
         Collection<String> partnerInterest = profileService.getPartnerInterest(partnerId);
         return ResponseEntity.status(HttpStatus.OK).body(partnerInterest);
     }
-    
-    
-    
+
+
+
     @ApiOperation(value = "관심사 순위 가져오기", response = ResponseInterestDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "관심사 순위 가져오기 성공"),
