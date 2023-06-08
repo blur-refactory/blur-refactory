@@ -15,9 +15,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RequestMatchDto {
 
-    @ApiModelProperty(notes = "사용자 아이디")
-    private String userId;
-
     @ApiModelProperty(notes = "사용자 위치의 위도")
     private double lat;
 
