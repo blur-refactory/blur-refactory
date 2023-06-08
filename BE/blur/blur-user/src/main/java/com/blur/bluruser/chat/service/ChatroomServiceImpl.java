@@ -51,14 +51,16 @@ public class ChatroomServiceImpl implements ChatroomService {
             if (userProfile.getGender().equals("M")) {
                 List<Chatroom> chatroomList = chatroomRepository.findByMaleId(userId)
                         .orElse(Collections.emptyList());
+                log.info("상대 유저 목록 {}", chatroomList);
                 return chatroomList;
             } else {
                 List<Chatroom> chatroomList = chatroomRepository.findByFemaleId(userId)
                         .orElse(Collections.emptyList());
+                log.info("상대 유저 목록 {}", chatroomList);
                 return chatroomList;
             }
         }
-
+        log.info("상대 유저 없음");
         return Collections.emptyList();
     }
 }
