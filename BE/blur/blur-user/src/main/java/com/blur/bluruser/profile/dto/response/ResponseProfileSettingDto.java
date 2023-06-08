@@ -1,7 +1,6 @@
 package com.blur.bluruser.profile.dto.response;
 
 import com.blur.bluruser.match.dto.MatchSettingDto;
-import com.blur.bluruser.profile.dto.ProfileDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
