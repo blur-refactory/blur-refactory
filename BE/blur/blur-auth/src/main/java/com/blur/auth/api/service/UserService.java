@@ -1,5 +1,6 @@
 package com.blur.auth.api.service;
 
+import com.blur.auth.api.dto.UserLoginReq;
 import com.blur.auth.api.dto.UserSignUpReq;
 import com.blur.auth.api.dto.UserSignUpRes;
 import com.blur.auth.api.entity.RefreshToken;
@@ -54,6 +55,13 @@ public class UserService {
                 .header("accessToken", accessToken)
                 .body(userSignUpRes);
     }
+
+//    public ResponseEntity<String> normalLogin(UserLoginReq userLoginReq) {
+//        String email = userLoginReq.getEmail();
+//        String password = userLoginReq.getPassword();
+//        userRepository.findById(email);
+//
+//    }
 
     public Boolean checkId(String userId) {
         User User = userRepository.findById(userId)

@@ -174,6 +174,10 @@ public class JwtService {
                 .map(accessToken -> accessToken.replace(BEARER, ""));
     }
 
+//    public String removeBearerFromToken(String accessToken) {
+//        return accessToken.
+//    }
+
     /**
      * 쿠키에서 RccessToken 추출
      * 토큰 형식 : Bearer XXX에서 Bearer를 제외하고 순수 토큰만 가져오기 위해서

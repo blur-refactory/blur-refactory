@@ -42,12 +42,6 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.info("필터 시작");
-        log.info("Access Token 헤더에서 조회");
-
-        String domain = request.getRequestURI();
-        log.info("현재 도메인 {}", domain);
-
 
         String accessToken = jwtService.extractAccessToken(request)
                 .filter(jwtService::isTokenValid)

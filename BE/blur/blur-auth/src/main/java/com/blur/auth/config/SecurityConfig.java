@@ -76,8 +76,6 @@ public class SecurityConfig {
                 .failureHandler(oAuth2LoginFailureHandler) // 소셜 로그인 실패 시 핸들러 설정
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService); // customUserService 설정
-
-
         return http.build();
     }
 

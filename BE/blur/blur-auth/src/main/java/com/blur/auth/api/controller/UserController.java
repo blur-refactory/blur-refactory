@@ -1,27 +1,35 @@
 package com.blur.auth.api.controller;
 
+import com.blur.auth.api.dto.SendAuthEmailReq;
+import com.blur.auth.api.dto.SendAuthEmailRes;
 import com.blur.auth.api.dto.UserSignUpReq;
 import com.blur.auth.api.dto.UserSignUpRes;
-import com.blur.auth.api.repository.UserRepository;
 import com.blur.auth.api.service.EmailService;
 import com.blur.auth.api.service.PasswordService;
 import com.blur.auth.api.service.UserService;
+import com.blur.auth.jwt.service.JwtService;
+import com.blur.auth.utils.error.CustomException;
+import com.blur.auth.utils.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Slf4j
 //TODO: 전반적으로 DTO를 구성하지 않는 상황이 있는데, Dto를 좀 많이 고쳐야 할 것 같다.
 public class UserController {
     private final EmailService emailService;
     private final UserService userService;
     private final PasswordService passwordService;
+    private final JwtService jwtService;
 //    private final UserRepository userRepository;
 //    @Value("${jwt.secretKey}")
 //    private final String secretKey;
@@ -32,17 +40,21 @@ public class UserController {
         return userSignUpRes;
     }
 
-    @PostMapping("/sendAuthEmail") // 이메일 인증메일 발송
-    public ResponseEntity<?> sendAuthEmail(@RequestBody Map<String, String> param) throws Exception {
-        String email = param.get("email");
-        emailService.sendAuthMessage(email);
-        return new ResponseEntity<>(HttpStatus.OK);
+//    @PostMapping("/login")
+//    public ResponseEntity<String> normalLogin(@RequestBody UserLoginReq userLoginReq) throws Exception {
+//        ResponseEntity<String> userLoginRes = userService.normalLogin(userLoginReq);
+//        return userLoginRes;
+//    }
 
+    @PostMapping("/sendAuthEmail") // 이메일 인증메일 발송
+    public SendAuthEmailRes sendAuthEmail(@RequestBody SendAuthEmailReq sendAuthEmailReq) throws Exception {
+        String email = sendAuthEmailReq.getEmail();
+        return emailService.sendAuthMessage(email);
     }
 
     @PostMapping("/checkId") // 아이디 중복체크
     public ResponseEntity<Boolean> checkId(@RequestBody Map<String, String> param) {
-        String userId = param.get("userId");
+        String userId = param.get("email");
         Boolean res = userService.checkId(userId);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
@@ -55,9 +67,10 @@ public class UserController {
         if (emailService.getAuthKey(email, authKey))
             return new ResponseEntity<>(HttpStatus.OK);
         else
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new CustomException(ErrorCode.BAD_REQUEST);
     }
 
+    // TODO: 일반 로그인이 있을 때 유효한 Controller
     @PutMapping("/findPassword") // 비밀번호 찾기
     public ResponseEntity<Boolean> findPassword(@RequestBody Map<String, String> param) throws Exception {
 
@@ -73,47 +86,33 @@ public class UserController {
 //        return new ResponseEntity<>(userNo, HttpStatus.OK);
 //    }
 
-    @GetMapping("/getEmail")
-    public ResponseEntity<?> getEmail(@RequestParam("userId") String userId) throws Exception {
-        String userEmail = userService.getEmail(userId);
-        return ResponseEntity.status(HttpStatus.OK).body(userEmail);
-    }
+
+//    @GetMapping("/getEmail")
+//    public ResponseEntity<?> getEmail(@RequestParam("userId") String userId) throws Exception {
+//        String userEmail = userService.getEmail(userId);
+//        return ResponseEntity.status(HttpStatus.OK).body(userEmail);
+//    }
 
     //유저 검증 계속 이걸 거쳐갈꺼임.
 //    @GetMapping("/validate")
-//    public ResponseEntity<String> checkAccessToken(@RequestHeader Map<String, String> headers) {
-//        if (!headers.containsKey("authorization") || !headers.get("authorization").startsWith("Bearer ")) {
-//            return ResponseEntity.badRequest().body("Missing or invalid authorization header");
-//        }
-//        headers.forEach((key,val)->{
-//            System.out.println(String.format("%s=%s",key, val));
-//        });
-//        String accessToken = headers.get("authorization").replace("Bearer ", "");
-//        String userId = null;
-////        String secretKey = env.getProperty("jwt.secret");
-//        try {
-//            Claims claims = Jwts.parserBuilder()
-//                    .setSigningKey(secretKey.getBytes())
-//                    .build()
-//                    .parseClaimsJws(accessToken)
-//                    .getBody();
-//            userId = claims.getSubject();
-//            Date expiration = claims.getExpiration();
-//            System.out.println(userId);
-//            System.out.println(expiration);
-//            if (expiration.before(new Date())) {
-//                throw new Exception();
+//    public ResponseEntity<String> checkAccessToken(HttpServletRequest request) {
+//        Optional<String> jwtToken = jwtService.extractAccessToken(request);
+//        if(jwtToken.isPresent()){
+//            String token = jwtToken.get();
+//            log.info("jwtToken", token);
+//            Boolean isTokenValid = jwtService.isTokenValid(token);
+//            if (isTokenValid == true) {
+//                String userId = jwtService.getUserIdFromToken(token);
+//                log.info("userId", userId);
+//                return ResponseEntity.ok()
+//                        .header("X-Username", userId)
+//                        .build();
+//            } else {
+//                log.error("토큰값", token);
+//                throw new CustomException(ErrorCode.TOKEN_NOT_VALID);
 //            }
-//        } catch (Exception ex) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid access token");
+//        } else {
+//            throw new CustomException(ErrorCode.TOKEN_NOT_VALID);
 //        }
-//        if (userId == null || userId.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid access token");
-//        }
-//        Optional<User> user = userRepository.findById(userId);
-//        if (user == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid user");
-//        return ResponseEntity.ok()
-//                .header("X-Username", userId)
-//                .build();
 //    }
 }
