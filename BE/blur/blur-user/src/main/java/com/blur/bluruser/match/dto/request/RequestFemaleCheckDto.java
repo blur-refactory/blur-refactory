@@ -1,23 +1,17 @@
 package com.blur.bluruser.match.dto.request;
 
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@ApiModel(description = "RequestMatchDto")
+@ApiModel(description = "RequestFemaleCheckDto")
 @NoArgsConstructor
 @Getter
-@Setter
 @AllArgsConstructor
-public class RequestMatchDto {
+public class RequestFemaleCheckDto {
 
-    @ApiModelProperty(notes = "사용자 위치의 위도")
-    private double lat;
-
-    @ApiModelProperty(notes = "사용자 위치의 경도")
-    private double lng;
+    @ApiModelProperty(notes = "세션 아이디")
+    private String sessionId;
 }
