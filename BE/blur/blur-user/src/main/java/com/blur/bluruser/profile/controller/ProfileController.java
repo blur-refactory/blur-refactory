@@ -35,7 +35,7 @@ public class ProfileController {
     })
     @GetMapping("/check")
     public ResponseEntity<Boolean> check(
-            @ApiParam(value = "사용자의 ID", required = true) @RequestHeader("X_Username") String userId) {
+            @ApiParam(value = "사용자의 ID", required = true) @RequestHeader("X-Username") String userId) {
 
         Boolean res = profileService.check(userId);
         return ResponseEntity.status(HttpStatus.OK).body(res);
