@@ -15,16 +15,19 @@ public class BlurUserApplication {
 	}
 
 	@Bean
-	public CorsFilter corsFilter() {
+	public UrlBasedCorsConfigurationSource corsFilter() {
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
-		config.addAllowedOriginPattern("*");
+
+		config.setAllowCredentials(true);
+		config.addAllowedOriginPattern("http://localhost:3000");
+		config.addAllowedOriginPattern("http://localhost:8081");
 		config.addAllowedMethod("*");
 		config.addAllowedHeader("*");
-		config.setAllowCredentials(true);
+		config.setMaxAge(3600L);
 		source.registerCorsConfiguration("/**", config);
-		return new CorsFilter(source);
+		return source;
 	}
 
 }
