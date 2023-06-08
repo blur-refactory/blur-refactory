@@ -15,7 +15,6 @@ import com.blur.bluruser.profile.repository.InterestRepository;
 import com.blur.bluruser.profile.repository.UserInterestRepository;
 import com.blur.bluruser.profile.repository.UserProfileRepository;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -81,8 +80,8 @@ public class ProfileService {
         return null;
     }
 
-    public RequestProfileSettingDto updateProfile(RequestProfileSettingDto requestProfileSettingDto) {
-        String userId = requestProfileSettingDto.getUserId();
+    public RequestProfileSettingDto updateProfile(String userId, RequestProfileSettingDto requestProfileSettingDto) {
+
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
         userProfile.updateProfile(requestProfileSettingDto.getAge(), requestProfileSettingDto.getNickname(),
                 requestProfileSettingDto.getGender(), requestProfileSettingDto.getIntroduce(), requestProfileSettingDto.getMbti());

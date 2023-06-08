@@ -85,11 +85,11 @@ public class ProfileController {
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @PutMapping("/updateProfile")
-    public ResponseEntity<?> updateProfile(@ApiParam(value = "변경 프로필 정보", required = true)
-                                               @RequestBody RequestProfileSettingDto requestProfileSettingDto,
-                                           @ApiParam(value = "사용자의 ID", required = true)
-                                           @RequestHeader("X-Username") String userId) throws Exception {
-        RequestProfileSettingDto profile = profileService.updateProfile(requestProfileSettingDto);
+    public ResponseEntity<?> updateProfile(@ApiParam(value = "사용자의 ID", required = true)
+                                               @RequestHeader("X-Username") String userId,
+                                            @ApiParam(value = "변경 프로필 정보", required = true)
+                                               @RequestBody RequestProfileSettingDto requestProfileSettingDto) {
+        RequestProfileSettingDto profile = profileService.updateProfile(userId, requestProfileSettingDto);
         return ResponseEntity.status(HttpStatus.OK).body(profile);
     }
 
@@ -106,7 +106,7 @@ public class ProfileController {
     public ResponseEntity<String> updateImage(@ApiParam(value = "사용자의 ID", required = true)
                                                   @RequestHeader("X-Username") String userId,
                                               @ApiParam(value = "프로필 이미지", required = true)
-                                              @RequestParam("profileImage") MultipartFile profileImage) throws IOException {
+                                              @RequestParam("profileImage") MultipartFile profileImage) throws IOException{
         String res = profileService.updateImage(userId, profileImage);
         return ResponseEntity.status(HttpStatus.OK).body(res);
     }
