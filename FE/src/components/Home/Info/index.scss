@@ -1,0 +1,70 @@
+.BlurInfoSubFrame {
+  position: absolute;
+  width: 69vw;
+  height: 70vh;
+  left: 16vw;
+  top: 13vh;
+
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 2vw;
+
+  overflow-y: auto;
+
+  z-index: 30;
+
+  .CommNavLogo {
+    width: 18vw;
+    height: 10vw;
+
+    font-family: "Indie Flower";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 5vw;
+    line-height: 10vw;
+    /* identical to box height */
+    margin: auto;
+
+    color: #50a1a3;
+  }
+
+  .BlurInfoClose {
+    position: absolute;
+    right: 3vw;
+    top: 3vw;
+
+    background: url(../../../assets/images/cross.png);
+    background-size: cover;
+    width: 3vw;
+    height: 3vw;
+
+    cursor: pointer;
+  }
+
+  .Paragraph1 {
+    width: 38vw;
+    height: 15vw;
+
+    font-weight: 400;
+    font-size: 2vw;
+
+    text-align: left;
+
+    margin: auto;
+
+    color: #000000;
+  }
+
+  .Paragraph2 {
+    width: 38vw;
+    height: 31vw;
+
+    font-weight: 400;
+    font-size: 2vw;
+
+    text-align: left;
+
+    margin: auto;
+
+    color: #000000;
+  }
+}

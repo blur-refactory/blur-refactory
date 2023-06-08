@@ -1,0 +1,85 @@
+.AlertDiv {
+  position: absolute;
+  left: 41.6667vw;
+  right: 41.6667vw;
+  height: 15vw;
+  top: 13.8889vw;
+
+  background: #ffffff;
+  border-radius: 2.0833vw;
+
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  .AlertHeader {
+    position: absolute;
+    height: 3.8021vw;
+    left: 0vw;
+    right: 0vw;
+    top: 0vw;
+
+    background: #e1f1f2;
+    border-radius: 2.0833vw 2.0833vw 0vw 0vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .AlertHeaderText {
+      position: absolute;
+      width: 22.2396vw;
+      height: 1.9444vw;
+      top: 0.9375vw;
+
+      font-style: normal;
+      font-weight: 500;
+      font-size: 1.3542vw;
+      line-height: 1.9444vw;
+      text-align: center;
+      color: #50a1a3;
+    }
+  }
+
+  .AlertDesc {
+    position: absolute;
+    width: 25.3472vw;
+    height: 3.6111vw;
+    top: 5.6944vw;
+
+    font-weight: 400;
+    font-size: 1.25vw;
+
+    color: #50a1a3;
+  }
+
+  .AlertBtnDiv {
+    position: absolute;
+    width: 7.5vw;
+    height: 2.2917vw;
+    top: 10.625vw;
+    cursor: pointer;
+
+    background: #50a1a3;
+    border-radius: 0.4861vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+
+    .AlertBtnText {
+      position: absolute;
+      width: 7.5694vw;
+      height: 1.25vw;
+      top: 0.4861vw;
+
+      font-weight: 400;
+      font-size: 1.0417vw;
+      line-height: 1.25vw;
+
+      color: #ffffff;
+    }
+  }
+}

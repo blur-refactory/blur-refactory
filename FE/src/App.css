@@ -1,0 +1,41 @@
+/* [import] Happy Monkey font */
+@import url("https://fonts.googleapis.com/css2?family=Happy+Monkey&display=swap");
+/* [import] 한나체 air font */
+@import url("https://webfontworld.github.io/BMHannaAir/BMHannaAir.css");
+
+.App {
+  text-align: center;
+  min-height: 100vh;
+  height: auto;
+
+  overflow: hidden;
+  /* @include mixin.image(bg, jpg); */
+  background-image: url(../src/assets/images/bg1.png);
+  background-size: 100% 100%;
+
+  font-family: "Happy Monkey", "BMHannaAir";
+  /* font-family: "BMHannaAir"; */
+}
+
+.Start {
+  height: 500vh;
+}
+
+::selection {
+  background: #50a1a3;
+  color: #fff;
+  text-shadow: none;
+}
+
+button:active {
+  border: none;
+}
+
+.hio {
+  left: 200px;
+  top: 300px;
+}
+
+button {
+  border: none;
+}

@@ -1,0 +1,102 @@
+// 공통 변수 설정
+
+$_mainBgColor: 000;
+$_mainColor: #000;
+$_mainFont: "";
+$_mainWidth: 00;
+$_mainHeight: 00;
+
+// mixin & include
+
+/* 
+  mixin name: sf
+  arg: x
+  desc: SubFrame css
+*/
+@mixin sf {
+  box-sizing: border-box;
+
+  position: absolute;
+  right: 4.514vw;
+  left: 4.514vw;
+  // top: 10.903vw;
+  top: 20vh;
+  bottom: 10vh;
+
+  background: rgba(255, 255, 255, 0.19);
+  border: 0.052vw solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0vw 0.209vw 0.209vw rgba(0, 0, 0, 0.25);
+  border-radius: 2.083vw;
+  @content;
+}
+
+/* 
+  mixin name: image
+  arg: name, format
+  desc: 인자(이미지이름, 파일포맷)받아 이미지 설정
+*/
+@mixin image($name, $path: "../assets/images/", $format) {
+  background-image: url("#{$path}#{$name}.#{$format}");
+  background-size: 100% 100%;
+}
+
+/* 
+  mixin name: circle
+  arg: size
+  desc: 인자(size)를 받아 원을 만듦
+*/
+@mixin circle($size, $radius: 0) {
+  width: $size;
+  height: $size;
+
+  @if radius != 0 {
+    border-radius: $radius;
+  }
+}
+
+@mixin inputdiv {
+  position: absolute;
+  width: 22.917vw;
+  height: 4.167vw;
+  left: 0vw;
+  top: 2.083vw;
+
+  background: rgba(104, 187, 189, 0.2);
+  border-radius: 0.486vw;
+
+  .inputText {
+    position: absolute;
+    width: 20.139vw;
+    height: 1.528vw;
+    left: 1.389vw;
+    top: 1.25vw;
+
+    font-weight: 400;
+    font-size: 1.25vw;
+    line-height: 1.528vw;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+
+    color: #000000;
+  }
+}
+
+@mixin editModal {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 90.972vw;
+  height: 39.583vw;
+  left: 6.5%;
+  top: 7%;
+  z-index: 10;
+
+  background: #ffffff;
+  border: 0.052vw solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0vw 0.209vw 0.209vw rgba(0, 0, 0, 0.25);
+  border-radius: 2.088vw;
+  z-index: 10;
+  @content;
+}

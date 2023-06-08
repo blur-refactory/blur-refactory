@@ -1,0 +1,618 @@
+@charset "UTF-8";
+/* 
+  mixin name: sf
+  arg: x
+  desc: SubFrame css
+*/
+/* 
+  mixin name: image
+  arg: name, format
+  desc: 인자(이미지이름, 파일포맷)받아 이미지 설정
+*/
+/* 
+  mixin name: circle
+  arg: size
+  desc: 인자(size)를 받아 원을 만듦
+*/
+.leftModal {
+  position: relative;
+  width: 27vw;
+  height: 75.5vh;
+  background: #50a1a3;
+  border-radius: 30px;
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.leftModal .imgbox {
+  position: relative;
+  flex: 1;
+  margin-top: 3vh;
+  width: 27vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imageEditBtn {
+  position: relative;
+  margin-left: 15vw;
+  top: 6vh;
+}
+
+.leftModal .imageEditBtn,
+.leftModal .imageEditBtn:hover {
+  border: solid white 1px;
+  border-radius: 70px;
+  color: white;
+  cursor: pointer;
+  background-color: #50a1a3;
+}
+
+.leftModal .imageEditBtn:hover {
+  background-color: white;
+  color: #50a1a3;
+}
+
+.leftModal .imgbox .leftModalImg {
+  position: relative;
+  width: 15vw;
+  height: 30vh;
+  background-size: 100% 100%;
+  border-radius: 70%;
+  cursor: pointer;
+}
+
+.leftModalNameDiv {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.leftModalNameDiv,
+.leftModalbtnDiv {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.leftModalNameDiv .leftModalName {
+  font-size: 2vw;
+  text-align: center;
+  color: #ffffff;
+}
+.leftModalSetbtn {
+  position: relative;
+  margin-bottom: 4vh;
+}
+.leftModalbtnDiv .leftModalEditbtn,
+.leftModalbtnDiv .leftModalSetbtn {
+  width: 20vw;
+  height: 8vh;
+  background: #68bbbd;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.leftModalbtnDiv .leftModalEditbtn .leftModalProText,
+.leftModalbtnDiv .leftModalSetbtn .leftModalSetText {
+  font-size: 1.5vw;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.Modal {
+  box-sizing: border-box;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85vw;
+  height: 75.5vh;
+  z-index: 30;
+  background: #ffffff;
+  border-radius: 30px;
+}
+
+.Modal .ModalOut {
+  position: absolute;
+  width: 10vw;
+  height: 8vh;
+  left: 70.5vw;
+  top: 63vh;
+  z-index: 2;
+  cursor: pointer;
+  background: #68bbbd;
+  border-radius: 7px;
+  justify-content: center;
+}
+
+.Modal .ModalOut .ModalOutText {
+  font-size: 1.5vw;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.Modal .ProfileModal {
+  position: absolute;
+  width: 50vw;
+  height: 65vh;
+  left: 31vw;
+  top: 5vh;
+}
+
+.Modal .ProfileModal .PMLabel {
+  font-size: 2.5vw;
+  display: flex;
+  align-items: center;
+  color: #b2a5a5;
+}
+
+.fieldsGrid {
+  display: grid;
+  grid-row-gap: 1vw;
+}
+
+.fieldContainer {
+  width: 23.5vw;
+  height: 13vh;
+}
+
+.fieldLabel {
+  margin-top: 3vh;
+  font-size: 1.2vw;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  color: #000000;
+  padding-left: 12px;
+}
+
+.fieldInput {
+  margin-top: 1vh;
+  height: 8vh;
+  font-size: 1.2vw;
+  background: rgba(104, 187, 189, 0.2);
+  border-radius: 7px;
+  padding-left: 30px;
+}
+
+.fieldInput.wide {
+  width: 21.5vw;
+}
+
+.fieldInput.narrow {
+  width: 19.5vw;
+}
+
+.Modal .ProfileModal .PMMGender {
+  position: absolute;
+  width: 21.5vw;
+  height: 13vh;
+  left: 28vw;
+  top: 8vh;
+  /* background-color: #000000; */
+}
+.Modal .ProfileModal .PMMGender .PMMGenderLable {
+  font-size: 1.2vw;
+  display: flex;
+  align-items: center;
+  color: #000000;
+}
+.Modal .ProfileModal .PMMGender .PMMGenderdiv {
+  position: relative;
+  width: 23.5vw;
+  height: 13vh;
+  margin-top: 1vh;
+  display: flex;
+}
+
+.Modal .ProfileModal .PMMGender .PMMGenderdiv :hover {
+  background-color: #16888a;
+}
+
+.Modal .ProfileModal .PMMGender .PMMGenderdiv .genderButton {
+  width: 45%;
+  height: 60%;
+}
+
+.Modal .ProfileModal .PMIntroducing {
+  position: absolute;
+  width: 21.5vw;
+  height: 30vh;
+  left: 28vw;
+  top: 23.5vh;
+  /* background-color: #000000; */
+}
+.Modal .ProfileModal .PMIntroducing .PMIntroducingLabel {
+  font-size: 1.2vw;
+  display: flex;
+  align-items: center;
+  color: #000000;
+}
+.Modal .ProfileModal .PMIntroducing .PMIntroducingInput {
+  position: absolute;
+  width: 21.5vw;
+  height: 23vh;
+  left: 0px;
+  top: 4vh;
+  font-size: 1.2vw;
+  background: rgba(104, 187, 189, 0.2);
+  border-radius: 7px;
+}
+.Modal .SettingModal {
+  box-sizing: border-box;
+  position: absolute;
+  width: 1300px;
+  height: 565px;
+  left: 0px;
+  top: 0px;
+  z-index: 10;
+  background: #ffffff;
+  border-radius: 30.0741px;
+}
+.Modal .SettingModal .SetModal {
+  position: absolute;
+  width: 565px;
+  height: 40px;
+  left: 490px;
+  top: 40px;
+}
+.Modal .SettingModal .SetModal .SEtLabel {
+  position: absolute;
+  width: 200px;
+  height: 45px;
+  left: 0px;
+  top: 0px;
+  font-weight: 400;
+  font-size: 37px;
+  line-height: 45px;
+  display: flex;
+  align-items: center;
+  color: #b2a5a5;
+}
+.Modal .SettingModal .SetModal .SEtMidModalChangediv {
+  position: absolute;
+  width: 565px;
+  height: 370px;
+  left: 0px;
+  top: 98.25px;
+}
+.Modal .SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox {
+  position: absolute;
+  width: 565px;
+  height: 100px;
+  left: 0px;
+  top: 0px;
+}
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox
+  .SetMidPartnerLable {
+  position: absolute;
+  width: 200px;
+  height: 50px;
+  left: 0px;
+  top: 20px;
+  font-weight: 400px;
+  font-size: 25px;
+  line-height: 18px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  color: #9b9a9a;
+}
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox
+  .SetMMPartnerCheckdiv {
+  display: flex;
+  flex-direction: row;
+  padding: 19.5px 0px;
+  gap: 7.5px;
+  position: absolute;
+  width: 340px;
+  height: 55px;
+  left: 225px;
+  font-weight: 400px;
+  font-size: 26.25px;
+  line-height: 32px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox
+  .SetMMPartnerCheckdiv
+  .blurdiv {
+  background: rgba(104, 187, 189, 0.2);
+  filter: blur(18.75px);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 19px 0px;
+  gap: 7.5px;
+  position: absolute;
+  width: 340px;
+  height: 58px;
+}
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox
+  .SetMMPartnerCheckdiv
+  .SetMMPartnerCheck {
+  position: absolute;
+  width: 59px;
+  height: 32px;
+  left: 130px;
+  top: 30px;
+  font-weight: 400px;
+  font-size: 26.25px;
+  line-height: 32px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  text-align: center;
+  z-index: 20;
+  color: #50a1a3;
+}
+.Modal .SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox2 {
+  position: absolute;
+  width: 565.5px;
+  height: 100px;
+  left: 0px;
+  top: 120px;
+}
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox2
+  .SetMidPartnerLable {
+  position: absolute;
+  width: 200px;
+  height: 50px;
+  left: 0px;
+  top: 25px;
+  font-weight: 400px;
+  font-size: 25px;
+  line-height: 18px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  color: #9b9a9a;
+}
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox2
+  .SetMMPartnerCheckdiv {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 19.5px 0px;
+  gap: 7.5px;
+  position: absolute;
+  width: 340px;
+  height: 58px;
+  left: 225px;
+  top: 0px;
+}
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox2
+  .SetMMPartnerCheckdiv
+  .blurdiv {
+  background: rgba(104, 187, 189, 0.2);
+  filter: blur(18.75px);
+  border-radius: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 19.5px 0px;
+  gap: 7.5px;
+  top: -1px;
+  position: absolute;
+  width: 340px;
+  height: 58px;
+}
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox2
+  .SetMMPartnerCheckdiv
+  .SetMMPartnerCheck {
+  position: absolute;
+  width: 59px;
+  height: 32px;
+  left: 130px;
+  top: 20.5px;
+  font-weight: 400px;
+  font-size: 26.25px;
+  line-height: 32px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  text-align: center;
+  z-index: 50;
+  color: #50a1a3;
+}
+.Modal .SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox3 {
+  position: absolute;
+  width: 565.5px;
+  height: 100px;
+  left: 0px;
+  top: 240px;
+}
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox3
+  .SetMidPartnerLable {
+  position: absolute;
+  width: 200px;
+  height: 50px;
+  left: 0px;
+  top: 30px;
+  font-weight: 400px;
+  font-size: 25px;
+  line-height: 18px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  color: #9b9a9a;
+}
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox3
+  .SetMMPartnerCheckdiv {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 19.5px 0px;
+  gap: 7.5px;
+  position: absolute;
+  width: 340.5px;
+  height: 58.5px;
+  left: 225px;
+  top: 0px;
+}
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox3
+  .SetMMPartnerCheckdiv
+  .blurdiv {
+  background: rgba(104, 187, 189, 0.2);
+  filter: blur(18.75px);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 19.5px 0px;
+  gap: 7.5px;
+  position: absolute;
+  width: 340px;
+  height: 58px;
+}
+.Modal
+  .SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox3
+  .SetMMPartnerCheckdiv
+  .distancePartner {
+  position: absolute;
+  width: 59px;
+  height: 32px;
+  left: 130px;
+  top: 20.5px;
+  font-weight: 400px;
+  font-size: 26.25px;
+  line-height: 32px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #50a1a3;
+}
+
+button {
+  border: none;
+}
+
+input {
+  border: none;
+}
+
+.btn {
+  position: relative;
+  width: 160px;
+  height: 60px;
+  left: 0px;
+  top: 0px;
+  cursor: pointer;
+  background: rgba(104, 187, 189, 0.2);
+  border-radius: 7px;
+  justify-content: center;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  float: left;
+  margin-right: 10px;
+  color: black;
+}
+
+.btn.active {
+  color: #fff;
+  background-color: #16888a;
+}
+
+.-btn {
+  position: relative;
+  width: 160px;
+  height: 60px;
+  left: 0px;
+  top: 0px;
+  cursor: pointer;
+  background: rgba(104, 187, 189, 0.2);
+  border-radius: 7px;
+  justify-content: center;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: black;
+}
+
+.-btn.active {
+  /* background-color: #505bf0; */
+  color: #fff;
+  background-color: #16888a;
+}
+
+.signup-profileImg-label {
+  margin: 5px 0 20px 0;
+  font-weight: bold;
+  font-size: 13px;
+  color: #0095f6;
+  display: inline-block;
+  cursor: pointer;
+}
+
+select {
+  border: none;
+}

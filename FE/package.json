@@ -1,0 +1,76 @@
+{
+  "name": "seventeam",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.2",
+    "@socket.io/admin-ui": "^0.5.1",
+    "@stomp/stompjs": "^7.0.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "aws-sdk": "^2.1314.0",
+    "axios": "^1.0.0",
+    "env-cmd": "^10.1.0",
+    "localtunnel": "^2.0.2",
+    "net": "^1.0.2",
+    "rc-slider": "^9.7.5",
+    "react": "^18.2.0",
+    "react-avatar": "^5.0.3",
+    "react-cookie": "^4.1.1",
+    "react-dom": "^18.2.0",
+    "react-input-slider": "^6.0.1",
+    "react-range": "^1.8.14",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.6.2",
+    "react-scripts": "5.0.1",
+    "react-select": "^5.7.0",
+    "react-slick": "^0.29.0",
+    "react-stomp": "^5.1.0",
+    "react-styled-carousel": "^0.5.1",
+    "redux": "^4.2.0",
+    "redux-persist": "^6.0.0",
+    "scss": "^0.2.4",
+    "slick-carousel": "^1.8.1",
+    "socket.io": "^4.6.0",
+    "socket.io-client": "^4.6.2",
+    "socketjs-client": "^1.0.2",
+    "styled-components": "^5.3.6",
+    "web-vitals": "^2.1.4",
+    "webstomp-client": "^1.2.6"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "env-cmd -f .env.production react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "redux-devtools-extension": "^2.13.9"
+  }
+}

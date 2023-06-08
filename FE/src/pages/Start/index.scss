@@ -1,0 +1,382 @@
+@use "../../style/common" as mixin;
+
+.animate {
+  animation: shake 2s ease-in-out;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateY(-5%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(3%);
+  }
+  100% {
+    transform: translateY(-1%);
+    opacity: 1;
+  }
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(100px);
+  animation: fade-up 2s ease forwards;
+}
+
+@keyframes fade-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wave {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+// 기본변수 설정
+$_subFrameLeft: 3;
+
+.SubFrame {
+  @include mixin.sf;
+  height: 70vh;
+  scroll-margin: 200vw; //스크롤로 이동해왔을때 여백좀 주기
+  .SubLeftDiv {
+    position: absolute;
+    width: 36.806vw;
+    left: 4.6vw;
+    top: 2.5vw;
+    bottom: 3vw;
+
+    .SubLeftTitle {
+      position: absolute;
+      width: 25.694vw;
+      height: 12.5vw;
+      left: 0vw;
+      top: 2.431vw;
+
+      font-style: normal;
+      font-weight: 400;
+      font-size: 5.208vw;
+      line-height: 6.25vw;
+      text-align: left;
+
+      color: #ffffff;
+    }
+    .SubLeftDesc {
+      position: absolute;
+      width: 26.111vw;
+      height: 2.5vw;
+      left: 0vw;
+      top: 15.278vw;
+
+      font-style: normal;
+      font-weight: 400;
+      font-size: 2.083vw;
+      line-height: 2.5vw;
+
+      color: #ffffff;
+    }
+
+    .CommBoxFrame1 {
+      position: absolute;
+      width: 36.458vw;
+      height: 6.25vw;
+      left: 0vw;
+      // bottom: 0vw;
+      top: 21vw;
+
+      background: #50a1a3;
+      box-shadow: 0vw 0.208vw 0.208vw rgba(0, 0, 0, 0.25);
+      border-radius: 1.042vw;
+
+      cursor: pointer;
+      border: none;
+      background-size: 300% 100%;
+      border-radius: 3.472vw;
+      -o-transition: all 0.4s ease-in-out;
+      -webkit-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+      &:hover {
+        background-position: 100% 0;
+        -o-transition: all 0.4s ease-in-out;
+        -webkit-transition: all 0.4s ease-in-out;
+        transition: all 0.4s ease-in-out;
+      }
+
+      &:focus {
+        outline: none;
+      }
+      &.color-5 {
+        background-image: linear-gradient(
+          to right,
+          #50a1a3,
+          #50a1a3,
+          #3f8384,
+          #50a1a3
+        );
+        box-shadow: 0 0.278vw 1.042vw 0 rgba(80, 161, 163, 0.85);
+      }
+
+      .CommBoxFrameStart {
+        position: absolute;
+        width: 7.639vw;
+        height: 3.472vw;
+        left: 14.444vw;
+        top: 1.389vw;
+
+        font-style: normal;
+        font-weight: 400;
+        font-size: 2.847vw;
+        line-height: 3.472vw;
+
+        color: #ffffff;
+      }
+    }
+  }
+
+  .SubRightDiv {
+    position: absolute;
+    width: 36.806vw;
+    height: 27.778vw;
+    right: 4.6vw;
+    // bottom: 3vw;
+    top: 2.5vw;
+
+    background: rgba(250, 234, 234, 0.2);
+    border-radius: 2.083vw;
+
+    .SubRightImg {
+      position: absolute;
+      left: 1.736vw;
+      right: 1.736vw;
+      top: 1.736vw;
+      bottom: 1.736vw;
+
+      background-image: url(../../assets/images/SubRightImg.jpg);
+      background-size: 100% 100%;
+
+      border-radius: 2.083vw;
+    }
+  }
+}
+
+.SubFrame2 {
+  display: flex;
+  scroll-margin: 2vw;
+  box-sizing: border-box;
+
+  position: absolute;
+  right: 4.514vw;
+  left: 4.514vw;
+  top: 105vh;
+  // bottom: 5.556vw;
+  height: 90vh;
+
+  background: rgba(255, 255, 255, 0.19);
+  border: 0.052vw solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0vw 0.209vw 0.209vw rgba(0, 0, 0, 0.25);
+  border-radius: 2.083vw;
+
+  .SubFrameParagraph {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    font-size: 300%;
+
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+
+    .SubFrameParagraphText {
+      // position: relative;
+      text-align: center;
+    }
+  }
+
+  .SubFrameImage {
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+    background: url(../../assets/images/menandwomen.jpg);
+    background-size: cover;
+
+    border-radius: 2.083vw;
+  }
+}
+
+.SubFrame3 {
+  display: flex;
+  scroll-margin: 2vw;
+  box-sizing: border-box;
+
+  position: absolute;
+  right: 4.514vw;
+  left: 4.514vw;
+  top: 205vh;
+  // bottom: 5.556vw;
+  height: 90vh;
+
+  background: rgba(255, 255, 255, 0.19);
+  border: 0.052vw solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0vw 0.209vw 0.209vw rgba(0, 0, 0, 0.25);
+  border-radius: 2.083vw;
+
+  .SubFrameParagraph {
+    // display: inline-block;
+    display: flex;
+    width: 50%;
+    height: 100%;
+    font-size: 300%;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+
+    .SubFrameParagraphText {
+      position: relative;
+      // top: 25vh;
+      // margin: auto;
+    }
+  }
+
+  .SubFrameImage {
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+
+    background: url(../../assets/images/menandwomen2.jpg);
+    background-size: cover;
+
+    border-radius: 2.083vw;
+  }
+}
+
+.SubFrame4 {
+  display: flex;
+  scroll-margin: 2vw;
+  box-sizing: border-box;
+
+  position: absolute;
+  right: 4.514vw;
+  left: 4.514vw;
+  top: 305vh;
+  // bottom: 5.556vw;
+  height: 90vh;
+
+  background: rgba(255, 255, 255, 0.19);
+  border: 0.052vw solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0vw 0.209vw 0.209vw rgba(0, 0, 0, 0.25);
+  border-radius: 2.083vw;
+
+  .SubFrameParagraph {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    font-size: 300%;
+
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+
+    .SubFrameParagraphText {
+      position: relative;
+    }
+  }
+
+  .SubFrameImage {
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+
+    background: url(../../assets/images/menandwomen4.jpg);
+    background-size: cover;
+
+    border-radius: 2.083vw;
+  }
+}
+
+.SubFrame5 {
+  display: flex;
+  scroll-margin: 2vw;
+  box-sizing: border-box;
+
+  position: absolute;
+  right: 4.514vw;
+  left: 4.514vw;
+  top: 405vh;
+  // bottom: 5.556vw;
+  height: 90vh;
+
+  background: rgba(255, 255, 255, 0.19);
+  border: 0.052vw solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0vw 0.209vw 0.209vw rgba(0, 0, 0, 0.25);
+  border-radius: 2.083vw;
+
+  .SubFrameParagraph {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    font-size: 300%;
+
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+
+    .SubFrameParagraphText {
+      position: relative;
+    }
+  }
+
+  .SubFrameImage {
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+
+    background: url(../../assets/images/soSad.jpg);
+    background-size: cover;
+
+    border-radius: 2.083vw;
+  }
+}
+
+.scroll {
+  width: 5%;
+  height: 5%;
+  top: 95%;
+
+  background: url(../../assets/images/free-icon-down-7709971.png) no-repeat;
+  background-size: contain;
+  position: fixed;
+
+  /* 물결처럼 위아래로 움직이는 애니메이션 */
+  transform: translate(-50%, 0);
+  animation-name: wave;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.scrollTemp {
+  width: 5%;
+  height: 5%;
+  top: 95%;
+}
+
+.BlurGo {
+  position: absolute;
+  width: 100%;
+  left: 0%;
+  color: rgb(237, 153, 209);
+  cursor: pointer;
+
+  transform: translate(-50%, 0);
+  animation-name: wave;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}

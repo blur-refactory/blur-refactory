@@ -1,0 +1,38 @@
+.ProgressBar {
+  position: absolute;
+  background-color: #faeaea33;
+  left: 0px;
+  right: 0px;
+  height: 20px;
+  bottom: 0px;
+  border-radius: 30px;
+  line-height: 30px;
+}
+
+.currentProcessBar {
+  width: 0%;
+  opacity: 1;
+  height: 20px;
+  background: linear-gradient(to right, #50a1a3, #b4cacb);
+  color: white;
+  border-radius: 30px;
+  line-height: 20px;
+}
+
+@keyframes lightDivMoving {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  75% {
+    opacity: 0.75;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
