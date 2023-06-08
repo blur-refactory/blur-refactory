@@ -6,12 +6,14 @@ import com.blur.bluruser.match.dto.request.RequestUpdateSettingDto;
 import com.blur.bluruser.match.dto.response.ResponseAceeptDto;
 import com.blur.bluruser.match.dto.response.ResponseMatchDto;
 import com.blur.bluruser.match.dto.response.ResponseMatchSettingDto;
+import com.blur.bluruser.match.service.AlarmService;
 import com.blur.bluruser.match.service.MatchService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +22,16 @@ import org.springframework.web.bind.annotation.*;
 public class MatchingController {
 
     private final MatchService matchService;
+
+    private final AlarmService alarmService;
+
+    @GetMapping("/alarm/subscribe")
+    public ResponseEntity<SseEmitter> subscribe(@ApiParam(value = "사용자의 ID", required = true)
+                                                    @RequestHeader("X-Username") String userId) {
+
+        SseEmitter res = alarmService.subscribe(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(res);
+    }
 
     @ApiOperation(value = "매칭 설정 정보 가져오기", response = ResponseMatchSettingDto.class)
     @ApiResponses(value = {
