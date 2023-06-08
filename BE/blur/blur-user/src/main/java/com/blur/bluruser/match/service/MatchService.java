@@ -1,8 +1,11 @@
 package com.blur.bluruser.match.service;
 
+import com.blur.bluruser.match.dto.request.RequestAcceptDto;
+import com.blur.bluruser.match.dto.request.RequestFemaleCheckDto;
 import com.blur.bluruser.match.dto.request.RequestMatchDto;
 import com.blur.bluruser.match.dto.request.RequestUpdateSettingDto;
-import com.blur.bluruser.match.dto.response.ResponseMatchDto;
+import com.blur.bluruser.match.dto.response.ResponseAceeptDto;
+import com.blur.bluruser.match.dto.response.ResponseCheckDto;
 import com.blur.bluruser.match.dto.response.ResponseMatchSettingDto;
 import com.blur.bluruser.match.entity.MatchMakingRating;
 import com.blur.bluruser.match.entity.MatchSetting;
@@ -11,11 +14,11 @@ import com.blur.bluruser.match.entity.MatchedUser;
 import com.blur.bluruser.match.repository.MatchMakingRatingRepository;
 import com.blur.bluruser.match.repository.MatchSettingRepository;
 import com.blur.bluruser.match.repository.MatchedUserRepository;
+import com.blur.bluruser.profile.entity.UserInterest;
 import com.blur.bluruser.profile.entity.UserProfile;
 import com.blur.bluruser.profile.repository.UserProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -34,6 +37,8 @@ public class MatchService {
     private final MatchedUserRepository matchedUserRepository;
 
     private static Map<String, MatchDto> males = new ConcurrentHashMap<>();
+
+    private static Map<String, MatchDto> females = new ConcurrentHashMap<>();
 
     private static Map<String, List<String>> success = new ConcurrentHashMap<>();
 
@@ -58,7 +63,7 @@ public class MatchService {
         matchSettingRepository.save(matchSetting);
     }
 
-    public ResponseMatchDto matchStart(String userId, RequestMatchDto requestMatchDto) {
+    public String matchStart(String userId, RequestMatchDto requestMatchDto) {
 
         MatchMakingRating matchMakingRating = matchMakingRatingRepository.findByUserId(userId);
         if (matchMakingRating == null) {
@@ -79,17 +84,24 @@ public class MatchService {
         MatchDto matchDto = new MatchDto(requestMatchDto, matchSetting, matchMakingRating, userProfile);
         if (matchDto.getGender().equals("M")) {
             males.put(matchDto.getUserId(), matchDto);
-            ResponseMatchDto responseMatchDto = new ResponseMatchDto();
-            responseMatchDto.setMyGender(matchDto.getGender());
-            return responseMatchDto;
+            return "M";
         }
+        else {
+            females.put(matchDto.getUserId(), matchDto);
+            return "F";
+        }
+    }
+
+    public ResponseCheckDto femaleCheck(String userId, RequestFemaleCheckDto requestFemaleCheckDto) {
+
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
         Queue<QueueDto> maleList = new PriorityQueue<>((o1, o2) -> {
             if(o1.getPoint()  == o2.getPoint()) {
                 return o2.getPoint();
             }
             return Integer.compare(o2.getPoint(), o1.getPoint());
         });
-        MatchDto femaleDto = matchDto;
+        MatchDto femaleDto = females.get(userId);
 
         for (String male : males.keySet()) {
             MatchDto maleDto = males.get(male);
@@ -102,62 +114,78 @@ public class MatchService {
             String maleId = maleList.poll().getUserId();
             MatchDto selectedMale = males.get(maleId);
             if (selectedMale == null) {continue;}
-            ResponseMatchDto responseMatchDto = new ResponseMatchDto(femaleDto, selectedMale);
-            return responseMatchDto;
+            ResponseCheckDto responseCheckDto = new ResponseCheckDto(selectedMale);
+            return responseCheckDto;
         }
-        ResponseMatchDto responseMatchDto = new ResponseMatchDto();
-        responseMatchDto.setMyGender(femaleDto.getGender());
+        ResponseCheckDto responseMatchDto = new ResponseCheckDto();
         return responseMatchDto;
+    }
+
+    public ResponseCheckDto maleCheck(String userId) {
+
+        List<String> successInfo = success.get(userId);
+        ResponseCheckDto responseCheckDto = new ResponseCheckDto();
+        if(successInfo == null) {
+
+            return responseCheckDto;
+        }
+        String sessionId = successInfo.get(0);
+        String partnerId = successInfo.get(1);
+        responseCheckDto.setSessionId(sessionId);
+        responseCheckDto.setPartnerId(partnerId);
+        return  responseCheckDto;
     }
 
     public void matchDecline(String userId) {
 
-        males.remove(userId);
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        if (userProfile.getGender() == "M") {
+            males.remove(userId);
+
+        }
+        females.remove(userId);
         success.remove(userId);
     }
 
-//    public ResponseAceeptDto matchAccept(RequestAcceptDto requestAcceptDto) {
-//
-//        if (requestAcceptDto.getMyGender().equals("F")) {
-//            MatchDto selectedMale = males.get(requestAcceptDto.getPartnerId());
-//            if (selectedMale == null) {
-//                return null;
-//            }
-//            males.remove(selectedMale.getUserId());
-//            List<String> successInfo = new ArrayList<>();
-//            successInfo.add(requestAcceptDto.getSessionId());
-//            successInfo.add(requestAcceptDto.getUserId());
-//            success.put(requestAcceptDto.getPartnerId(), successInfo);
-//            String partnerId = requestAcceptDto.getPartnerId();
-//            String getUserInterestUrl = String.format(env.getProperty("blur-profile.url")) + "/" + partnerId + "/service/partner";
-//            ResponseEntity<Collection<String>> partnerInterests = restTemplate.exchange(
-//                    getUserInterestUrl,
-//                    HttpMethod.GET,
-//                    null,
-//                    new ParameterizedTypeReference<Collection<String>>(){}
-//            );
-//            Collection<String> partnerInterestsBody = partnerInterests.getBody();
-//            String getProfileUrl = String.format(env.getProperty("blur-profile.url")) + "/" + partnerId + "/service";
-//            ResponseEntity<ResponseProfileDto> profileResponse = restTemplate.getForEntity(getProfileUrl , ResponseProfileDto.class, partnerId);
-//            String partnerNickname = profileResponse.getBody().getNickname();
-//            ResponseAceeptDto responseAceeptDto = new ResponseAceeptDto(requestAcceptDto, partnerNickname, partnerInterestsBody);
-//            return responseAceeptDto;
-//        }
-//        else {
-//            List<String> successInfo = success.get(requestAcceptDto.getUserId());
-//            if (successInfo == null) {
-//                return null;
-//            }
-//            String sessionId = successInfo.get(0);
-//            String partnerId = successInfo.get(1);
-//            success.remove(requestAcceptDto.getUserId());
-//            String partnerNickname = profileResponse.getBody().getNickname();
-//            ResponseAceeptDto responseAceeptDto = new ResponseAceeptDto(partnerId, partnerNickname, partnerInterestsBody, sessionId);
-//            return responseAceeptDto;
-//        }
-//    }
+    public ResponseAceeptDto matchAccept(String userId, RequestAcceptDto requestAcceptDto) {
 
-
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        if (userProfile.getGender().equals("F")) {
+            MatchDto selectedMale = males.get(requestAcceptDto.getPartnerId());
+            if (selectedMale == null) {
+                return null;
+            }
+            males.remove(selectedMale.getUserId());
+            List<String> successInfo = new ArrayList<>();
+            successInfo.add(requestAcceptDto.getSessionId());
+            successInfo.add(userId);
+            success.put(requestAcceptDto.getPartnerId(), successInfo);
+            String partnerId = requestAcceptDto.getPartnerId();
+            UserProfile partner = userProfileRepository.findByUserId(partnerId);
+            List<String> partnerInterests = new ArrayList<>();
+            for (UserInterest partnerInterest: partner.getUserInterests()) {
+                partnerInterests.add(partnerInterest.getInterest().getInterestName());
+            }
+            ResponseAceeptDto responseAceeptDto = new ResponseAceeptDto(partner, partnerInterests);
+            return responseAceeptDto;
+        }
+        else {
+            List<String> successInfo = success.get(userId);
+            if (successInfo == null) {
+                return null;
+            }
+            String sessionId = successInfo.get(0);
+            String partnerId = successInfo.get(1);
+            success.remove(userId);
+            UserProfile partner = userProfileRepository.findByUserId(partnerId);
+            List<String> partnerInterests = new ArrayList<>();
+            for (UserInterest partnerInterest: partner.getUserInterests()) {
+                partnerInterests.add(partnerInterest.getInterest().getInterestName());
+            }
+            ResponseAceeptDto responseAceeptDto = new ResponseAceeptDto(partner, partnerInterests);
+            return responseAceeptDto;
+        }
+    }
 
     public String meetingExit(MeetingDto meetingDto) {
 
