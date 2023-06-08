@@ -25,6 +25,7 @@ public class BlurUserApplication {
 		config.addAllowedOriginPattern("http://localhost:8081");
 		config.addAllowedMethod("*");
 		config.addAllowedHeader("*");
+		config.addExposedHeader("X-username");
 		config.setMaxAge(3600L);
 		source.registerCorsConfiguration("/**", config);
 		return source;
