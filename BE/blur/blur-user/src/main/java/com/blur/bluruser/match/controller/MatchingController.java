@@ -7,6 +7,7 @@ import com.blur.bluruser.match.dto.request.RequestUpdateSettingDto;
 import com.blur.bluruser.match.dto.response.ResponseAceeptDto;
 import com.blur.bluruser.match.dto.response.ResponseCheckDto;
 import com.blur.bluruser.match.dto.response.ResponseMatchSettingDto;
+import com.blur.bluruser.match.dto.response.ResponseStartDto;
 import com.blur.bluruser.match.service.MatchService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class MatchingController {
     })
     @GetMapping("/getSetting")
     public ResponseEntity<?> getSetting(@ApiParam(value = "사용자의 ID", required = true)
-                                            @RequestHeader("X_Username") String userId) {
+                                            @RequestHeader("X-Username") String userId) {
         ResponseMatchSettingDto responseMatchSettingDto = matchService.getSetting(userId);
         return ResponseEntity.status(HttpStatus.OK).body(responseMatchSettingDto);
     }
@@ -49,7 +50,7 @@ public class MatchingController {
     })
     @PostMapping("/updateSetting")
     public ResponseEntity<?> updateSetting(@ApiParam(value = "사용자의 ID", required = true)
-                                               @RequestHeader("X_Username") String userId,
+                                               @RequestHeader("X-Username") String userId,
                                            @ApiParam(value = "변경 매치 설정 정보", required = true)
                                                 @RequestBody RequestUpdateSettingDto requestUpdateSettingDto) {
         matchService.updateSetting(userId, requestUpdateSettingDto);
@@ -67,15 +68,16 @@ public class MatchingController {
     })
     @PostMapping("/start")
     public ResponseEntity<?> matchStart(@ApiParam(value = "사용자의 ID", required = true)
-                                            @RequestHeader("X_Username") String userId,
+                                            @RequestHeader("X-Username") String userId,
                                         @ApiParam(value = "요청 매치 정보", required = true)
                                             @RequestBody RequestMatchDto requestMatchDto) {
 
-        String gender = matchService.matchStart(userId, requestMatchDto);
-        if (gender == null) {
+        ResponseStartDto responseStartDto = matchService.matchStart(userId, requestMatchDto);
+
+        if (responseStartDto == null) {
             return ResponseEntity.status(403).body("신고10회이상");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(gender);
+        return ResponseEntity.status(HttpStatus.OK).body(responseStartDto);
     }
 
     @ApiOperation(value = "여성 유저 매칭 확인", response = ResponseCheckDto.class)
@@ -89,7 +91,7 @@ public class MatchingController {
     })
     @PostMapping("/femaleCheck")
     public ResponseEntity<?> femaleCheck(@ApiParam(value = "사용자의 ID", required = true)
-                                        @RequestHeader("X_Username") String userId,
+                                        @RequestHeader("X-Username") String userId,
                                         @ApiParam(value = "여성 정보", required = true)
                                         @RequestBody RequestFemaleCheckDto requestFemaleCheckDto) {
 
@@ -108,7 +110,7 @@ public class MatchingController {
     })
     @PostMapping("/maleCheck")
     public ResponseEntity<?> maleCheck(@ApiParam(value = "사용자의 ID", required = true)
-                                         @RequestHeader("X_Username") String userId) {
+                                         @RequestHeader("X-Username") String userId) {
 
         ResponseCheckDto responseCheckDto = matchService.maleCheck(userId);
         return ResponseEntity.status(HttpStatus.OK).body(responseCheckDto);
@@ -125,7 +127,7 @@ public class MatchingController {
     })
     @PostMapping("/stop")
     public ResponseEntity<?> matchStop(@ApiParam(value = "사용자의 ID", required = true)
-                                           @RequestHeader("X_Username") String userId) {
+                                           @RequestHeader("X-Username") String userId) {
 
         matchService.matchDecline(userId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
@@ -142,7 +144,7 @@ public class MatchingController {
     })
     @PostMapping("/decline")
     public ResponseEntity<?> matchDecline(@ApiParam(value = "사용자의 ID", required = true)
-                                              @RequestHeader("X_Username") String userId) {
+                                              @RequestHeader("X-Username") String userId) {
 
         matchService.matchDecline(userId);
 
@@ -160,7 +162,7 @@ public class MatchingController {
     })
     @PostMapping("/accept")
     public ResponseEntity<?> matchAccept(@ApiParam(value = "사용자의 ID", required = true)
-                                             @RequestHeader("X_Username") String userId,
+                                             @RequestHeader("X-Username") String userId,
                                          @RequestBody RequestAcceptDto requestAcceptDto) {
 
         ResponseAceeptDto responseAceeptDto = matchService.matchAccept(userId, requestAcceptDto);

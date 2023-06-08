@@ -7,6 +7,7 @@ import com.blur.bluruser.match.dto.request.RequestUpdateSettingDto;
 import com.blur.bluruser.match.dto.response.ResponseAceeptDto;
 import com.blur.bluruser.match.dto.response.ResponseCheckDto;
 import com.blur.bluruser.match.dto.response.ResponseMatchSettingDto;
+import com.blur.bluruser.match.dto.response.ResponseStartDto;
 import com.blur.bluruser.match.entity.MatchMakingRating;
 import com.blur.bluruser.match.entity.MatchSetting;
 import com.blur.bluruser.match.dto.*;
@@ -63,7 +64,7 @@ public class MatchService {
         matchSettingRepository.save(matchSetting);
     }
 
-    public String matchStart(String userId, RequestMatchDto requestMatchDto) {
+    public ResponseStartDto matchStart(String userId, RequestMatchDto requestMatchDto) {
 
         MatchMakingRating matchMakingRating = matchMakingRatingRepository.findByUserId(userId);
         if (matchMakingRating == null) {
@@ -82,14 +83,16 @@ public class MatchService {
         MatchSetting matchSetting = matchSettingRepository.findByUserId(userId);
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
         MatchDto matchDto = new MatchDto(requestMatchDto, matchSetting, matchMakingRating, userProfile);
+        ResponseStartDto responseStartDto = new ResponseStartDto();
+        String gender = matchDto.getGender();
+        responseStartDto.setGender(gender);
         if (matchDto.getGender().equals("M")) {
             males.put(matchDto.getUserId(), matchDto);
-            return "M";
         }
         else {
             females.put(matchDto.getUserId(), matchDto);
-            return "F";
         }
+        return responseStartDto;
     }
 
     public ResponseCheckDto femaleCheck(String userId, RequestFemaleCheckDto requestFemaleCheckDto) {
