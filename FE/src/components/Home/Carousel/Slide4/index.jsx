@@ -1,4 +1,4 @@
-import slideImage4 from "../../../../assets/images/slideImage4.jpg";
+import slideImage4 from "../../../../assets/images/slideImage5.svg";
 
 function Slide4() {
   return (
@@ -8,7 +8,7 @@ function Slide4() {
       </div>
       <div className="HomeRightToolTipDiv">
         <span className="HomeRightToolTipText">
-          상대방의 관심사를 파악해보세요.
+          이모티콘을 눌러서 상대방에게 보내주세요.
         </span>
       </div>
     </div>

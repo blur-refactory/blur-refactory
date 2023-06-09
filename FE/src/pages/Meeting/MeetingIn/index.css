@@ -161,7 +161,7 @@
   height: 3.056vw;
   left: 0vw;
   top: 0vw;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 1.667vw;
   line-height: 3.056vw;
   z-index: 1;
@@ -176,7 +176,12 @@
   right: 0vw;
   z-index: 1;
 }
-.MeetingIn .MeetingIn_CamDiv .MLeftDiv1 .MMyCamSubDiv .MMyCamSubBtnsDiv .MMyCamSubCamSettingBtn {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MLeftDiv1
+  .MMyCamSubDiv
+  .MMyCamSubBtnsDiv
+  .MMyCamSubCamSettingBtn {
   position: absolute;
   width: 1.806vw;
   height: 1.806vw;
@@ -186,7 +191,12 @@
   background-size: 100% 100%;
   cursor: pointer;
 }
-.MeetingIn .MeetingIn_CamDiv .MLeftDiv1 .MMyCamSubDiv .MMyCamSubBtnsDiv .MMyCamSubCamToggleBtn {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MLeftDiv1
+  .MMyCamSubDiv
+  .MMyCamSubBtnsDiv
+  .MMyCamSubCamToggleBtn {
   position: absolute;
   width: 1.806vw;
   height: 1.806vw;
@@ -194,15 +204,30 @@
   top: 0.556vw;
   cursor: pointer;
 }
-.MeetingIn .MeetingIn_CamDiv .MLeftDiv1 .MMyCamSubDiv .MMyCamSubBtnsDiv .MMyCamSubCamToggleBtn.camOff {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MLeftDiv1
+  .MMyCamSubDiv
+  .MMyCamSubBtnsDiv
+  .MMyCamSubCamToggleBtn.camOff {
   background-image: url(../../../assets/images/camOn.png);
   background-size: 100% 100%;
 }
-.MeetingIn .MeetingIn_CamDiv .MLeftDiv1 .MMyCamSubDiv .MMyCamSubBtnsDiv .MMyCamSubCamToggleBtn.camOn {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MLeftDiv1
+  .MMyCamSubDiv
+  .MMyCamSubBtnsDiv
+  .MMyCamSubCamToggleBtn.camOn {
   background-image: url(../../../assets/images/camOff.png);
   background-size: 100% 100%;
 }
-.MeetingIn .MeetingIn_CamDiv .MLeftDiv1 .MMyCamSubDiv .MMyCamSubBtnsDiv .MMyCamSubMicBtn {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MLeftDiv1
+  .MMyCamSubDiv
+  .MMyCamSubBtnsDiv
+  .MMyCamSubMicBtn {
   position: absolute;
   width: 2.431vw;
   height: 1.944vw;
@@ -210,15 +235,30 @@
   top: 0.556vw;
   cursor: pointer;
 }
-.MeetingIn .MeetingIn_CamDiv .MLeftDiv1 .MMyCamSubDiv .MMyCamSubBtnsDiv .MMyCamSubMicBtn.myMicOff {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MLeftDiv1
+  .MMyCamSubDiv
+  .MMyCamSubBtnsDiv
+  .MMyCamSubMicBtn.myMicOff {
   background-image: url(../../../assets/images/micOn.png);
   background-size: 100% 100%;
 }
-.MeetingIn .MeetingIn_CamDiv .MLeftDiv1 .MMyCamSubDiv .MMyCamSubBtnsDiv .MMyCamSubMicBtn.myMicOn {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MLeftDiv1
+  .MMyCamSubDiv
+  .MMyCamSubBtnsDiv
+  .MMyCamSubMicBtn.myMicOn {
   background-image: url(../../../assets/images/micOff.png);
   background-size: 100% 100%;
 }
-.MeetingIn .MeetingIn_CamDiv .MLeftDiv1 .MMyCamSubDiv .MMyCamSubBtnsDiv .MMyCamSubSoundBtn {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MLeftDiv1
+  .MMyCamSubDiv
+  .MMyCamSubBtnsDiv
+  .MMyCamSubSoundBtn {
   position: absolute;
   width: 1.806vw;
   height: 1.528vw;
@@ -229,7 +269,12 @@
   background-size: 100% 100%;
   z-index: 1;
 }
-.MeetingIn .MeetingIn_CamDiv .MLeftDiv1 .MMyCamSubDiv .MMyCamSubBtnsDiv .MMyCamSubSoundDesc {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MLeftDiv1
+  .MMyCamSubDiv
+  .MMyCamSubBtnsDiv
+  .MMyCamSubSoundDesc {
   display: none;
   position: absolute;
   width: 6.944vw;
@@ -237,7 +282,13 @@
   top: 3.125vw;
   left: 7.431vw;
 }
-.MeetingIn .MeetingIn_CamDiv .MLeftDiv1 .MMyCamSubDiv .MMyCamSubBtnsDiv .MMyCamSubSoundDesc .MMyCamSubSoundDescTop {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MLeftDiv1
+  .MMyCamSubDiv
+  .MMyCamSubBtnsDiv
+  .MMyCamSubSoundDesc
+  .MMyCamSubSoundDescTop {
   position: absolute;
   width: 0;
   height: 0;
@@ -250,7 +301,13 @@
   transform: rotate(90deg);
   z-index: 0;
 }
-.MeetingIn .MeetingIn_CamDiv .MLeftDiv1 .MMyCamSubDiv .MMyCamSubBtnsDiv .MMyCamSubSoundDesc .MMyCamSubSoundDescMain {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MLeftDiv1
+  .MMyCamSubDiv
+  .MMyCamSubBtnsDiv
+  .MMyCamSubSoundDesc
+  .MMyCamSubSoundDescMain {
   position: absolute;
   width: 6.944vw;
   height: 1.736vw;
@@ -261,7 +318,13 @@
   border-radius: 2.083vw;
   cursor: auto;
 }
-.MeetingIn .MeetingIn_CamDiv .MLeftDiv1 .MMyCamSubDiv .MMyCamSubBtnsDiv .MMyCamSubSoundDesc .MMyCamSubSoundDescSoundVal {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MLeftDiv1
+  .MMyCamSubDiv
+  .MMyCamSubBtnsDiv
+  .MMyCamSubSoundDesc
+  .MMyCamSubSoundDescSoundVal {
   position: absolute;
   width: 1.389vw;
   height: 1.389vw;
@@ -272,7 +335,13 @@
   color: white;
   z-index: 3;
 }
-.MeetingIn .MeetingIn_CamDiv .MLeftDiv1 .MMyCamSubDiv .MMyCamSubBtnsDiv .MMyCamSubSoundDesc .range-slider {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MLeftDiv1
+  .MMyCamSubDiv
+  .MMyCamSubBtnsDiv
+  .MMyCamSubSoundDesc
+  .range-slider {
   -webkit-appearance: none;
   position: absolute;
   top: -13vw;
@@ -282,7 +351,14 @@
   display: flex;
   z-index: 5;
 }
-.MeetingIn .MeetingIn_CamDiv .MLeftDiv1 .MMyCamSubDiv .MMyCamSubBtnsDiv .MMyCamSubSoundDesc .range-slider .slider {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MLeftDiv1
+  .MMyCamSubDiv
+  .MMyCamSubBtnsDiv
+  .MMyCamSubSoundDesc
+  .range-slider
+  .slider {
   -webkit-appearance: none;
   width: 100%;
   height: 0.4em;
@@ -295,7 +371,14 @@
     Firefox의 경우 -moz- 사용
   */
 }
-.MeetingIn .MeetingIn_CamDiv .MLeftDiv1 .MMyCamSubDiv .MMyCamSubBtnsDiv .MMyCamSubSoundDesc .range-slider .slider::-webkit-slider-thumb {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MLeftDiv1
+  .MMyCamSubDiv
+  .MMyCamSubBtnsDiv
+  .MMyCamSubSoundDesc
+  .range-slider
+  .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 1.042vw;
@@ -305,7 +388,14 @@
   cursor: pointer;
   z-index: 6;
 }
-.MeetingIn .MeetingIn_CamDiv .MLeftDiv1 .MMyCamSubDiv .MMyCamSubBtnsDiv .MMyCamSubSoundDesc .range-slider .progressSlider {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MLeftDiv1
+  .MMyCamSubDiv
+  .MMyCamSubBtnsDiv
+  .MMyCamSubSoundDesc
+  .range-slider
+  .progressSlider {
   position: absolute;
   width: 70%;
   height: 0.4em;
@@ -343,7 +433,11 @@
 .MeetingIn .MeetingIn_CamDiv .MRightDiv1 .lightTagsDiv.clickLightChangeDiv {
   animation: lightDivMoving 1s 0.5s linear forwards; /* 이벤트명  반복시간  딜레이시간  이벤트처리부드럽게  이벤트무한반복*/
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .lightTagsDiv.clickLightChangeDiv span:nth-child(n) {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .lightTagsDiv.clickLightChangeDiv
+  span:nth-child(n) {
   opacity: 1;
   margin: 0.694vw;
   font-weight: 400;
@@ -351,13 +445,21 @@
   line-height: 1.528vw;
   color: #000000;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .lightTagsDiv.clickLightChangeDiv span:nth-child(1) {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .lightTagsDiv.clickLightChangeDiv
+  span:nth-child(1) {
   padding-left: 5.903vw;
 }
 .MeetingIn .MeetingIn_CamDiv .MRightDiv1 .lightTagsDiv.basicLightChangeDiv {
   animation: lightDivUnMoving 0.5s 0s linear forwards; /* 이벤트명  반복시간  딜레이시간  이벤트처리부드럽게  이벤트무한반복*/
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .lightTagsDiv.basicLightChangeDiv span:nth-child(n) {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .lightTagsDiv.basicLightChangeDiv
+  span:nth-child(n) {
   opacity: 0;
 }
 .MeetingIn .MeetingIn_CamDiv .MRightDiv1 .lightTagBtn {
@@ -384,7 +486,7 @@
   height: 36.5vw;
   background: rgba(255, 255, 255, 0.2);
   -webkit-backdrop-filter: blur(2.604vw);
-          backdrop-filter: blur(2.604vw);
+  backdrop-filter: blur(2.604vw);
   border-radius: 2.083vw;
   z-index: 6;
 }
@@ -416,7 +518,11 @@
   bottom: -1vw;
   display: flex;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubText {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubText {
   position: absolute;
   width: 13.889vw;
   height: 3.056vw;
@@ -427,14 +533,23 @@
   line-height: 3.056vw;
   color: #50a1a3;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv {
   position: absolute;
   width: 8.333vw;
   height: 3.056vw;
   top: 0vw;
   right: 0vw;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubExitBtn {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubExitBtn {
   position: absolute;
   width: 1.806vw;
   height: 1.806vw;
@@ -445,7 +560,12 @@
   background-size: 100% 100%;
   cursor: pointer;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubBlockBtn {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubBlockBtn {
   position: absolute;
   width: 1.806vw;
   height: 1.806vw;
@@ -456,7 +576,12 @@
   cursor: pointer;
   z-index: 1;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubBlockDesc {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubBlockDesc {
   display: none;
   position: absolute;
   width: 5.556vw;
@@ -464,7 +589,13 @@
   top: 3.125vw;
   left: -1.806vw;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubBlockDesc .MPartenerCamSubBlockDescTop {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubBlockDesc
+  .MPartenerCamSubBlockDescTop {
   position: absolute;
   width: 0;
   height: 0;
@@ -477,7 +608,13 @@
   transform: rotate(-90deg);
   z-index: 0;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubBlockDesc .MPartenerCamSubBlockDescMain {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubBlockDesc
+  .MPartenerCamSubBlockDescMain {
   position: absolute;
   width: 5.556vw;
   height: 1.736vw;
@@ -491,14 +628,26 @@
   justify-content: center;
   cursor: pointer;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubBlockDesc .MPartenerCamSubBlockDescMain .MPartenerCamSubBlockDescText {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubBlockDesc
+  .MPartenerCamSubBlockDescMain
+  .MPartenerCamSubBlockDescText {
   position: absolute;
   width: 6.944vw;
   text-align: center;
   font-size: 0.903vw;
   color: white;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubMicBtn {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubMicBtn {
   position: absolute;
   width: 2.431vw;
   height: 1.944vw;
@@ -508,15 +657,30 @@
   background-size: 100% 100%;
   cursor: pointer;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubMicBtn.partMicOff {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubMicBtn.partMicOff {
   background-image: url(../../../assets/images/micOn.png);
   background-size: 100% 100%;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubMicBtn.partMicOn {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubMicBtn.partMicOn {
   background-image: url(../../../assets/images/micOff.png);
   background-size: 100% 100%;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubSoundBtn {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubSoundBtn {
   position: absolute;
   width: 1.806vw;
   height: 1.528vw;
@@ -527,7 +691,12 @@
   cursor: pointer;
   z-index: 1;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubSoundDesc {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubSoundDesc {
   display: none;
   position: absolute;
   width: 6.944vw;
@@ -535,7 +704,13 @@
   top: 3.125vw;
   left: 3.819vw;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubSoundDesc .MPartenerCamSubSoundDescTop {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubSoundDesc
+  .MPartenerCamSubSoundDescTop {
   position: absolute;
   width: 0;
   height: 0;
@@ -548,7 +723,13 @@
   transform: rotate(90deg);
   z-index: 0;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubSoundDesc .MPartenerCamSubSoundDescMain {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubSoundDesc
+  .MPartenerCamSubSoundDescMain {
   position: absolute;
   width: 6.944vw;
   height: 1.736vw;
@@ -559,7 +740,13 @@
   border-radius: 2.083vw;
   cursor: auto;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubSoundDesc .MPartenerCamSubSoundDescSoundVal {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubSoundDesc
+  .MPartenerCamSubSoundDescSoundVal {
   position: absolute;
   width: 1.389vw;
   height: 1.389vw;
@@ -570,7 +757,13 @@
   color: white;
   z-index: 3;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubSoundDesc .part-range-slider {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubSoundDesc
+  .part-range-slider {
   -webkit-appearance: none;
   position: absolute;
   top: -13vw;
@@ -580,7 +773,14 @@
   display: flex;
   z-index: 5;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubSoundDesc .part-range-slider .partSlider {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubSoundDesc
+  .part-range-slider
+  .partSlider {
   -webkit-appearance: none;
   width: 100%;
   height: 0.4em;
@@ -593,7 +793,14 @@
     Firefox의 경우 -moz- 사용
   */
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubSoundDesc .part-range-slider .partSlider::-webkit-slider-thumb {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubSoundDesc
+  .part-range-slider
+  .partSlider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 1.042vw;
@@ -603,7 +810,14 @@
   cursor: pointer;
   z-index: 6;
 }
-.MeetingIn .MeetingIn_CamDiv .MRightDiv1 .MPartenerCamSubDiv .MPartenerCamSubBtnsDiv .MPartenerCamSubSoundDesc .part-range-slider .partProgressSlider {
+.MeetingIn
+  .MeetingIn_CamDiv
+  .MRightDiv1
+  .MPartenerCamSubDiv
+  .MPartenerCamSubBtnsDiv
+  .MPartenerCamSubSoundDesc
+  .part-range-slider
+  .partProgressSlider {
   position: absolute;
   width: 50%;
   height: 0.4em;

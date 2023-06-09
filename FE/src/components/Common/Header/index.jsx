@@ -1,4 +1,3 @@
-// import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import "./index.css";
 import { Link } from "react-router-dom";
 import { loginId, saveToken } from "../../../redux/reducers/saveToken";

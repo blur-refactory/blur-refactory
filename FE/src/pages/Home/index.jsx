@@ -20,10 +20,12 @@ import Slide5 from "../../components/Home/Carousel/Slide5";
 import ChatList from "../../components/Chat/ChatList";
 import ChatPage from "../../components/Chat/ChatPage";
 import { CustomAxios } from "../../api/CustomAxios";
+import axios from "axios";
 let myStream;
 let carousel;
 function Home() {
-  let userId = useSelector((state) => state.strr.id); // Redux에 저장되어있는 MToggle
+  // let userId = useSelector((state) => state.strr.id); // Redux에 저장되어있는 MToggle
+  // let userId = "bbb";
   let myToken = useSelector((state) => state.strr.token); // store에 저장되어있는 토큰
   const profiled = useSelector((state) => state.strr.profiled);
 
@@ -40,7 +42,7 @@ function Home() {
   // startVideo 함수 실행하면 자신의 모습 볼수있음
   const videoRef = useRef(null);
   const CONSTRAINTS = {
-    video: { width: { exact: 440 }, height: { exact: 340 } },
+    video: { width: { exact: 50 }, height: { exact: 36 } },
   };
 
   const startVideo = async () => {
@@ -90,8 +92,13 @@ function Home() {
   useEffect(() => {
     const axiosInstance = CustomAxios;
     axiosInstance
-      .get(`/api/profile/${userId}/check`)
+      .get(`/api/profile/check`)
+      // axios({
+      //   method: "get",
+      //   url: `170.30.1.22:8081/api/profile/check`,
+      // })
       .then((res) => {
+        console.log("check 로직 OK");
         dispatch(ISMYPROFILE(res.data));
       })
       .catch((err) => console.log(err));
@@ -115,23 +122,19 @@ function Home() {
       if (!alert("미팅 대기 페이지로 이동합니다.")) {
         // 데이터 백에 넘겨줌
         navigator.geolocation.getCurrentPosition((loc) => {
-          console.log(
-            `lat: ${loc.coords.latitude}, lng: ${loc.coords.longitude}`
-          );
-          dispatch(
-            MYGEO({ lat: loc.coords.latitude, lng: loc.coords.longitude })
-          );
+          console.log(`lat: ${loc.coords.latitude}, lng: ${loc.coords.longitude}`);
+          dispatch(MYGEO({ lat: loc.coords.latitude, lng: loc.coords.longitude }));
           const matchStartReqData = {
             lat: loc.coords.latitude,
             lng: loc.coords.longitude,
-            userId: userId,
+            // userId: userId,
           };
-          console.log(CustomAxios);
           CustomAxios.post(`/api/match/start`, matchStartReqData)
             .then((res) => {
-              // [response data : myGender/partnerId/sessionId(방번호)] - OXX
-              dispatch(MYGENDER(res.data.myGender));
-              alert("start: 백에 통신 성공");
+              // resData : gender
+              console.log(res.data.gender);
+              dispatch(MYGENDER(res.data.gender));
+              alert("match/start 성공");
 
               // 성공 시 미팅 페이지로 이동
               clearTimeout(carousel);
@@ -139,9 +142,7 @@ function Home() {
             })
             .catch((err) => {
               console.log(err);
-              alert(
-                "error\n서버와 통신에 실패했습니다.\n잠시후 다시 한번 시도해 주세요!"
-              );
+              alert("error\n서버와 통신에 실패했습니다.\n잠시후 다시 한번 시도해 주세요!");
             });
         });
       }
@@ -160,14 +161,9 @@ function Home() {
       {chatPage && !chatList ? <ChatPage showChatPage={showChatPage} /> : null}
 
       {blurInfoModal || alertModal ? (
-        <ModalWrap
-          blurInfoModal={blurInfoModal}
-          showBlurInfoModal={showBlurInfoModal}
-        />
+        <ModalWrap blurInfoModal={blurInfoModal} showBlurInfoModal={showBlurInfoModal} />
       ) : null}
-      {blurInfoModal && !alertModal ? (
-        <BlurInfo showBlurInfoModal={showBlurInfoModal} />
-      ) : null}
+      {blurInfoModal && !alertModal ? <BlurInfo showBlurInfoModal={showBlurInfoModal} /> : null}
 
       {alertModal && !blurInfoModal ? (
         <Alert

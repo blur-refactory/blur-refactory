@@ -1,4 +1,4 @@
-import img2 from "../../../../assets/images/HomeRightImg.png";
+import img2 from "../../../../assets/images/slideImage2.gif";
 
 function Slide2() {
   return (
