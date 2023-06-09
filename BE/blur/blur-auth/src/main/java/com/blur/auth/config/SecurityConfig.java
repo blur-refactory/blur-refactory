@@ -113,6 +113,9 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedOrigin("http://172.30.1.54");
+        config.addAllowedOrigin("http://172.30.1.54:3000");
         config.addAllowedOrigin("http://blurblur.kr");
         config.addAllowedOrigin("https://blurblur.kr");
         config.addAllowedOrigin("http://localhost:3000");

@@ -24,6 +24,7 @@ import java.util.Optional;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin
 //TODO: 전반적으로 DTO를 구성하지 않는 상황이 있는데, Dto를 좀 많이 고쳐야 할 것 같다.
 public class UserController {
     private final EmailService emailService;
@@ -47,6 +48,7 @@ public class UserController {
 //    }
 
     @PostMapping("/sendAuthEmail") // 이메일 인증메일 발송
+    @CrossOrigin
     public SendAuthEmailRes sendAuthEmail(@RequestBody SendAuthEmailReq sendAuthEmailReq) throws Exception {
         String email = sendAuthEmailReq.getEmail();
         return emailService.sendAuthMessage(email);
@@ -54,7 +56,7 @@ public class UserController {
 
     @PostMapping("/checkId") // 아이디 중복체크
     public ResponseEntity<Boolean> checkId(@RequestBody Map<String, String> param) {
-        String userId = param.get("email");
+        String userId = param.get("userId");
         Boolean res = userService.checkId(userId);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
