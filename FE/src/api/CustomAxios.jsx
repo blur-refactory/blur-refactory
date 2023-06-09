@@ -17,6 +17,7 @@ const API_URL = `${process.env.REACT_APP_API_ROOT_WONWOONG}`;
 export const CustomAxios = axios.create({
   baseURL: `${API_URL}`, // 기본 서버 주소 입력
   headers: {
-    access_token: "1",
+    X_Username: "aaa",
   },
+  withCredentials: true,
 });

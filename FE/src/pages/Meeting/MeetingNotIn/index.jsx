@@ -2,12 +2,7 @@
 import "./index.css";
 import { useCallback, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"; // useSeletor: useState와 같은 값 변경 메서드
-import {
-  MTOGGLE,
-  ROOM_NUM,
-  PARTNERINTERESTS,
-  PARTNERNICK,
-} from "../../../redux/reducers/MToggle";
+import { MTOGGLE, ROOM_NUM, PARTNERINTERESTS, PARTNERNICK } from "../../../redux/reducers/MToggle";
 // eslint-disable-next-line no-unused-vars
 import { useNavigate } from "react-router-dom";
 import { CustomAxios } from "../../../api/CustomAxios";
@@ -28,8 +23,7 @@ function MeetingNotIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  let mainTimer = setInterval(actionStart, 7000);
-
+  let mainTimer;
   // 방번호 생성 메서드
   function makeRoomName() {
     let today = new Date();
@@ -52,7 +46,6 @@ function MeetingNotIn() {
       });
 
       document.querySelector(".MMyCamDiv3").srcObject = myStream;
-      console.log("hi im rendering");
     } catch (error) {
       console.log(error);
     }
@@ -101,26 +94,21 @@ function MeetingNotIn() {
   }, [camToggle]);
 
   const handleMicToggle = useCallback(() => {
-    myStream
-      .getAudioTracks()
-      .forEach((track) => (track.enabled = !myMicToggle));
+    myStream.getAudioTracks().forEach((track) => (track.enabled = !myMicToggle));
     myStream.getAudioTracks().forEach((track) => console.log(track.enabled));
     // console.log(myStream.getAudioTracks());
     // console.log(myMicToggle);
     if (myMicToggle) {
-      document
-        .querySelector(".myMicOn")
-        .classList.replace("myMicOn", "myMicOff");
+      document.querySelector(".myMicOn").classList.replace("myMicOn", "myMicOff");
     } else {
-      document
-        .querySelector(".myMicOff")
-        .classList.replace("myMicOff", "myMicOn");
+      document.querySelector(".myMicOff").classList.replace("myMicOff", "myMicOn");
     }
     setMyMicToggle(!myMicToggle);
   }, [myMicToggle]);
 
   useEffect(() => {
     getCameras1();
+    mainTimer = setInterval(actionStart, 7000);
   }, []);
 
   function handleError() {
@@ -135,12 +123,11 @@ function MeetingNotIn() {
   }
 
   function handleAccept(pId, sId) {
+    console.log("handleAccept 실행");
     if (window.confirm("[매칭 성공]\n미팅 페이지로 이동합니다.")) {
       const acceptReqData = {
-        Id: userId,
         partnerId: pId,
         sessionId: sId,
-        myGender: USERSEX,
       };
       const axiosInstance = CustomAxios;
 
@@ -162,6 +149,8 @@ function MeetingNotIn() {
             const timer = setTimeout(() => {
               clearInterval(mainTimer);
               clearTimeout(timer);
+              mainTimer = null;
+              // stopMatching();
               toggleChange();
             }, 7 * 1000);
           }
@@ -177,65 +166,66 @@ function MeetingNotIn() {
 
       axiosInstance("/api/match/decline")
         .then((res) => {
-          clearInterval(mainTimer);
+          // clearInterval(mainTimer);
+          // mainTimer = null;
+          stopMatching();
           navigate("/home");
         })
         .catch((err) => {
-          console.log(`error, decline error 발생`);
+          console.log(`decline error`);
         });
     }
   }
 
   // 아래 코드는 axios 통신 시 사용할 코드
   function actionStart() {
-    // dispatch(MTOGGLE(true));
-    const checkReqData = {
-      gender: USERSEX,
-      lat: myGeo.lat,
-      lng: myGeo.lng,
-      userId: userId,
-    };
     const axiosInstance = CustomAxios;
-    axiosInstance
-      .post("/api/match/check", checkReqData)
-      .then((res) => {
-        // [check resData : myGender, parnerId, sessionId]
-        // [남자]
-        if (USERSEX === "M" && res.data.myGender) {
-          if (res.data.partnerId && res.data.sessionId) {
-            dispatch(ROOM_NUM(res.data.sessionId));
-            handleAccept(res.data.partnerId, res.data.sessionId);
-          } else {
-            console.log(errorCnt);
-            if (++errorCnt >= 10) {
-              handleError();
-            }
-          }
-        }
-        // [여자]
-        else {
-          if (res.data.partnerId && res.data.myGender) {
-            // 방번호(sessionId) 생성
-            let makingRoomName = makeRoomName();
-            console.log(makingRoomName);
+    // [남자]
+    if (USERSEX === "M") {
+      axiosInstance.post("/api/match/maleCheck").then((res) => {
+        // res(partnerId, sessionId)
+        let resPartnerId = res.data.partnerId;
+        let resSessionId = res.data.sessionId;
+        console.log(`maleCheck res: ${resPartnerId} ${resSessionId}`);
+        if (resPartnerId && resSessionId) {
+          dispatch(ROOM_NUM(resSessionId));
+          handleAccept(resPartnerId, resSessionId);
+        } else {
+          console.log(
+            "maleCheck:not resPartnerId||resSessionId(여자와 매칭이 안됐을 경우) errorcnt: ",
+            ++errorCnt
+          );
 
-            // 성공했을 때 store에 방번호 저장하기
-            dispatch(ROOM_NUM(makingRoomName));
-            handleAccept(res.data.partnerId, res.data.sessionId);
-          } else {
-            console.log("check OK, 남자와 매칭이 안됐을 경우", ++errorCnt);
-            if (errorCnt >= 10) {
-              clearInterval(mainTimer);
-              mainTimer = null;
-            }
-          }
+          if (errorCnt >= 10) handleError();
         }
-      })
-      // check axios 통신이 아예 안되는 경우 => 인터벌 안닫힘, 다시 요청해야함
-      .catch((err) => {
-        console.log("check 실패 ", errorCnt);
-        handleError();
       });
+    }
+    // [여자]
+    else {
+      // 방번호(sessionId) 생성
+      let makingRoomName = makeRoomName();
+      console.log(makingRoomName);
+      const femaleReqData = {
+        sessionId: makingRoomName,
+      };
+
+      axiosInstance.post("/api/match/femaleCheck", femaleReqData).then((res) => {
+        // res(partnerId, sessionId)
+        let resPartnerId = res.data.partnerId;
+        console.log("res", res);
+        if (resPartnerId) {
+          // 성공했을 때 store에 방번호 저장하기
+          dispatch(ROOM_NUM(makingRoomName));
+          handleAccept(resPartnerId, makingRoomName);
+        } else {
+          console.log(
+            "femaleCheck:not resPartnerId(남자와 매칭이 안됐을 경우) errorcnt: ",
+            ++errorCnt
+          );
+          if (errorCnt >= 10) handleError();
+        }
+      });
+    }
   }
 
   function stopMatching() {
@@ -265,14 +255,8 @@ function MeetingNotIn() {
       <div className="MLeftDiv">
         <div className="MMyCamLabel">My Camera</div>
         <div className="MMyCamDiv2 noShow"></div>
-        <div
-          className="MMyCamSubCamToggleBtn noShow"
-          onClick={handleCamToggle}
-        ></div>
-        <div
-          className="MMyCamSubMicBtn1 myMicOn"
-          onClick={handleMicToggle}
-        ></div>
+        <div className="MMyCamSubCamToggleBtn noShow" onClick={handleCamToggle}></div>
+        <div className="MMyCamSubMicBtn1 myMicOn" onClick={handleMicToggle}></div>
         <video className="MMyCamDiv3 show" autoPlay playsInline></video>
       </div>
       {!isMatching ? (

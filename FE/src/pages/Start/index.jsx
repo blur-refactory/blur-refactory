@@ -26,18 +26,6 @@ function Start() {
   const ref3 = useRef(null);
   const ref4 = useRef(null);
 
-  // socket.on("connect", () => {
-  //   console.log(socket.id); // x8WIv7-mJelg7on_ALbx
-  // });
-
-  // socket.on("error", function () {
-  //   console.log("Sorry, there seems to be an issue with the connection!");
-  // });
-
-  // socket.on("connect_error", function (err) {
-  //   console.log("connect failed" + err);
-  // });
-
   const showSignInModal = () => {
     setSignInModal((pre) => !pre);
   };
@@ -122,7 +110,6 @@ function Start() {
   //이미지 애니메이션.
   // useEffect(() => {
   //   const targets = document.querySelectorAll(".SubFrameImage");
-  //   console.log(targets);
   //   const options = {
   //     rootMargin: "0px",
   //     threshold: 0.5,
@@ -219,10 +206,7 @@ function Start() {
       ) : null}
 
       {signUpModal && !signInModal && !searchPwModal ? (
-        <SignUp
-          showSignUpModal={showSignUpModal}
-          showSignInModal={showSignInModal}
-        />
+        <SignUp showSignUpModal={showSignUpModal} showSignInModal={showSignInModal} />
       ) : null}
 
       {searchPwModal && !signInModal && !signUpModal ? (
