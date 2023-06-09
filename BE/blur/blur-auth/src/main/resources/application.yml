@@ -24,7 +24,6 @@ spring:
   redis:
     host: blurblur.kr
     port: 6379
-    username: blur
     password: blurblur
 
 #  redis:
