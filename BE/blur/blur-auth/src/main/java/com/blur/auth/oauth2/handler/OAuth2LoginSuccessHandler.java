@@ -26,8 +26,10 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtService jwtService;
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
-    private static final String home = "https://www.shinemustget.com/home";
-    private static final String create = "https://www.shinemustget.com/create";
+//    private static final String home = "https://www.shinemustget.com/home";
+//    private static final String create = "https://www.shinemustget.com/create";
+    private static final String home = "http://localhost:3000/home";
+    private static final String create = "http://localhost:3000/create";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
