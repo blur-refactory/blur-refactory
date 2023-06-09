@@ -113,10 +113,10 @@
   height: 33px;
   left: 15px;
   top: 0px;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 18px;
   line-height: 33px;
-  color: #5c202c;
+  color: #50a1a3;
 }
 .MLeftDiv .MMyCamDiv2.noShow {
   display: none;
@@ -127,7 +127,7 @@
   height: 286.5px;
   top: 33px;
   left: 0px;
-  background-image: url(../../../assets/images/man4.jfif);
+  background-image: url(../../../assets/images/duck.jpg);
   background-size: 100% 100%;
   z-index: 3;
   border-radius: 30px;
@@ -219,7 +219,8 @@
     - 100%: 투명도 0 && 원래의 크기 0.5배로 감소
   */
 @keyframes loading {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0;
     transform: scale(0.5);
   }

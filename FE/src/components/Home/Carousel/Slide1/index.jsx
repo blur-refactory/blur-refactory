@@ -1,4 +1,4 @@
-import slideImage2 from "../../../../assets/images/slideImage2.jpg";
+import slideImage2 from "../../../../assets/images/slideImage1.gif";
 
 function Slide1() {
   return (
