@@ -1,8 +1,8 @@
 server:
   port: 8081
 
-#api_gateway_url: blurblur.kr:3307
-api_gateway_url: localhost:3306
+api_gateway_url: blurblur.kr:3307
+#api_gateway_url: localhost:3306
 
 spring:
   application:
