@@ -19,12 +19,13 @@ import Imoticon from "../../../components/Meeting/Imoticon";
 import LightTag from "../../../components/Meeting/LightTag";
 import MyCamSubDiv from "../../../components/Meeting/MyCamSubDiv";
 
-let socket = io("https://blurblur.kr", {
-  path: "/socket",
-  transports: ["websocket", "polling"],
-  secure: true,
-});
-console.log(`socket: `, socket);
+// let socket = io("https://blurblur.kr", {
+//   path: "/socket",
+//   transports: ["websocket", "polling"],
+//   secure: true,
+// });
+// console.log(`socket: `, socket);
+let socket = null;
 let roomName;
 let myPeerConnection;
 let myStream;

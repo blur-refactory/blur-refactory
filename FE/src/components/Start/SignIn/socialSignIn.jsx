@@ -3,12 +3,14 @@ import { loginId, saveToken } from "../../../redux/reducers/saveToken";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
+import { CustomAxios } from "../../../api/CustomAxios";
 
 function SocialSignInRedirect() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
+
+  const axiosInstance = CustomAxios;
 
   useEffect(() => {
     console.log(location);
@@ -19,15 +21,9 @@ function SocialSignInRedirect() {
     if (token) {
       dispatch(saveToken(token));
       navigate("/home");
-
-      axios({
-        method: "get",
-        url: `${process.env.REACT_APP_API_ROOT_DONGHO}/blur-auth/auth`,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      console.log("hihihhihihihihi");
+      axiosInstance
+        .get("auth")
         .then((res) => {
           console.log(res.data.body.userId);
           dispatch(loginId(res.data.body.userId));

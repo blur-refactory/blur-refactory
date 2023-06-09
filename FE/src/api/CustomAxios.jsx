@@ -1,7 +1,7 @@
 import axios from "axios";
 // import { useSelector } from "react-redux";
 
-const API_URL = `${process.env.REACT_APP_API_ROOT_WONWOONG}`;
+const API_URL = `${process.env.REACT_APP_API_ROOT_DONGHO}`;
 // export default function CustomAxios() {
 //   // let myToken = useSelector((state) => state.strr.token); // store에 저장되어있는 토큰
 
@@ -19,5 +19,4 @@ export const CustomAxios = axios.create({
   headers: {
     X_Username: "aaa",
   },
-  withCredentials: true,
 });

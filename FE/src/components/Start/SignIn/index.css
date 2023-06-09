@@ -59,7 +59,6 @@
   height: 1.25vw;
   left: 0vw;
   top: 0vw;
-  font-family: "Happy Monkey";
   font-style: normal;
   font-weight: 400;
   font-size: 1.0417vw;
@@ -93,7 +92,6 @@
   height: 1.25vw;
   left: 0.0521vw;
   top: 0vw;
-  font-family: "Happy Monkey";
   font-style: normal;
   font-weight: 400;
   font-size: 1.0417vw;
@@ -128,6 +126,7 @@
   left: 0vw;
   top: 0vw;
   cursor: pointer;
+  font-size: 20px;
   background: #50a1a3;
   border-radius: 0.5208vw;
 }
@@ -152,7 +151,6 @@
   height: 0.9722vw;
   left: 1.5625vw;
   top: 0.0521vw;
-  font-family: "Happy Monkey";
   font-style: normal;
   font-weight: 400;
   font-size: 0.8333vw;
@@ -169,7 +167,6 @@
   left: 13.8889vw;
   top: 4.4792vw;
   cursor: pointer;
-  font-family: "Happy Monkey";
   font-style: normal;
   font-weight: 400;
   font-size: 0.8333vw;
@@ -187,7 +184,6 @@
   left: 18.0556vw;
   top: 4.4792vw;
   cursor: pointer;
-  font-family: "Happy Monkey";
   font-style: normal;
   font-weight: 400;
   font-size: 0.8333vw;
@@ -205,6 +201,7 @@
   left: 4.5313vw;
   top: 29vw;
   cursor: pointer;
+  font-size: 20px;
   background: #fee500;
   border-radius: 0.5208vw;
 }
@@ -215,6 +212,7 @@
   left: 4.5833vw;
   top: 33.6vw;
   cursor: pointer;
+  font-size: 20px;
   background: rgba(128, 152, 217, 0.9607843137);
   border-radius: 0.5208vw;
 }
