@@ -45,31 +45,32 @@
 }
 .HomeSubFrame .HomeLeftDiv .HomeCamDiv {
   position: absolute;
-  height: 75%;
-  width: 84.6%;
-  left: 2.0833vw;
-  top: 1vh;
-  background: url(../../assets/images/man4.jfif);
+  height: 46vh;
+  width: 83.5%;
+  left: 2.2vw;
+  background: url(../../assets/images/duck.jpg);
   background-size: 100% 100%;
   border-radius: 2.0833vw;
 }
 .HomeSubFrame .HomeLeftDiv .InfoBlurBtn {
   position: absolute;
-  height: 2.4306vw;
-  width: 2.4306vw;
+  height: 2vw;
+  width: 2vw;
   left: 33.3333vw;
-  top: 11.1111vw;
-  background: url(../../assets/images/info.png);
+  top: 9vw;
+  background: url(../../assets/images/info.svg);
   background-size: 100% 100%;
+  cursor: pointer;
 }
 .HomeSubFrame .HomeLeftDiv .CamToggle {
   position: absolute;
-  height: 2.2917vw;
-  width: 2.2917vw;
+  height: 2vw;
+  width: 2vw;
   left: 33.3333vw;
-  top: 13.8889vw;
-  background: url(../../assets/images/camera.png);
+  top: 12vw;
+  background: url(../../assets/images/camera.svg);
   background-size: cover;
+  cursor: pointer;
 }
 .HomeSubFrame .HomeLeftDiv .CommBoxFrame2 {
   position: absolute;
@@ -106,16 +107,14 @@
   height: 23.6111vw;
   width: 38.1944vw;
   left: 0vw;
-  top: 0vw;
   border-radius: 2.0833vw;
   transition: all 0.3s;
 }
 .HomeSubFrame .HomeRightDiv .HomeRightImgDiv .HomeRightImg {
   position: absolute;
-  height: 47vh;
-  width: 38.1944vw;
+  height: 46vh;
+  width: 38vw;
   left: 0vw;
-  top: 1vh;
   border-radius: 2.0833vw;
 }
 .HomeSubFrame .HomeRightDiv .HomeRightToolTipDiv {
@@ -133,10 +132,9 @@
   width: 38.1944vw;
   left: 0vw;
   top: 3vh;
-  font-family: "Happy Monkey";
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.875vw;
-  font-size: 1.5vw;
+  font-size: 1.6vw;
   color: #50a1a3;
 }

@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
 import "./index.css";
-import axios from "axios";
+
+import { useEffect, useRef, useState } from "react";
+import { CustomAxios } from "../../../api/CustomAxios";
 
 function SignUp({ showSignUpModal, showSignInModal }) {
-  const API_URL = `${process.env.REACT_APP_API_ROOT_DONGHO}/blur-auth`;
-
   const psInput = useRef(null);
   const signUpButton = useRef(null);
 
@@ -29,17 +28,15 @@ function SignUp({ showSignUpModal, showSignInModal }) {
   const [emailCheck, setEmailCheck] = useState(false);
   const [emailCodeCheck, setEmailCodeCheck] = useState(false);
 
+  const axiosInstance = CustomAxios;
+
   //입력받는 아이디
   const enterId = (e) => {
     const currentId = e.target.value;
     setId(currentId);
     const idRegex = /\s/g;
 
-    if (
-      !idRegex.test(e.target.value) &&
-      currentId.length > 2 &&
-      currentId.length < 15
-    ) {
+    if (!idRegex.test(e.target.value) && currentId.length > 2 && currentId.length < 15) {
       setIdMessage("올바른 이름 형식입니다 :)");
       setIsId(true);
     } else {
@@ -52,14 +49,11 @@ function SignUp({ showSignUpModal, showSignInModal }) {
   //입력받는 비밀번호 1
   const enterPs1 = (e) => {
     setPs1(e.target.value);
-    const passwordRegex =
-      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
     const passwordCurrent = e.target.value;
 
     if (!passwordRegex.test(passwordCurrent)) {
-      setPasswordMessage(
-        "숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!"
-      );
+      setPasswordMessage("숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!");
       setIsPassword(false);
     } else {
       setPasswordMessage("안전한 비밀번호에요 : )");
@@ -99,13 +93,9 @@ function SignUp({ showSignUpModal, showSignInModal }) {
   //아이디 중복체크 함수
   const callIdCheck = () => {
     if (isId) {
-      axios({
-        method: "post",
-        url: `${API_URL}/user/checkId`,
-        data: {
-          userId: id,
-        },
-      })
+      const reqIDCheckData = { userId: id };
+      axiosInstance
+        .post("/auth/checkId", reqIDCheckData)
         .then((res) => {
           console.log(res);
 
@@ -157,13 +147,11 @@ function SignUp({ showSignUpModal, showSignInModal }) {
   //이메일로 인증코드 보내는 함수
   const sendToEmail = () => {
     if (isEmail) {
-      axios({
-        method: "post",
-        url: `${API_URL}/user/sendAuthEmail`,
-        data: {
-          email: email,
-        },
-      })
+      const reqEmailCheckData = {
+        email: email,
+      };
+      axiosInstance
+        .post("auth/sendAuthEmail", reqEmailCheckData)
         .then((res) => {
           console.log(res);
           setEmailCheck(true);
@@ -180,14 +168,12 @@ function SignUp({ showSignUpModal, showSignInModal }) {
 
   //이메일로 받은 코드 확인하는 함수
   const checkEmailCode = () => {
-    axios({
-      method: "post",
-      url: `${API_URL}/user/checkEmail`,
-      data: {
-        email: email,
-        authKey: emailCode,
-      },
-    })
+    const reqCheckEmailCodeData = {
+      email: email,
+      authKey: emailCode,
+    };
+    axiosInstance
+      .post("auth/checkEmail", reqCheckEmailCodeData)
       .then((res) => {
         console.log(res);
         console.log(res.statusText);
@@ -203,15 +189,13 @@ function SignUp({ showSignUpModal, showSignInModal }) {
   // 회원가입 함수
   const onSubmit = (e) => {
     e.preventDefault();
-    axios({
-      method: "post",
-      url: `${API_URL}/user/register`,
-      data: {
-        userId: id,
-        password: ps1,
-        email: email,
-      },
-    })
+    const reqRegistData = {
+      userId: id,
+      password: ps1,
+      email: email,
+    };
+    axiosInstance
+      .post("auth/register", reqRegistData)
       .then((res) => {
         console.log(res);
         alert("회원가입이 완료되었습니다. 로그인해주세요!");
@@ -322,10 +306,7 @@ function SignUp({ showSignUpModal, showSignInModal }) {
           </button>
         </div>
         {id.length > 0 && (
-          <span
-            className="formCheckMessage"
-            style={isId ? { color: "green" } : { color: "red" }}
-          >
+          <span className="formCheckMessage" style={isId ? { color: "green" } : { color: "red" }}>
             {idMessage}
           </span>
         )}
@@ -372,9 +353,7 @@ function SignUp({ showSignUpModal, showSignInModal }) {
             onChange={enterPs2}
           ></input>
         </div>
-        {psWarn ? (
-          <span style={{ color: "red" }}>비밀번호가 다릅니다!</span>
-        ) : null}
+        {psWarn ? <span style={{ color: "red" }}>비밀번호가 다릅니다!</span> : null}
         <div className="SUModalInputEmailDiv">
           <label className="SUModalInputEmailLabel" htmlFor="user_email">
             <span className="SUModalInputEmailLabelText">E-mail</span>
@@ -407,13 +386,8 @@ function SignUp({ showSignUpModal, showSignInModal }) {
         )}
         {emailCheck ? (
           <div className="SUModalInputEmailConfirmDiv">
-            <label
-              className="SUModalInputEmailConfirmLabel"
-              htmlFor="user_email_confirm"
-            >
-              <span className="SUModalInputEmailConfirmLabelText">
-                E-mail 인증번호
-              </span>
+            <label className="SUModalInputEmailConfirmLabel" htmlFor="user_email_confirm">
+              <span className="SUModalInputEmailConfirmLabelText">E-mail 인증번호</span>
             </label>
             <input
               className="SUModalInputEmailConfirm"

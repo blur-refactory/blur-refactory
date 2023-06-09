@@ -13,16 +13,23 @@ spring:
   # 데이터 소스 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/blur_auth?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
-    username: blur
-    password: blurblur
+#    url: jdbc:mysql://blurblur.kr:3306/blur_auth?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+#    username: blur
+#    password: blurblur
+    url: jdbc:mysql://127.0.0.1:3306/blur?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
 
-#  #redis 설정
+  #redis 설정
 #  redis:
-#    host: localhost
+#    host: blurblur.kr
 #    port: 6379
 #    username: blur
 #    password: blurblur
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
 
   # JPA 설정
   jpa:

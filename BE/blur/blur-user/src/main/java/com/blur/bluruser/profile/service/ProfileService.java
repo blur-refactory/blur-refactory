@@ -3,7 +3,6 @@ package com.blur.bluruser.profile.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.blur.bluruser.profile.dto.ProfileDto;
 import com.blur.bluruser.profile.dto.request.RequestProfileSettingDto;
 import com.blur.bluruser.profile.dto.request.RequestUserInterestDto;
 import com.blur.bluruser.profile.dto.response.ResponseCardDto;
@@ -16,7 +15,6 @@ import com.blur.bluruser.profile.repository.InterestRepository;
 import com.blur.bluruser.profile.repository.UserInterestRepository;
 import com.blur.bluruser.profile.repository.UserProfileRepository;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -78,12 +76,12 @@ public class ProfileService {
                     .build();
             userProfileRepository.save(userProfile);
         }
-        ProfileDto profileDto = new ModelMapper().map(userProfile, ProfileDto.class);
+
         return null;
     }
 
-    public RequestProfileSettingDto updateProfile(RequestProfileSettingDto requestProfileSettingDto) {
-        String userId = requestProfileSettingDto.getUserId();
+    public RequestProfileSettingDto updateProfile(String userId, RequestProfileSettingDto requestProfileSettingDto) {
+
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
         userProfile.updateProfile(requestProfileSettingDto.getAge(), requestProfileSettingDto.getNickname(),
                 requestProfileSettingDto.getGender(), requestProfileSettingDto.getIntroduce(), requestProfileSettingDto.getMbti());
@@ -128,18 +126,6 @@ public class ProfileService {
                     .build();
             userInterestRepository.save(userInterest);
         }
-    }
-
-    public ProfileDto getProfile(String userId) {
-        UserProfile userProfile = userProfileRepository.findByUserId(userId);
-        if (userProfile == null) {
-            userProfile = UserProfile.builder()
-                    .userId(userId)
-                    .build();
-            userProfileRepository.save(userProfile);
-        }
-        ProfileDto profileDto = new ModelMapper().map(userProfile, ProfileDto.class);
-        return profileDto;
     }
 
     public Collection<String> getPartnerInterest(String partnerId) {
