@@ -16,9 +16,9 @@ spring:
 #    url: jdbc:mysql://blurblur.kr:3306/blur_auth?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
 #    username: blur
 #    password: blurblur
-    url: jdbc:mysql://127.0.0.1:3306/blur?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
-    username: root
-    password: root
+    url: jdbc:mysql://127.0.0.1:3306/blur_auth?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+    username: blur
+    password: blurblur
 
   #redis 설정
 #  redis:
