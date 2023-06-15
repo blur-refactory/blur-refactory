@@ -91,9 +91,9 @@ public class UserService {
         User User = userRepository.findById(userId)
                 .orElse(null);
         if (User != null) {
-            return false;
+            throw new CustomException(ErrorCode.CONFLICT);
         }
-        throw new CustomException(ErrorCode.CONFLICT);
+        return true;
     }
 
     public ChangePasswordRes changePassword(ChangePasswordReq changePasswordReq) {

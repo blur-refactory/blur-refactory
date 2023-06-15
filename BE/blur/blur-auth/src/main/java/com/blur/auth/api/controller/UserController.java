@@ -73,7 +73,8 @@ public class UserController {
     }
 
     @PutMapping("/changePassword")
-    public ChangePasswordRes chagnePassword(@RequestBody ChangePasswordReq changePasswordReq) {
+    @CrossOrigin
+    public ChangePasswordRes changePassword(@RequestBody ChangePasswordReq changePasswordReq) {
         return userService.changePassword(changePasswordReq);
     }
 
