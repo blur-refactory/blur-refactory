@@ -31,4 +31,5 @@ public class CustomOAuth2User extends DefaultOAuth2User {
         this.id = id;
         this.role = role;
     }
+
 }
