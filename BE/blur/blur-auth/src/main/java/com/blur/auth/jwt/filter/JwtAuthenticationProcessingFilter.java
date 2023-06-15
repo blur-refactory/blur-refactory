@@ -39,7 +39,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
-    private static final String[] NO_CHECK_URLS = {"/swagger-ui", "/api/login", "/login"};
+    private static final String[] NO_CHECK_URLS = {"/swagger-ui", "/api/login/**", "/login/**"};
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -52,6 +52,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         //필터 제외 url 체크
         for (int i = 0; i < NO_CHECK_URLS.length; i++) {
             if (request.getRequestURI().startsWith(NO_CHECK_URLS[i])) {
+                log.info("도메인 {}", request.getRequestURI());
                 filterChain.doFilter(request, response); // "/login" 요청이 들어오면, 다음 필터 호출
                 log.info("필터 제외 url");
                 return;
