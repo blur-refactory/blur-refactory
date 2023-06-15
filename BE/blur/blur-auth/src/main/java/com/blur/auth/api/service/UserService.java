@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -28,7 +30,7 @@ public class UserService {
     private final JwtService jwtService;
 
     public ResponseEntity<UserSignUpRes> register(UserSignUpReq userSignUpReq) throws Exception {
-        log.info("유저이메일 들어오는지 확인", userSignUpReq.getEmail() );
+        log.info("유저이메일 들어오는지 확인", userSignUpReq.getEmail());
         if (userRepository.findById(userSignUpReq.getEmail()).isPresent()) {
             throw new CustomException(ErrorCode.CONFLICT);
         }
@@ -38,6 +40,7 @@ public class UserService {
                 .id(userSignUpReq.getEmail())
                 .password(userSignUpReq.getPassword())
                 .build();
+        System.out.println(userSignUpReq.getPassword());
         user.passwordEncode(passwordEncoder);
         userRepository.save(user);
         UserSignUpRes userSignUpRes = UserSignUpRes.builder()
@@ -56,12 +59,33 @@ public class UserService {
                 .body(userSignUpRes);
     }
 
-//    public ResponseEntity<String> normalLogin(UserLoginReq userLoginReq) {
-//        String email = userLoginReq.getEmail();
-//        String password = userLoginReq.getPassword();
-//        userRepository.findById(email);
-//
-//    }
+    public ResponseEntity normalLogin(UserLoginReq userLoginReq) {
+        String givenEmail = userLoginReq.getEmail();
+        String givenPassword = userLoginReq.getPassword();
+        System.out.println(givenPassword);
+//        String encodedPassword = passwordEncoder.encode(givenPassword);
+        Optional<User> user = userRepository.findById(givenEmail);
+
+        if (user.isPresent()) {
+            User userData = user.get();
+            if (passwordEncoder.matches(givenPassword, userData.getPassword())){
+                String accessToken = jwtService.createAccessToken(userLoginReq.getEmail());
+                String refreshToken = jwtService.createRefreshToken();
+                RefreshToken refreshTokenBuild = RefreshToken.builder()
+                        .refreshToken(refreshToken)
+                        .user(userData)
+                        .build();
+                refreshTokenRepository.save(refreshTokenBuild);
+                return ResponseEntity
+                        .status(HttpStatus.OK)
+                        .header("accessToken", accessToken)
+                        .build();
+            }
+        } else {
+            throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
+        }
+        throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
+    }
 
     public Boolean checkId(String userId) {
         User User = userRepository.findById(userId)
@@ -82,4 +106,14 @@ public class UserService {
         String userEmail = user.getId();
         return userEmail;
     }
+
+//    public String issueAccessAndRefreshToken(User user) {
+//        String accessToken = jwtService.createAccessToken(user.getId());
+//        String refreshToken = jwtService.createRefreshToken();
+//        RefreshToken refreshTokenBuild = RefreshToken.builder()
+//                .refreshToken(refreshToken)
+//                .user(user)
+//                .build();
+//        refreshTokenRepository.save(refreshTokenBuild);
+//    }
 }
