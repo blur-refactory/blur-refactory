@@ -13,14 +13,9 @@ spring:
   # 데이터 소스 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-
-#    url: jdbc:mysql://blurblur.kr:3306/blur_auth?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
-#    username: blur
-#    password: blurblur
-    url: jdbc:mysql://127.0.0.1:3306/blur_auth?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://blurblur.kr:3306/blur_auth?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
     username: blur
     password: blurblur
-
 
   #redis 설정
   redis:
@@ -28,15 +23,12 @@ spring:
     port: 6379
     password: blurblur
 
-#  redis:
-#    host: 127.0.0.1
-#    port: 6379
 
   # JPA 설정
   jpa:
     generate-ddl: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     database: mysql
     properties:
@@ -73,6 +65,8 @@ spring:
             client-authentication-method: POST
             authorization-grant-type: authorization_code
             client-name: Kakao
+            scope:
+              - account_email
 
         provider:
           kakao:

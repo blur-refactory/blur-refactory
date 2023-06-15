@@ -39,9 +39,24 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
+    private static final String[] NO_CHECK_URLS = {"/swagger-ui", "/api/login", "/login"};
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        log.info("필터 시작");
+        log.info("Access Token 헤더에서 조회");
+
+        String domain = request.getRequestURI();
+        log.info("현재 도메인 {}", domain);
+
+        //필터 제외 url 체크
+        for (int i = 0; i < NO_CHECK_URLS.length; i++) {
+            if (request.getRequestURI().startsWith(NO_CHECK_URLS[i])) {
+                filterChain.doFilter(request, response); // "/login" 요청이 들어오면, 다음 필터 호출
+                log.info("필터 제외 url");
+                return;
+            }
+        }
 
         String accessToken = jwtService.extractAccessToken(request)
                 .filter(jwtService::isTokenValid)
