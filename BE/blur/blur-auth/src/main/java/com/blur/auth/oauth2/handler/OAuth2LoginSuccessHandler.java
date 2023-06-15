@@ -55,13 +55,15 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 .ifPresentOrElse(refreshToken -> {
                             log.info("Refresh Token 있음");
                             String accessToken = jwtService.createAccessToken(getId);
-                            jwtService.setAccessTokenHeader(response, accessToken);
+//                            jwtService.setAccessTokenHeader(response, accessToken);
+                            jwtService.accessTokenAddCookie(response, accessToken);
                             jwtService.refreshTokenAddCookie(response, refreshToken.getRefreshToken());
                         },
                         () -> {
                             log.info("Refresh Token 없음");
                             String accessToken = jwtService.createAccessToken(getId);
-                            jwtService.setAccessTokenHeader(response, accessToken);
+//                            jwtService.setAccessTokenHeader(response, accessToken);
+                            jwtService.accessTokenAddCookie(response, accessToken);
                             String newRefreshToken = jwtService.createRefreshToken();
                             jwtService.refreshTokenAddCookie(response, newRefreshToken);
                             RefreshToken token = RefreshToken.builder()
