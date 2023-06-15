@@ -11,7 +11,7 @@ import SignIn from "../../components/Start/SignIn";
 import ModalWrap from "../../components/Start/ModalWrap";
 import SignUp from "../../components/Start/SignUp";
 import SearchPw from "../../components/Start/SearchPw";
-import Alert from "../../components/Start/Alert";
+import Alert from "../../components/Common/Alert";
 
 function Start() {
   const [signInModal, setSignInModal] = useState(false);
