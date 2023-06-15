@@ -1,10 +1,9 @@
 import "./index.css";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CLOSE_ALERT_TOGGLE, CAM_OPEN_TOGGLE, PARTNERNICK } from "../../../redux/reducers/MToggle";
+import { CLOSE_ALERT_TOGGLE, PARTNERNICK } from "../../../redux/reducers/MToggle";
 import { io } from "socket.io-client";
-import { useNavigate } from "react-router-dom";
 
 import ProgressBar from "../../../components/Meeting/ProgressBar";
 import Alert from "../../../components/Common/Alert";
@@ -56,19 +55,12 @@ const blockAlertData = [
 ];
 // console.log("MeetingIn 페이지 렌더링");
 function MeetingIn() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const [lightToggle, setLightToggle] = useState(false);
-  const [smileToggle, setSmileToggle] = useState(false);
-  const [camToggle, setCamToggle] = useState(true);
-  // const [myStream, setMyStream] = useState(undefined);
 
   const isShowBlockModal = useSelector((state) => state.mt.isShowBlockModal);
   const closeAlertToggle = useSelector((state) => state.mt.closeAlertToggle);
   const camOpenToggle = useSelector((state) => state.mt.camOpenToggle);
   const sendRoomName = useSelector((state) => state.mt.roomNumber);
-  const partnerInterests = useSelector((state) => state.mt.partnerInterests);
   const partnerNick = useSelector((state) => state.mt.partnerNick);
 
   // 컴퓨터와 연결되어있는 모든 장치를 가져옴
@@ -273,91 +265,31 @@ function MeetingIn() {
     peerStream.srcObject = data.stream[0];
   }
 
-  // (파트너 캠 상단의) 관심사 표현 토글
-
-  const showLight = useCallback(() => {
-    setLightToggle((prev) => !prev);
-
-    if (!lightToggle) {
-      // basic 클래스 있을 경우(두번째 false 부터)
-      if (document.querySelector(".basicLight")) {
-        document.querySelector(".basicLight").classList.replace("basicLight", "clickLight");
-        document
-          .querySelector(".basicLightChangeDiv")
-          .classList.replace("basicLightChangeDiv", "clickLightChangeDiv");
-      }
-      // basic 클래스 없을 경우(첫번째 false)
-      else {
-        document.querySelector(".lightTagBtn").classList.add("clickLight");
-        document.querySelector(".lightTagsDiv").classList.add("clickLightChangeDiv");
-      }
-
-      // document.querySelector(".lightTagsDiv").style.display = "block";
-
-      // click 클래스인 경우(true)
-    } else {
-      document.querySelector(".clickLight").classList.replace("clickLight", "basicLight");
-      document
-        .querySelector(".clickLightChangeDiv")
-        .classList.replace("clickLightChangeDiv", "basicLightChangeDiv");
-      // document.querySelector(".lightTagsDiv").style.display = "none";
-    }
-  }, [lightToggle]);
-
-  // (나의 캠 상단의) 이모지 표현 토글
-  const showSmile = () => {
-    setSmileToggle((prev) => !prev);
-
-    if (!smileToggle) {
-      if (document.querySelector(".basicSmileChangeDiv"))
-        document
-          .querySelector(".basicSmileChangeDiv")
-          .classList.replace("basicSmileChangeDiv", "clickSmileChangeDiv");
-      else document.querySelector(".ImotionDiv").classList.add("clickSmileChangeDiv");
-    } else
-      document
-        .querySelector(".clickSmileChangeDiv")
-        .classList.replace("clickSmileChangeDiv", "basicSmileChangeDiv");
-  };
-
   // (관심사/이미지가 켜져있을 때) 바깥 배경 누르게되면 토글 off 처리
-  const lightAndSmileBgOut = () => {
-    if (smileToggle) {
-      setSmileToggle((prev) => !prev);
-      document
-        .querySelector(".clickSmileChangeDiv")
-        .classList.replace("clickSmileChangeDiv", "basicSmileChangeDiv");
-    }
-    if (lightToggle) {
-      setLightToggle((prev) => !prev);
-      document.querySelector(".clickLight").classList.replace("clickLight", "basicLight");
-      document
-        .querySelector(".clickLightChangeDiv")
-        .classList.replace("clickLightChangeDiv", "basicLightChangeDiv");
-    }
-  };
+  // const lightAndSmileBgOut = () => {
+  //   if (smileToggle) {
+  //     setSmileToggle((prev) => !prev);
+  //     document
+  //       .querySelector(".clickSmileChangeDiv")
+  //       .classList.replace("clickSmileChangeDiv", "basicSmileChangeDiv");
+  //   }
+  //   if (lightToggle) {
+  //     setLightToggle((prev) => !prev);
+  //     document.querySelector(".clickLight").classList.replace("clickLight", "basicLight");
+  //     document
+  //       .querySelector(".clickLightChangeDiv")
+  //       .classList.replace("clickLightChangeDiv", "basicLightChangeDiv");
+  //   }
+  // };
 
-  // 나의 캠 토글
-  const showCam = (e) => {
-    console.log(myStream.getUserMedia);
-    // console.log(myStream.getVideoTracks().enabled);
+  const camOff = () => {
     myStream.getVideoTracks().forEach((track) => (track.enabled = !track.enabled));
-
-    if (camToggle) {
-      document.querySelector(".camOn").classList.replace("camOn", "camOff");
-    } else {
-      document.querySelector(".camOff").classList.replace("camOff", "camOn");
-    }
-    setCamToggle((prev) => !prev);
   };
-
+  const micOff = () => {
+    myStream.getAudioTracks().forEach((track) => (track.enabled = !track.enabled));
+  };
   const showAlertModal = () => {
     dispatch(CLOSE_ALERT_TOGGLE(false));
-  };
-
-  // 나의 캠 세팅 토글
-  const showSetting = () => {
-    dispatch(CAM_OPEN_TOGGLE(true));
   };
 
   if (!firstRendering) {
@@ -387,17 +319,6 @@ function MeetingIn() {
     // }, 30000);
   }
 
-  useEffect(() => {
-    const lightTagsDiv = document.querySelector(".lightTagsDiv");
-    for (let i = 1; i <= partnerInterests.length; i++) {
-      const lightTag = document.createElement("span");
-      lightTag.id = `lightTag${i}`;
-      lightTag.innerText = partnerInterests[i - 1];
-      lightTagsDiv.appendChild(lightTag);
-    }
-    console.log(`00`, myStream);
-  });
-
   return (
     <div className="MeetingIn">
       <div className="MeetingIn_CamDiv">
@@ -425,17 +346,16 @@ function MeetingIn() {
         ) : (
           ""
         )}
-        <div className="tempBackDiv" onClick={lightAndSmileBgOut}></div>
+        {/* <div className="tempBackDiv" onClick={lightAndSmileBgOut}></div> */}
         <div className="MLeftDiv1">
           <Imoticon />
-          <div className="ImotionBtn" onClick={showSmile}></div>
           <div className="MMyCamDiv">
             <video className="MMyCamDiv1" autoPlay playsInline></video>
           </div>
-          <MyCamSubDiv showSetting={showSetting} showCam={showCam} myStream={myStream} />
+          <MyCamSubDiv camOff={camOff} micOff={micOff} myStream={myStream} />
         </div>
         <div className="MRightDiv">
-          <LightTag showLight={showLight} />
+          <LightTag />
           <div className="MPartenerCamDiv">
             <div className="blurEffect"></div>
             <video className="MPartenerCamDiv1" autoPlay playsInline></video>

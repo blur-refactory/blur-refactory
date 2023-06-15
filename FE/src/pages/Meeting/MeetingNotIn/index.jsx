@@ -14,7 +14,7 @@ let errorCnt = 0;
 function MeetingNotIn() {
   let userId = useSelector((state) => state.strr.id); // store에 저장되어있는 내 아이디
   USERSEX = useSelector((state) => state.mt.myGender); // store에 저장되어있는 내 성별
-  let myGeo = useSelector((state) => state.mt.myGeo); // store에 저장되어있는 내 위치(위도, 경도)
+  // let myGeo = useSelector((state) => state.mt.myGeo); // store에 저장되어있는 내 위치(위도, 경도)
 
   const [isMatching, setIsMatching] = useState(false);
   const [camToggle, setCamToggle] = useState(true);

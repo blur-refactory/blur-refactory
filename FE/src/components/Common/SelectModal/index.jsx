@@ -39,7 +39,7 @@ export default function SelectModal({ headerMsg, data, confirmMsg, status }) {
   function createOptions() {
     const arr = [];
     data.map((el) => {
-      arr.push(
+      return arr.push(
         <option key={el.index} value={el.index}>
           {el.desc}
         </option>

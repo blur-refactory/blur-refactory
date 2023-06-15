@@ -1,10 +1,8 @@
 import "./index.css";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useRef } from "react";
-import { useEffect } from "react";
 
 import Header from "../../components/Common/Header";
 import SignIn from "../../components/Start/SignIn";
@@ -220,7 +218,7 @@ function Start() {
       {alertModal && !signInModal && !signUpModal && !searchPwModal ? (
         <Alert
           showAlertModal={showAlertModal}
-          content={"임시비밀번호가 이메일로 전송되었습니다."}
+          content={"임시비밀번호가 이메일로 전송되었습니다.\n임시비밀번호로 로그인해주세요."}
         />
       ) : null}
 
