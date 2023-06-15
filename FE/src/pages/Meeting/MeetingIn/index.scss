@@ -363,7 +363,7 @@
         }
       }
     }
-    .MRightDiv1 {
+    .MRightDiv {
       position: relative;
       width: 39vw;
       top: 0vw;
@@ -857,7 +857,7 @@
     flex-direction: row;
   }
   .MLeftDiv1,
-  .MRightDiv1 {
+  .MRightDiv {
     width: 50vw;
     margin: 30px;
   }
@@ -868,7 +868,7 @@
     align-items: center;
   }
   .MLeftDiv1,
-  .MRightDiv1 {
+  .MRightDiv {
     height: calc(50% - 10px);
     margin: 0px;
   }

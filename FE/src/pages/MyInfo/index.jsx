@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import MyInfoModal from "../../components/MyInfo/Modal";
 import Hash from "../../components/MyInfo/Hash";
 import ModalWrap from "../../components/Start/ModalWrap";
-import Alert from "../../components/Start/Alert";
+import Alert from "../../components/Common/Alert";
 
 function MyInfo() {
   //profile edit modal
@@ -105,10 +105,7 @@ function MyInfo() {
       ) : null}
 
       {alertModal && !miModal && !hashModal ? (
-        <Alert
-          showAlertModal={showAlertModal}
-          content={"변경사항이 저장되었습니다."}
-        />
+        <Alert showAlertModal={showAlertModal} content={"변경사항이 저장되었습니다."} />
       ) : null}
 
       <div className="DarkBlurDiv"></div>
@@ -162,9 +159,7 @@ function MyInfo() {
       </div>
       <div className="MIIntroducingDiv">
         <span className="MIIntroducingTitle">Introducing</span>
-        <span className="MIIntroducingText">
-          {intro === "" ? proFile.introduce : intro}{" "}
-        </span>
+        <span className="MIIntroducingText">{intro === "" ? proFile.introduce : intro} </span>
       </div>
       <span className="MIProfileLogo">Blur:-)</span>
       <div

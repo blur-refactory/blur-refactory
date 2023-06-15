@@ -52,21 +52,15 @@
   .SUModalInputIdDiv {
     display: block;
     margin-top: 0.6944vw;
-
     height: 10.4167vw;
+
     .SUModalInputIdLabel {
-      font-family: "Happy Monkey";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 1.0417vw;
-      line-height: 1.25vw;
-      /* identical to box height */
-
       display: block;
-      align-items: center;
 
-      color: #000000;
-
+      color: #50a1a3;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.25vw;
       .SUModalInputIdLabelText {
         position: relative;
         right: 11.1111vw;
@@ -80,10 +74,10 @@
 
       background: #e1f1f2;
       border-radius: 0.5208vw;
-      border: 0;
+      border: none;
     }
 
-    .SUModalInputBTN {
+    .SUModalInputBtn {
       height: 4.0278vw;
       width: 23.75vw;
       display: block;
@@ -91,7 +85,8 @@
       margin-top: 0.6944vw;
       border-radius: 0.5208vw;
       border: 0;
-      background-color: #50a1a3;
+      font-size: 20px;
+      background: #50a1a3;
       color: #ffffff;
 
       cursor: pointer;
@@ -103,17 +98,12 @@
     display: block;
     margin-top: 0.6944vw;
     .SUModalInputPwLabel {
-      font-family: "Happy Monkey";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 1.0417vw;
-      line-height: 1.25vw;
-      /* identical to box height */
-
       display: block;
-      align-items: center;
 
-      color: #000000;
+      color: #50a1a3;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.25vw;
     }
 
     .SUModalInputPw {
@@ -164,22 +154,16 @@
     display: block;
     margin-top: 0.6944vw;
     .SUModalInputPwChkLabel {
-      font-family: "Happy Monkey";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 1.0417vw;
-      line-height: 1.25vw;
-
-      /* identical to box height */
-
       display: block;
-      align-items: center;
 
-      color: #000000;
+      color: #50a1a3;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.25vw;
 
       .SUModalInputPwChkLabelText {
         position: relative;
-        right: 9.1667vw;
+        right: 9vw;
       }
     }
 
@@ -199,17 +183,12 @@
     display: block;
     margin-top: 0.6944vw;
     .SUModalInputEmailLabel {
-      font-family: "Happy Monkey";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 1.0417vw;
-      line-height: 1.25vw;
-      /* identical to box height */
-
       display: block;
-      align-items: center;
 
-      color: #000000;
+      color: #50a1a3;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.25vw;
     }
 
     .SUModalInputEmailLabelText {
@@ -234,8 +213,8 @@
       margin: auto;
       margin-top: 0.6944vw;
       border-radius: 0.5208vw;
-      border: 0;
-      background-color: #50a1a3;
+      font-size: 20px;
+      background: #50a1a3;
       color: #ffffff;
 
       cursor: pointer;
@@ -247,12 +226,11 @@
     display: block;
     margin-top: 0.6944vw;
     .SUModalInputEmailConfirmLabel {
-      font-family: "Happy Monkey";
+      font-size: 20px;
       font-style: normal;
       font-weight: 400;
       font-size: 1.0417vw;
       line-height: 1.25vw;
-      /* identical to box height */
 
       display: block;
       align-items: center;
@@ -283,7 +261,7 @@
       margin-top: 0.6944vw;
       border-radius: 0.5208vw;
       border: 0;
-      background-color: #50a1a3;
+      background: #50a1a3;
       color: #ffffff;
 
       cursor: pointer;
@@ -291,23 +269,21 @@
   }
 
   .SUSignUpBtn {
-    cursor: pointer;
-
     width: 23.75vw;
     height: 3.8889vw;
     margin-top: 2.0833vw;
-
+    font-size: 20px;
     background: #50a1a3;
     color: #ffffff;
     border-radius: 0.6944vw;
+    cursor: pointer;
 
     .SUBtnText {
-      font-family: "Happy Monkey";
+      font-size: 20px;
       font-style: normal;
       font-weight: 400;
       font-size: 1.0417vw;
       line-height: 1.25vw;
-      /* identical to box height */
 
       display: flex;
       align-items: center;
@@ -318,22 +294,21 @@
   }
 
   .SUCancleBtn {
-    cursor: pointer;
-
     width: 23.75vw;
     height: 3.8889vw;
     margin-top: 0.6944vw;
 
+    font-size: 20px;
+    cursor: pointer;
     background: #e1f1f2;
     border-radius: 0.6944vw;
 
     .SUCancleBtnText {
-      font-family: "Happy Monkey";
+      font-size: 20px;
       font-style: normal;
       font-weight: 400;
       font-size: 1.0417vw;
       line-height: 1.25vw;
-      /* identical to box height */
 
       display: flex;
       align-items: center;
