@@ -296,7 +296,7 @@ function SignUp({ showSignUpModal, showSignInModal }) {
           ></input>
 
           <button
-            className="SUModalInputBTN "
+            className="SUModalInputBtn"
             onClick={(e) => {
               e.preventDefault();
               callIdCheck();

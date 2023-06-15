@@ -1,13 +1,51 @@
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 
-export default function MyCamSubDiv({
-  showSetting,
-  showCam,
-  openMyMic,
-  showMySound,
-  mySoundVal,
-  onChangeMySoundSlider,
-}) {
+export default function MyCamSubDiv({ showSetting, showCam, myStream }) {
+  const [mySoundVal, setMySoundVal] = useState(50);
+  const [mysoundToggle, setMySoundToggle] = useState(false);
+  const [myMicToggle, setMyMicToggle] = useState(true);
+
+  // 나의 음량 조절
+  const onChangeMySoundSlider = () => {
+    const slider = document.querySelector(".slider");
+    const progress = document.querySelector(".progressSlider");
+    setMySoundVal(slider.value);
+    const val = slider.value + "%";
+    progress.style.width = val;
+  };
+
+  useEffect(() => {
+    console.log(`11`, myStream);
+  });
+
+  // 나의 음량 토글
+  const showMySound = () => {
+    if (!mysoundToggle) {
+      // document.querySelector(".soundOn").classList.replace("soundOn", "soundOff");
+      document.querySelector(".MMyCamSubSoundDesc").style.display = "block";
+    } else {
+      document.querySelector(".MMyCamSubSoundDesc").style.display = "none";
+      // document.querySelector(".soundOff").classList.replace("soundOff", "soundOn");
+    }
+    setMySoundToggle((prev) => !prev);
+  };
+
+  // 나의 마이크 토글
+  const openMyMic = () => {
+    if (myStream !== undefined) {
+      myStream.getAudioTracks().forEach((track) => (track.enabled = !track.enabled));
+
+      if (myMicToggle) {
+        document.querySelector(".myMicOn").classList.replace("myMicOn", "myMicOff");
+      } else {
+        document.querySelector(".myMicOff").classList.replace("myMicOff", "myMicOn");
+      }
+      setMyMicToggle((prev) => !prev);
+    }
+  };
+
   return (
     <>
       <div className="MMyCamSubDiv">

@@ -9,7 +9,7 @@ import { useRef } from "react";
 import { useSelector } from "react-redux";
 
 function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
-  let API_URL = `${process.env.REACT_APP_API_ROOT_DONGHO}/blur-auth`;
+  let API_URL = `${process.env.REACT_APP_API_ROOT_DONGHO}`;
   // console.log(API_URL);
   const SOCIAL_API_URL = process.env.REACT_APP_SOCIAL_SIGN_API_URL;
   const navigate = useNavigate();
@@ -30,39 +30,36 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
     // console.log(signPs);
   };
 
-  const signIn = () => {
+  const handleLogin = () => {
     if (signId && signPs) {
       axios({
         method: "post",
         url: `${API_URL}/auth/login`,
         data: {
-          userId: signId,
+          email: signId,
           password: signPs,
         },
       })
         .then((res) => {
-          if (res.data.header.code === 407) {
-            alert(res.data.header.message);
-          } else if (res.data.header.code === 408) {
-            alert(res.data.header.message);
-          } else {
-            console.log(res);
-            dispatch(saveToken(res.data.body.token));
-            dispatch(loginId(signId));
-            if (checkbox.current.checked) {
-              // console.log("디스패치");
+          // if (res.data.header.code === 407) {
+          //   alert(res.data.header.message);
+          // } else if (res.data.header.code === 408) {
+          //   alert(res.data.header.message);
+          // } else {
+          console.log("로그인 성공", res);
 
-              dispatch(saveId(signId));
-            } else {
-              // console.log("초기화");
-              dispatch(saveId(""));
-            }
-            navigate("/home");
+          // dispatch(saveToken(res.data.header.token));
+          dispatch(loginId(signId));
+          if (checkbox.current.checked) {
+            dispatch(saveId(signId));
+          } else {
+            dispatch(saveId(""));
           }
+          navigate("/home");
+          // }
         })
         .catch((err) => {
-          console.log(typeof err.response.status);
-          alert("에러가 발생했습니다.");
+          alert("에러가 발생했습니다.", err);
         });
     } else {
       alert("아이디와 비밀번호를 입력해주세요.");
@@ -71,7 +68,7 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
 
   //소셜 로그인 함수
   const socialSignIn = (socialType) => {
-    return `${SOCIAL_API_URL}/oauth2/authorization/${socialType}`;
+    return `${SOCIAL_API_URL}/oauth2/authorization/${socialType}?redirect_uri=${SOCIAL_API_URL}/oauth/redirect`;
   };
 
   return (
@@ -107,14 +104,6 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
       </div>
 
       <div className="LoginBtnDiv">
-        <button className="LoginBtn" onClick={signIn}>
-          로그인
-        </button>
-        <div className="IdSaveDiv">
-          <input className="IdSaveToggle" type="checkbox" ref={checkbox}></input>
-
-          <label className="IdSaveText">아이디 저장</label>
-        </div>
         <button
           className="SISignUpBtn"
           onClick={() => {
@@ -133,6 +122,14 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
         >
           비밀번호찾기
         </button>
+        <button className="LoginBtn" onClick={handleLogin}>
+          로그인
+        </button>
+        {/* <div className="IdSaveDiv">
+          <input className="IdSaveToggle" type="checkbox" ref={checkbox}></input>
+
+          <label className="IdSaveText">아이디 저장</label>
+        </div> */}
       </div>
 
       <button
