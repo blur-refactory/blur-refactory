@@ -19,7 +19,7 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/profile")
+@RequestMapping("/profile")
 @Api(value = "프로필", description = "프로필 관련 API")
 public class ProfileController {
 
