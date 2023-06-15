@@ -1,11 +1,8 @@
 package com.blur.auth.api.service;
 
-import com.blur.auth.api.dto.UserLoginReq;
-import com.blur.auth.api.dto.UserSignUpReq;
-import com.blur.auth.api.dto.UserSignUpRes;
+import com.blur.auth.api.dto.*;
 import com.blur.auth.api.entity.RefreshToken;
 import com.blur.auth.api.entity.User;
-import com.blur.auth.api.dto.Role;
 import com.blur.auth.api.repository.RefreshTokenRepository;
 import com.blur.auth.api.repository.UserRepository;
 import com.blur.auth.jwt.service.JwtService;
@@ -71,11 +68,14 @@ public class UserService {
             if (passwordEncoder.matches(givenPassword, userData.getPassword())){
                 String accessToken = jwtService.createAccessToken(userLoginReq.getEmail());
                 String refreshToken = jwtService.createRefreshToken();
-                RefreshToken refreshTokenBuild = RefreshToken.builder()
-                        .refreshToken(refreshToken)
-                        .user(userData)
-                        .build();
-                refreshTokenRepository.save(refreshTokenBuild);
+                Optional<RefreshToken> currentRefreshToken = refreshTokenRepository.findByUserId(userData.getId());
+                if (currentRefreshToken.isPresent()) {
+                    RefreshToken newRefreshToken = currentRefreshToken.get();
+                    newRefreshToken.setRefreshToken(refreshToken);
+                    refreshTokenRepository.save(newRefreshToken);
+                } else {
+                    throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
+                }
                 return ResponseEntity
                         .status(HttpStatus.OK)
                         .header("accessToken", accessToken)
@@ -93,7 +93,25 @@ public class UserService {
         if (User != null) {
             return false;
         }
-        return true;
+        throw new CustomException(ErrorCode.CONFLICT);
+    }
+
+    public ChangePasswordRes changePassword(ChangePasswordReq changePasswordReq) {
+        String userEmail = changePasswordReq.getEmail();
+        String givenPassword = changePasswordReq.getPassword();
+        Optional<User> user =  userRepository.findById(userEmail);
+        if (user.isPresent()) {
+            User userData = user.get();
+            userData.setPassword(givenPassword);
+            userData.passwordEncode(passwordEncoder);
+            userRepository.save(userData);
+            return ChangePasswordRes.builder()
+                    .code("200")
+                    .msg("정상적으로 비밀번호가 변경되었습니다.")
+                    .build();
+        } else {
+            throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
+        }
     }
 
     public String getEmail(String userId) {
@@ -106,6 +124,8 @@ public class UserService {
         String userEmail = user.getId();
         return userEmail;
     }
+
+
 
 //    public String issueAccessAndRefreshToken(User user) {
 //        String accessToken = jwtService.createAccessToken(user.getId());
