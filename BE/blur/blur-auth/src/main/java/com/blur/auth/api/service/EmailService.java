@@ -3,6 +3,7 @@ package com.blur.auth.api.service;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import com.blur.auth.api.dto.SendAuthEmailRes;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.MailException;
@@ -69,7 +70,7 @@ public class EmailService {
         return msgg;
     }
 
-    public String sendAuthMessage(String to) throws Exception {
+    public SendAuthEmailRes sendAuthMessage(String to) throws Exception {
         String ePw = createKey();
         String message = createMessage(to, ePw);
         EmailHandler emailHandler = new EmailHandler(mailSender);
@@ -84,7 +85,10 @@ public class EmailService {
         redisTemplate.opsForValue().set(to, ePw, 300, TimeUnit.SECONDS);
         try{//예외처리
             emailHandler.send();
-            return "1111";
+            return SendAuthEmailRes.builder()
+                    .code("200")
+                    .msg("정상적으로 이메일이 발송되었습니다.")
+                    .build();
         }catch(MailException es){
             es.printStackTrace();
             throw new IllegalArgumentException();
@@ -94,8 +98,8 @@ public class EmailService {
     
     
     public Boolean getAuthKey(String email, String authKey) {
-    	System.out.println(authKey + " " + redisTemplate.opsForValue().get(email));
-    	System.out.println(redisTemplate.opsForValue().get(email).getClass().getName());
+//    	System.out.println(authKey + " " + redisTemplate.opsForValue().get(email));
+//    	System.out.println(redisTemplate.opsForValue().get(email).getClass().getName());
     	if(authKey.equals(redisTemplate.opsForValue().get(email)))
     		return true;
     	else
