@@ -60,7 +60,7 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
 
   //소셜 로그인 함수
   const socialSignIn = (socialType) => {
-    return `${SOCIAL_API_URL}/oauth2/authorization/${socialType}?redirect_uri=${SOCIAL_API_URL}/oauth/redirect`;
+    return `${SOCIAL_API_URL}/oauth2/authorization/${socialType}`;
   };
 
   return (
