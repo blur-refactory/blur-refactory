@@ -19,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Jwt 인증 필터
@@ -61,6 +62,17 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             }
         }
 
+        //로컬테스트용
+        if (request.getHeader("id") != null) {
+            log.info("로컬 테스트 사용");
+//            request.setAttribute("id", request.getHeader("id"));
+            Optional<User> userOptional = userRepository.findById(request.getHeader("id"));
+            userOptional.ifPresent(user -> saveAuthentication(user));
+
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String accessToken = jwtService.extractAccessToken(request)
                 .filter(jwtService::isTokenValid)
                 .orElse(null);
@@ -76,9 +88,9 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             User user = userRepository.findByRefreshToken(refreshToken)
                     .orElseThrow(() -> new IllegalStateException("존재하지 않는 유저"));
             String userId = user.getId();
-
             checkRefreshTokenAndReIssueAccessToken(response, userId);
-            request.setAttribute("id", userId);
+            saveAuthentication(user);
+//            request.setAttribute("id", userId);
             filterChain.doFilter(request, response);
             return;
         }
@@ -88,8 +100,8 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             jwtService.extractId(accessToken)
                     .ifPresent(id -> userRepository.findById(id)
                             .ifPresent(this::saveAuthentication));
-            String userId = jwtService.getUserIdFromToken(accessToken);
-            request.setAttribute("id", userId);
+//            String userId = jwtService.getUserIdFromToken(accessToken);
+//            request.setAttribute("id", userId);
 
             filterChain.doFilter(request, response);
         }
@@ -106,7 +118,8 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         String reIssuedRefreshToken = reIssueRefreshToken(userId);
         String reIssuedAccessToken = jwtService.createAccessToken(userId);
         jwtService.refreshTokenAddCookie(response, reIssuedRefreshToken);
-        jwtService.setAccessTokenHeader(response, reIssuedAccessToken);
+//        jwtService.setAccessTokenHeader(response, reIssuedAccessToken);
+        jwtService.accessTokenAddCookie(response, reIssuedAccessToken);
     }
 
     /**
