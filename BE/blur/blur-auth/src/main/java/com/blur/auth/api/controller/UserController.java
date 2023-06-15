@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @PostMapping("/checkEmail")
-    public ResponseEntity<?> checkEmail(@RequestBody Map<String, String> param) throws Exception {
+    public ResponseEntity<?> checkEmail(@RequestBody Map<String, String> param){
         String email = param.get("email");
         String authKey = param.get("authKey");
         if (emailService.getAuthKey(email, authKey))
@@ -70,6 +70,11 @@ public class UserController {
         String userId = param.get("userId");
         Boolean res = passwordService.sendTempPassword(userId);
         return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @PutMapping("/changePassword")
+    public ChangePasswordRes chagnePassword(@RequestBody ChangePasswordReq changePasswordReq) {
+        return userService.changePassword(changePasswordReq);
     }
 
 //    @PostMapping("userInfo/{userId}")
