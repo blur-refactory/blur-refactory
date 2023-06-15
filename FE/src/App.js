@@ -19,19 +19,16 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Start />}></Route>
-          <Route path="/meeting" element={<GuardedRoute />}>
-            <Route path="/meeting" element={<Meeting />}></Route>
-          </Route>
-          <Route path="/MyInfo" element={<GuardedRoute />}>
-            <Route path="/MyInfo" element={<MyInfo />}></Route>
-          </Route>
-          <Route path="/home" element={<GuardedRoute />}>
-            <Route path="/home" element={<Home />}></Route>
-          </Route>
-          <Route
-            path="/oauth/redirect"
-            element={<SocialSignInRedirect />}
-          ></Route>
+          {/* <Route path="/meeting" element={<GuardedRoute />}> */}
+          <Route path="/meeting" element={<Meeting />}></Route>
+          {/* </Route> */}
+          {/* <Route path="/MyInfo" element={<GuardedRoute />}> */}
+          <Route path="/MyInfo" element={<MyInfo />}></Route>
+          {/* </Route> */}
+          {/* <Route path="/home" element={<GuardedRoute />}> */}
+          <Route path="/home" element={<Home />}></Route>
+          {/* </Route> */}
+          <Route path="/oauth/redirect" element={<SocialSignInRedirect />}></Route>
           <Route path="/chat/room/enter/:roomId" element={<ChatPage />}></Route>
           <Route path="/*" element={<NotFound />} />
         </Routes>

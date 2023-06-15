@@ -3,19 +3,14 @@ import "./index.css";
 import axios from "axios";
 
 function SearchPw({ showSignInModal, showSearchPwModal, showAlertModal }) {
-  const API_URL = `${process.env.REACT_APP_API_ROOT_DONGHO}/blur-auth`;
+  const API_URL = `${process.env.REACT_APP_API_ROOT_DONGHO}`;
 
   const [spId, setSpId] = useState(null);
-
-  const enterId = (e) => {
-    setSpId(e.target.value);
-    console.log(spId);
-  };
 
   const callSearchPwCheck = () => {
     axios({
       method: "put",
-      url: `${API_URL}/user/findPassword`,
+      url: `${API_URL}/auth/findPassword`,
       data: {
         userId: spId,
       },
@@ -27,7 +22,7 @@ function SearchPw({ showSignInModal, showSearchPwModal, showAlertModal }) {
       })
       .catch((err) => {
         console.log(err);
-        alert("id를 정확히 입력해 주세요");
+        alert("ID를 정확히 입력해 주세요");
       });
   };
 
@@ -48,7 +43,7 @@ function SearchPw({ showSignInModal, showSearchPwModal, showAlertModal }) {
         <input
           className="SPModalInputId"
           placeholder="ID를 입력해 주세요"
-          onChange={enterId}
+          onChange={(e) => setSpId(e.target.value)}
         ></input>
       </div>
 

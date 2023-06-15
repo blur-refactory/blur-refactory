@@ -20,7 +20,7 @@ import Slide5 from "../../components/Home/Carousel/Slide5";
 import ChatList from "../../components/Chat/ChatList";
 import ChatPage from "../../components/Chat/ChatPage";
 import { CustomAxios } from "../../api/CustomAxios";
-import axios from "axios";
+
 let myStream;
 let carousel;
 function Home() {
@@ -149,6 +149,17 @@ function Home() {
     } else {
       showAlertModal();
     }
+
+    // 비밀번호 변경 axios
+    // const changePWReqData = {
+    //   email: "kyum8562@naver.com",
+    //   password: "aa123123@@",
+    // };
+    // CustomAxios.put(`/auth/changePassword`, changePWReqData)
+    //   .then((res) => {
+    //     alert("정상적으로 비밀번호가 변경되었습니다.");
+    //   })
+    //   .catch((error) => alert("비밀번호 변경 에러"));
   };
   //프로필 설정페이지로 가는 함수
   const goMyInfo = () => {
