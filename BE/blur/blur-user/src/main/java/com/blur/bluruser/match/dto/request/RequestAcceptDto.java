@@ -12,12 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RequestAcceptDto {
 
-    @ApiModelProperty(notes = "사용자 ID")
-    private String userId;
-
-    @ApiModelProperty(notes = "사용자 성별")
-    private String myGender;
-
     @ApiModelProperty(notes = "파트너 ID")
     private String partnerId;
 

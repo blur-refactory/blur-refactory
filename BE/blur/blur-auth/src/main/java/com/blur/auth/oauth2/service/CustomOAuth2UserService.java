@@ -1,6 +1,6 @@
 package com.blur.auth.oauth2.service;
 
-import com.blur.auth.api.entity.SocialType;
+import com.blur.auth.api.dto.SocialType;
 import com.blur.auth.api.entity.User;
 import com.blur.auth.api.repository.UserRepository;
 import com.blur.auth.oauth2.CustomOAuth2User;
@@ -80,6 +80,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
      * 만약 찾은 회원이 있다면, 그대로 반환하고 없다면 saveUser()를 호출하여 회원을 저장한다.
      */
     private User getUser(OAuthAttributes attributes, SocialType socialType) {
+        log.info("아이디 {}", attributes.getOauth2UserInfo().getEmail());
         User findUser = userRepository.findById((attributes.getOauth2UserInfo().getEmail()))
                 .orElse(null);
 

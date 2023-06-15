@@ -12,9 +12,6 @@ import lombok.Setter;
 @ApiModel(value = "RequestProfileSettingDto")
 public class RequestProfileSettingDto {
 
-    @ApiModelProperty(value = "유저 아이디", required = true)
-    private String userId;
-
     @ApiModelProperty(value = "나이")
     private Integer age;
 

@@ -17,7 +17,7 @@ import java.util.Random;
 public class PasswordService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
     @Value("${mail.username}")
     private String userName;
 

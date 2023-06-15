@@ -1,7 +1,5 @@
 package com.blur.bluruser.profile.dto.response;
 
-import com.blur.bluruser.match.dto.MatchSettingDto;
-import com.blur.bluruser.profile.dto.ProfileDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -47,17 +45,4 @@ public class ResponseProfileSettingDto {
     @ApiModelProperty(value = "이메일")
     private String email;
 
-    public ResponseProfileSettingDto(ProfileDto profileDto, MatchSettingDto matchSettingDto, String Email) {
-        this.userId = profileDto.getUserId();
-        this.age = profileDto.getAge();
-        this.nickname = profileDto.getNickname();
-        this.image = profileDto.getImage();
-        this.gender = profileDto.getGender();
-        this.introduce = profileDto.getIntroduce();
-        this.mbti = profileDto.getMbti();
-        this.maxDistance = matchSettingDto.getMaxDistance();
-        this.minAge = matchSettingDto.getMinAge();
-        this.maxAge = matchSettingDto.getMaxAge();
-        this.email = Email;
-    }
 }

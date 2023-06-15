@@ -1,4 +1,4 @@
-package com.blur.bluruser.match.dto;
+package com.blur.bluruser.match.dto.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,11 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Setter
-@ApiModel(description = "MatchSettingDTO")
-public class MatchSettingDto {
-
-    @ApiModelProperty(value = "사용자 ID", required = true)
-    private String userId;
+@ApiModel(description = "RequestUpdateSettingDto")
+public class RequestUpdateSettingDto {
 
     @ApiModelProperty(value = "최대 거리", required = true)
     private Integer maxDistance;
@@ -23,6 +20,4 @@ public class MatchSettingDto {
 
     @ApiModelProperty(value = "최대 나이", required = true)
     private Integer maxAge;
-
 }
-

@@ -14,11 +14,13 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
@@ -57,22 +59,21 @@ public class SecurityConfig {
 
                 //== URL별 권한 관리 옵션 ==//
                 .authorizeRequests()
-
-                .antMatchers("/**", "/ws/**", "/socket.io/**")
-//                .antMatchers("/ws/**", "/api/login/**", "/login/**")
+                .antMatchers( "/ws/**", "/socket.io/**", "/auth/**", "/api/login/**", "/login/**", "/login", "/api/login")
+//                .antMatchers( "/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
 
                 .and()
-
+                //ADJUST: filter를 Bean에 등록시키지 않고 시큐리티필터체인안에서 돌도록 변경함.
+                .addFilterBefore(new JwtAuthenticationProcessingFilter(jwtService, userRepository), UsernamePasswordAuthenticationFilter.class)
                 //== 소셜 로그인 설정 ==//
                 .oauth2Login()
                 .successHandler(oAuth2LoginSuccessHandler) // 동의하고 계속하기를 눌렀을 때 Handler 설정
                 .failureHandler(oAuth2LoginFailureHandler) // 소셜 로그인 실패 시 핸들러 설정
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService); // customUserService 설정
-
         return http.build();
     }
 
@@ -95,11 +96,14 @@ public class SecurityConfig {
         return new ProviderManager(provider);
     }
 
-    @Bean
-    public JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter() {
-        JwtAuthenticationProcessingFilter jwtAuthenticationFilter = new JwtAuthenticationProcessingFilter(jwtService, userRepository);
-        return jwtAuthenticationFilter;
-    }
+    // ADJUST
+    // 문제점: jwt인증하는 filter가 bean에 등록되어 있어서 무조건 filter를 돌게되어 있어서 security와 관계없이 default chain에서 동작하는 문제점 발생
+    // 해결: Bean에 등록하는 것이 아닌 Security의 filterChain에 등록함으로써 해결
+//    @Bean
+//    public JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter() {
+//        JwtAuthenticationProcessingFilter jwtAuthenticationFilter = new JwtAuthenticationProcessingFilter(jwtService, userRepository);
+//        return jwtAuthenticationFilter;
+//    }
 
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
@@ -107,6 +111,9 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
+//        config.addAllowedOrigin("*");
+        config.addAllowedOrigin("http://172.30.1.17");
+        config.addAllowedOrigin("http://172.30.1.17:3000");
         config.addAllowedOrigin("http://blurblur.kr");
         config.addAllowedOrigin("https://blurblur.kr");
         config.addAllowedOrigin("http://localhost:3000");
@@ -119,6 +126,10 @@ public class SecurityConfig {
         return source;
     }
 
+    // ADJUST
+    // WebSecurity가 Bean에 등록되지 않아 WebSecurity가 동작하지 않았음. 그래서 시큐리티의 antMatchers가 동작하지 않고
+    // jwtFilter가 작동하는 문제점이 발생했음.
+    // WebSecurity를 해결: Bean에 등록하면서 해결함.
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web
@@ -130,7 +141,8 @@ public class SecurityConfig {
                         "/swagger-resources/**",
                         "/swagger/**",
                         "/ws/**",
-                        "/actuator/**"
+                        "/actuator/**",
+                        "/auth/**"
                 );
     }
 }

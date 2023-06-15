@@ -19,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Jwt 인증 필터
@@ -35,10 +36,11 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
-    private static final String[] NO_CHECK_URLS = {"/swagger-ui", "/api/login/**", "/login/**"};
+
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
+    private static final String[] NO_CHECK_URLS = {"/swagger-ui", "/api/login", "/login"};
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -52,9 +54,20 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         for (int i = 0; i < NO_CHECK_URLS.length; i++) {
             if (request.getRequestURI().startsWith(NO_CHECK_URLS[i])) {
                 filterChain.doFilter(request, response); // "/login" 요청이 들어오면, 다음 필터 호출
-                log.info("필터 제외 url");
+                log.info("필터 제외 url {}", NO_CHECK_URLS[i]);
                 return;
             }
+        }
+
+        //로컬테스트용
+        if (request.getHeader("id") != null) {
+            log.info("로컬 테스트 사용");
+//            request.setAttribute("id", request.getHeader("id"));
+            Optional<User> userOptional = userRepository.findById(request.getHeader("id"));
+            userOptional.ifPresent(user -> saveAuthentication(user));
+
+            filterChain.doFilter(request, response);
+            return;
         }
 
         String accessToken = jwtService.extractAccessToken(request)
@@ -72,9 +85,9 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             User user = userRepository.findByRefreshToken(refreshToken)
                     .orElseThrow(() -> new IllegalStateException("존재하지 않는 유저"));
             String userId = user.getId();
-
             checkRefreshTokenAndReIssueAccessToken(response, userId);
-            request.setAttribute("id", userId);
+            saveAuthentication(user);
+//            request.setAttribute("id", userId);
             filterChain.doFilter(request, response);
             return;
         }
@@ -84,8 +97,8 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             jwtService.extractId(accessToken)
                     .ifPresent(id -> userRepository.findById(id)
                             .ifPresent(this::saveAuthentication));
-            String userId = jwtService.getUserIdFromToken(accessToken);
-            request.setAttribute("id", userId);
+//            String userId = jwtService.getUserIdFromToken(accessToken);
+//            request.setAttribute("id", userId);
 
             filterChain.doFilter(request, response);
         }
@@ -102,7 +115,8 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         String reIssuedRefreshToken = reIssueRefreshToken(userId);
         String reIssuedAccessToken = jwtService.createAccessToken(userId);
         jwtService.refreshTokenAddCookie(response, reIssuedRefreshToken);
-        jwtService.setAccessTokenHeader(response, reIssuedAccessToken);
+//        jwtService.setAccessTokenHeader(response, reIssuedAccessToken);
+        jwtService.accessTokenAddCookie(response, reIssuedAccessToken);
     }
 
     /**

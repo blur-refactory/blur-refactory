@@ -1,20 +1,19 @@
 package com.blur.bluruser.match.dto.response;
 
 import com.blur.bluruser.match.dto.request.RequestAcceptDto;
+import com.blur.bluruser.profile.entity.UserProfile;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Collection;
+import java.util.List;
 
 @ApiModel(description = "ResponseAcceptDto")
 @NoArgsConstructor
 @Getter
 public class ResponseAceeptDto {
-
-    @ApiModelProperty(notes = "파트너 ID")
-    private String partnerId;
 
     @ApiModelProperty(notes = "파트너 닉네임")
     private String partnerNickname;
@@ -22,20 +21,9 @@ public class ResponseAceeptDto {
     @ApiModelProperty(notes = "파트너 관심사")
     private Collection<String> partnerInterests;
 
-    @ApiModelProperty(notes = "세션 ID")
-    private String sessionId;
+    public ResponseAceeptDto(UserProfile partner, List<String> partnerInterests) {
 
-    public ResponseAceeptDto(String partnerId, String partnerNickname, Collection<String> partnerInterests, String sessionId) {
-        this.partnerId = partnerId;
-        this.partnerNickname = partnerNickname;
+        this.partnerNickname = partner.getNickname();
         this.partnerInterests = partnerInterests;
-        this.sessionId = sessionId;
-    }
-
-    public ResponseAceeptDto(RequestAcceptDto requestAcceptDto, String partnerNickname, Collection<String> partnerInterests) {
-        this.partnerId = requestAcceptDto.getPartnerId();
-        this.partnerNickname = partnerNickname;
-        this.partnerInterests = partnerInterests;
-        this.sessionId = requestAcceptDto.getSessionId();
     }
 }
