@@ -20,16 +20,6 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
   const [signId, setSignId] = useState("");
   const [signPs, setSignPs] = useState("");
 
-  const enterSignId = (e) => {
-    setSignId(e.target.value);
-    // console.log(signId);
-  };
-
-  const enterSignPs = (e) => {
-    setSignPs(e.target.value);
-    // console.log(signPs);
-  };
-
   const handleLogin = () => {
     if (signId && signPs) {
       axios({
@@ -49,13 +39,15 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
           console.log("로그인 성공", res);
 
           // dispatch(saveToken(res.data.header.token));
+          dispatch(saveToken("aaaaaaaaaaaaaaaaaaa"));
           dispatch(loginId(signId));
-          if (checkbox.current.checked) {
-            dispatch(saveId(signId));
-          } else {
-            dispatch(saveId(""));
-          }
+          // if (checkbox.current.checked) {
+          //   dispatch(saveId(signId));
+          // } else {
+          //   dispatch(saveId(""));
+          // }
           navigate("/home");
+          alert("로그인에 성공했습니다.");
           // }
         })
         .catch((err) => {
@@ -86,7 +78,7 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
           className="ModalInputId"
           id="user_id"
           placeholder="ID를 입력해 주세요"
-          onChange={enterSignId}
+          onChange={(e) => setSignId(e.target.value)}
           defaultValue={savedId}
         ></input>
       </div>
@@ -99,7 +91,7 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
           id="user_pw"
           placeholder="PW를 입력해 주세요"
           type="password"
-          onChange={enterSignPs}
+          onChange={(e) => setSignPs(e.target.value)}
         ></input>
       </div>
 

@@ -1,11 +1,20 @@
-import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { CAM_OPEN_TOGGLE } from "../../../redux/reducers/MToggle";
 
-export default function MyCamSubDiv({ showSetting, showCam, myStream }) {
+export default function MyCamSubDiv({ camOff, micOff, myStream }) {
   const [mySoundVal, setMySoundVal] = useState(50);
   const [mysoundToggle, setMySoundToggle] = useState(false);
   const [myMicToggle, setMyMicToggle] = useState(true);
+  const [camToggle, setCamToggle] = useState(true);
+
+  const dispatch = useDispatch();
+
+  // 나의 캠 세팅 토글
+  const showSetting = () => {
+    dispatch(CAM_OPEN_TOGGLE(true));
+  };
 
   // 나의 음량 조절
   const onChangeMySoundSlider = () => {
@@ -34,16 +43,26 @@ export default function MyCamSubDiv({ showSetting, showCam, myStream }) {
 
   // 나의 마이크 토글
   const openMyMic = () => {
-    if (myStream !== undefined) {
-      myStream.getAudioTracks().forEach((track) => (track.enabled = !track.enabled));
+    micOff();
 
-      if (myMicToggle) {
-        document.querySelector(".myMicOn").classList.replace("myMicOn", "myMicOff");
-      } else {
-        document.querySelector(".myMicOff").classList.replace("myMicOff", "myMicOn");
-      }
-      setMyMicToggle((prev) => !prev);
+    if (myMicToggle) {
+      document.querySelector(".myMicOn").classList.replace("myMicOn", "myMicOff");
+    } else {
+      document.querySelector(".myMicOff").classList.replace("myMicOff", "myMicOn");
     }
+    setMyMicToggle((prev) => !prev);
+  };
+
+  // 나의 캠 토글
+  const showCam = (e) => {
+    camOff();
+
+    if (camToggle) {
+      document.querySelector(".camOn").classList.replace("camOn", "camOff");
+    } else {
+      document.querySelector(".camOff").classList.replace("camOff", "camOn");
+    }
+    setCamToggle((prev) => !prev);
   };
 
   return (

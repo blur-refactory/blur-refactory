@@ -1,7 +1,7 @@
 .AlertDiv {
   position: absolute;
-  left: 41.6667vw;
-  right: 41.6667vw;
+  left: 38vw;
+  right: 38vw;
   height: 15vw;
   top: 13.8889vw;
   background: #ffffff;
@@ -38,7 +38,7 @@
 }
 .AlertDiv .AlertDesc {
   position: absolute;
-  width: 25.3472vw;
+  width: 20vw;
   height: 3.6111vw;
   top: 5.6944vw;
   font-weight: 400;
