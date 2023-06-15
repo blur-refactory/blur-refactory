@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { MYGENDER, MYGEO } from "../../redux/reducers/MToggle";
+import { MTOGGLE, MYGENDER, MYGEO } from "../../redux/reducers/MToggle";
 import { saveToken, ISMYPROFILE } from "../../redux/reducers/saveToken";
 
 import Header from "../../components/Common/Header";
 import BlurInfo from "../../components/Home/Info";
 import ModalWrap from "../../components/Start/ModalWrap";
-import Alert from "../../components/Start/Alert";
+import Alert from "../../components/Common/Alert";
 import Slide1 from "../../components/Home/Carousel/Slide1";
 import Slide2 from "../../components/Home/Carousel/Slide2";
 import Slide3 from "../../components/Home/Carousel/Slide3";
@@ -114,8 +114,8 @@ function Home() {
      *         실패 시 : 알람 띄움
      */
     // console.log(`profiled: ${profiled}`);
-    // dispatch(MTOGGLE(true));
-    // navigate("/meeting");
+    dispatch(MTOGGLE(true));
+    navigate("/meeting");
 
     if (profiled) {
       // meeting Not In 로 이동

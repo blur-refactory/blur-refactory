@@ -5,13 +5,13 @@
 .SIModal {
   position: absolute;
   width: 31.9444vw;
-  height: 39vw;
+  height: 40vw;
   left: 34.2361vw;
   top: 15vh;
   background: #ffffff;
   border-radius: 2.0833vw;
   z-index: 30;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
 }
 .SIModal .SIModalHeader {
@@ -85,6 +85,7 @@
   height: 5.9896vw;
   left: 4.5313vw;
   top: 14.3229vw;
+  margin-top: 10px;
 }
 .SIModal .ModalInputPwDiv .ModalInputPwLabel {
   position: absolute;
@@ -93,7 +94,6 @@
   left: 0.0521vw;
   top: 0vw;
   font-style: normal;
-  font-weight: 400;
   font-size: 1.0417vw;
   line-height: 1.25vw;
   /* identical to box height */
@@ -128,6 +128,7 @@
   cursor: pointer;
   font-size: 20px;
   background: #50a1a3;
+  color: white;
   border-radius: 0.5208vw;
 }
 .SIModal .LoginBtnDiv .IdSaveDiv {
@@ -164,7 +165,7 @@
   position: absolute;
   width: 4.5139vw;
   height: 0.9722vw;
-  left: 13.8889vw;
+  left: 15vw;
   top: 4.4792vw;
   cursor: pointer;
   font-style: normal;
@@ -181,7 +182,7 @@
   position: absolute;
   width: 6.25vw;
   height: 0.9722vw;
-  left: 18.0556vw;
+  left: 19vw;
   top: 4.4792vw;
   cursor: pointer;
   font-style: normal;
@@ -213,6 +214,7 @@
   top: 33.6vw;
   cursor: pointer;
   font-size: 20px;
+  color: white;
   background: rgba(128, 152, 217, 0.9607843137);
   border-radius: 0.5208vw;
 }

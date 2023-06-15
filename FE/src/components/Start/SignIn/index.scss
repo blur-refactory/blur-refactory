@@ -5,14 +5,14 @@
 .SIModal {
   position: absolute;
   width: 31.9444vw;
-  height: 39vw;
+  height: 40vw;
   left: 34.2361vw;
   top: 15vh;
 
   background: #ffffff;
   border-radius: 2.0833vw;
   z-index: 30;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
 
   .SIModalHeader {
@@ -100,6 +100,7 @@
     height: 5.9896vw;
     left: 4.5313vw;
     top: 14.3229vw;
+    margin-top: 10px;
 
     .ModalInputPwLabel {
       position: absolute;
@@ -109,7 +110,6 @@
       top: 0vw;
 
       font-style: normal;
-      font-weight: 400;
       font-size: 1.0417vw;
       line-height: 1.25vw;
       /* identical to box height */
@@ -151,6 +151,7 @@
       font-size: 20px;
 
       background: #50a1a3;
+      color: white;
       border-radius: 0.5208vw;
     }
 
@@ -194,7 +195,7 @@
       position: absolute;
       width: 4.5139vw;
       height: 0.9722vw;
-      left: 13.8889vw;
+      left: 15vw;
       top: 4.4792vw;
       cursor: pointer;
 
@@ -214,7 +215,7 @@
       position: absolute;
       width: 6.25vw;
       height: 0.9722vw;
-      left: 18.0556vw;
+      left: 19vw;
       top: 4.4792vw;
       cursor: pointer;
 
@@ -244,19 +245,6 @@
     border-radius: 0.5208vw;
   }
 
-  // .NaverLoginBtn {
-  //   position: absolute;
-  //   width: 23.75vw;
-  //   height: 3.9063vw;
-  //   left: 4.5833vw;
-
-  //   top: 40.2778vw;
-  //   cursor: pointer;
-
-  //   background: #00ca51;
-  //   border-radius: 0.5208vw;
-  // }
-
   .GoogleLoginBtn {
     position: absolute;
     width: 23.75vw;
@@ -266,17 +254,12 @@
     cursor: pointer;
     font-size: 20px;
 
+    color: white;
     background: #8098d9f5;
     border-radius: 0.5208vw;
   }
 
   .PlaceHolder {
-    // position: absolute;
-    // width: 0.6944vw;
-    // height: 0.6944vw;
-    // left: 4.5833vw;
-    // top: 85vh;
-
     position: absolute;
     width: 0.6944vw;
     height: 0.6944vw;

@@ -2,22 +2,17 @@ import "./index.css";
 
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  BTOGGLE,
-  CLOSE_ALERT_TOGGLE,
-  CAM_OPEN_TOGGLE,
-  PARTNERNICK,
-} from "../../../redux/reducers/MToggle";
+import { CLOSE_ALERT_TOGGLE, CAM_OPEN_TOGGLE, PARTNERNICK } from "../../../redux/reducers/MToggle";
 import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 
-import SettingModal from "../../../components/Meeting/SettingModal";
 import ProgressBar from "../../../components/Meeting/ProgressBar";
-import BlockModal from "../../../components/Meeting/BlockModal";
-import Alert from "../../../components/Start/Alert";
+import Alert from "../../../components/Common/Alert";
 import Imoticon from "../../../components/Meeting/Imoticon";
 import LightTag from "../../../components/Meeting/LightTag";
 import MyCamSubDiv from "../../../components/Meeting/MyCamSubDiv";
+import SelectModal from "../../../components/Common/SelectModal";
+import PartnerCamSubDiv from "../../../components/Meeting/PartnerCamSubDiv";
 
 // let socket = io("https://blurblur.kr", {
 //   path: "/socket",
@@ -31,6 +26,34 @@ let myPeerConnection;
 let myStream;
 let firstRendering = false;
 let meetingInTmp = 0;
+const cameraAlertData = [
+  {
+    index: 1,
+    desc: "Logitech 3.0",
+  },
+  {
+    index: 2,
+    desc: "Desktop Cam",
+  },
+];
+const blockAlertData = [
+  {
+    index: 1,
+    desc: "불쾌한 노출",
+  },
+  {
+    index: 2,
+    desc: "부적절한 언행",
+  },
+  {
+    index: 3,
+    desc: "사용 불가 연령",
+  },
+  {
+    index: 4,
+    desc: "불편한 행동",
+  },
+];
 // console.log("MeetingIn 페이지 렌더링");
 function MeetingIn() {
   const navigate = useNavigate();
@@ -39,13 +62,7 @@ function MeetingIn() {
   const [lightToggle, setLightToggle] = useState(false);
   const [smileToggle, setSmileToggle] = useState(false);
   const [camToggle, setCamToggle] = useState(true);
-  const [myMicToggle, setMyMicToggle] = useState(true);
-  const [partnerMicToggle, setPartnerMicToggle] = useState(true);
-  const [mysoundToggle, setMySoundToggle] = useState(false);
-  const [partnerSoundToggle, setPartnerSoundToggle] = useState(false);
-  const [mySoundVal, setMySoundVal] = useState(50);
-  const [partnerSoundVal, setPartnerSoundVal] = useState(50);
-  const [blockToggle, setBlockToggle] = useState(false);
+  // const [myStream, setMyStream] = useState(undefined);
 
   const isShowBlockModal = useSelector((state) => state.mt.isShowBlockModal);
   const closeAlertToggle = useSelector((state) => state.mt.closeAlertToggle);
@@ -99,6 +116,9 @@ function MeetingIn() {
       myStream = await navigator.mediaDevices.getUserMedia(
         deviceId ? cameraConstraints : initialConstraints
       );
+      // setMyStream(
+      //   await navigator.mediaDevices.getUserMedia(deviceId ? cameraConstraints : initialConstraints)
+      // );
       document.querySelector(".MMyCamDiv1").srcObject = myStream;
       await getCameras();
     } catch (error) {
@@ -124,59 +144,59 @@ function MeetingIn() {
   // socket Code
 
   // Peer A
-  socket.on("welcome", async (rooms) => {
-    console.log("node로 부터 온 welcome ");
-    console.log(`현재 들어온 rooms들 확인`, rooms);
-    const offer = await myPeerConnection.createOffer();
-    myPeerConnection.setLocalDescription(offer);
-    // console.log(myPeerConnection.setLocalDescription(offer));
-    console.log("send the offer");
-    socket.emit("offer", offer, roomName);
-  });
+  // socket.on("welcome", async (rooms) => {
+  //   console.log("node로 부터 온 welcome ");
+  //   console.log(`현재 들어온 rooms들 확인`, rooms);
+  //   const offer = await myPeerConnection.createOffer();
+  //   myPeerConnection.setLocalDescription(offer);
+  //   // console.log(myPeerConnection.setLocalDescription(offer));
+  //   console.log("send the offer");
+  //   socket.emit("offer", offer, roomName);
+  // });
 
-  socket.on("roomsCheck", (rooms) => {
-    console.log(rooms);
-  });
+  // socket.on("roomsCheck", (rooms) => {
+  //   console.log(rooms);
+  // });
 
-  // Peer B
-  socket.on("offer", async (offer) => {
-    console.log("received the offer");
-    await myPeerConnection.setRemoteDescription(offer);
-    const answer = await myPeerConnection.createAnswer();
-    myPeerConnection.setLocalDescription(answer);
-    socket.emit("answer", answer, roomName);
-    console.log("sent the answer ");
-  });
+  // // Peer B
+  // socket.on("offer", async (offer) => {
+  //   console.log("received the offer");
+  //   await myPeerConnection.setRemoteDescription(offer);
+  //   const answer = await myPeerConnection.createAnswer();
+  //   myPeerConnection.setLocalDescription(answer);
+  //   socket.emit("answer", answer, roomName);
+  //   console.log("sent the answer ");
+  // });
 
-  // Peer A
-  socket.on("answer", (answer) => {
-    console.log("received the answer");
-    myPeerConnection.setRemoteDescription(answer);
-  });
+  // // Peer A
+  // socket.on("answer", (answer) => {
+  //   console.log("received the answer");
+  //   myPeerConnection.setRemoteDescription(answer);
+  // });
 
-  socket.on("ice", (ice) => {
-    console.log("receive candidate");
-    myPeerConnection.addIceCandidate(ice);
-  });
+  // socket.on("ice", (ice) => {
+  //   console.log("receive candidate");
+  //   myPeerConnection.addIceCandidate(ice);
+  // });
 
-  socket.on("peer-leaving", () => {
-    const peerStream = document.querySelector(".MPartenerCamDiv1");
+  // socket.on("peer-leaving", () => {
+  //   const peerStream = document.querySelector(".MPartenerCamDiv1");
 
-    dispatch(PARTNERNICK(""));
-    document.querySelector(".MPartenerCamSubText").innerText = partnerNick;
+  //   dispatch(PARTNERNICK(""));
+  //   document.querySelector(".MPartenerCamSubText").innerText = partnerNick;
 
-    peerStream.srcObject.getTracks().forEach((track) => {
-      track.stop();
-    });
-    peerStream.srcObject = null;
+  //   peerStream.srcObject.getTracks().forEach((track) => {
+  //     track.stop();
+  //   });
+  //   peerStream.srcObject = null;
 
-    if (!alert("상대방이 나가셨습니다.\n 확인을 누르시면 홈페이지로 이동합니다.")) {
-      hangUp();
-    }
-  });
+  //   if (!alert("상대방이 나가셨습니다.\n 확인을 누르시면 홈페이지로 이동합니다.")) {
+  //     handleHangUp();
+  //   }
+  // });
 
   // 미팅 나가기버튼 && (한명이 나가고) 미팅 나가기 버튼 클릭시
-  function hangUp() {
+  function handleHangUp() {
     const peerStream = document.querySelector(".MPartenerCamDiv1");
 
     myPeerConnection.close();
@@ -199,23 +219,22 @@ function MeetingIn() {
     }
 
     // 방 떠나기
-    socket.emit("leave-room", roomName, () => {
-      roomName = "";
+    // socket.emit("leave-room", roomName, () => {
+    //   roomName = "";
 
-      // Generate new socketIO socket (disconnect from previous)
-      socket.disconnect();
-      // socket = io("https://blurblur.kr", {
-      //     path: "/socket",
-      //     transports: ["websocket", "polling"],
-      //     secure: true,
-      // });
-      // 인터벌 초기화 해줘야 함!!!!!!!!!!!!!!!!!!!!!!!
-      navigate("/home");
-    });
+    //   // Generate new socketIO socket (disconnect from previous)
+    //   socket.disconnect();
+    //   // socket = io("https://blurblur.kr", {
+    //   //     path: "/socket",
+    //   //     transports: ["websocket", "polling"],
+    //   //     secure: true,
+    //   // });
+    //   // 인터벌 초기화 해줘야 함!!!!!!!!!!!!!!!!!!!!!!!
+    //   navigate("/home");
+    // });
   }
 
   // RTC Code
-
   function makeConnection() {
     console.log("makeConnection 들어왔음");
     try {
@@ -244,8 +263,8 @@ function MeetingIn() {
 
   function handleIce(data) {
     console.log("sent candidate");
-    socket.emit("ice", data.candidate, roomName);
-    console.log(socket.emit("ice", data.candidate, roomName));
+    // socket.emit("ice", data.candidate, roomName);
+    // console.log(socket.emit("ice", data.candidate, roomName));
   }
 
   function handleAddStream(data) {
@@ -332,92 +351,6 @@ function MeetingIn() {
     setCamToggle((prev) => !prev);
   };
 
-  // 나의 마이크 토글
-  const openMyMic = () => {
-    myStream.getAudioTracks().forEach((track) => (track.enabled = !track.enabled));
-
-    if (myMicToggle) {
-      document.querySelector(".myMicOn").classList.replace("myMicOn", "myMicOff");
-    } else {
-      document.querySelector(".myMicOff").classList.replace("myMicOff", "myMicOn");
-    }
-    setMyMicToggle((prev) => !prev);
-  };
-
-  // 파트너 마이크 토글
-  const openPartnerMic = () => {
-    if (partnerMicToggle) {
-      document.querySelector(".partMicOn").classList.replace("partMicOn", "partMicOff");
-    } else {
-      document.querySelector(".partMicOff").classList.replace("partMicOff", "partMicOn");
-    }
-    setPartnerMicToggle((prev) => !prev);
-  };
-
-  // 나의 음량 조절
-  const onChangeMySoundSlider = () => {
-    const slider = document.querySelector(".slider");
-    const progress = document.querySelector(".progressSlider");
-    setMySoundVal(slider.value);
-    const val = slider.value + "%";
-    progress.style.width = val;
-  };
-
-  // 파트너 음량 조절
-  const onChangePartnerSoundSlider = () => {
-    const slider = document.querySelector(".partSlider");
-    const progress = document.querySelector(".partProgressSlider");
-    setPartnerSoundVal(slider.value);
-    const val = slider.value + "%";
-    progress.style.width = val;
-  };
-
-  // 나의 음량 토글
-  const showMySound = () => {
-    if (!mysoundToggle) {
-      // document.querySelector(".soundOn").classList.replace("soundOn", "soundOff");
-      document.querySelector(".MMyCamSubSoundDesc").style.display = "block";
-    } else {
-      document.querySelector(".MMyCamSubSoundDesc").style.display = "none";
-      // document.querySelector(".soundOff").classList.replace("soundOff", "soundOn");
-    }
-    setMySoundToggle((prev) => !prev);
-  };
-
-  // 파트너 음량 토글
-  const showPartnerSound = () => {
-    if (!partnerSoundToggle) {
-      document.querySelector(".MPartenerCamSubSoundDesc").style.display = "block";
-    } else {
-      document.querySelector(".MPartenerCamSubSoundDesc").style.display = "none";
-    }
-    setPartnerSoundToggle((prev) => !prev);
-  };
-
-  // 파트너 신고 토글
-  const openBlock = () => {
-    if (!blockToggle) {
-      // 신고 div block으로 변경
-      document.querySelector(".MPartenerCamSubBlockDesc").style.display = "block";
-    } else {
-      // 신고 div none으로 변경
-      document.querySelector(".MPartenerCamSubBlockDesc").style.display = "none";
-    }
-    setBlockToggle((prev) => !prev);
-  };
-
-  // (파트너) 신고 모달 토글
-  const showBlockModal = () => {
-    // blockModalToggle이 false 라면
-    if (!isShowBlockModal) {
-      // 1. 토글 버튼을 닫아주고
-      setBlockToggle((prev) => !prev);
-      // 1. 해당 버튼의 div를 none처리 해줌
-      document.querySelector(".MPartenerCamSubBlockDesc").style.display = "none";
-      dispatch(BTOGGLE(!isShowBlockModal));
-    }
-  };
-
   const showAlertModal = () => {
     dispatch(CLOSE_ALERT_TOGGLE(false));
   };
@@ -425,7 +358,6 @@ function MeetingIn() {
   // 나의 캠 세팅 토글
   const showSetting = () => {
     dispatch(CAM_OPEN_TOGGLE(true));
-    console.log("hi");
   };
 
   if (!firstRendering) {
@@ -436,7 +368,7 @@ function MeetingIn() {
       await getMedia();
       makeConnection();
       roomName = sendRoomName;
-      socket.emit("join_room", roomName);
+      // socket.emit("join_room", roomName);
       console.log(`sendRoomName: ${sendRoomName}, ${roomName}`);
       socket = io("https://blurblur.kr", {
         path: "/socket",
@@ -463,6 +395,7 @@ function MeetingIn() {
       lightTag.innerText = partnerInterests[i - 1];
       lightTagsDiv.appendChild(lightTag);
     }
+    console.log(`00`, myStream);
   });
 
   return (
@@ -472,8 +405,26 @@ function MeetingIn() {
         {closeAlertToggle ? (
           <Alert showAlertModal={showAlertModal} content="신고가 완료되었습니다:)" />
         ) : undefined}
-        {isShowBlockModal ? <BlockModal /> : ""}
-        {camOpenToggle ? <SettingModal /> : ""}
+        {isShowBlockModal ? (
+          <SelectModal
+            headerMsg={"신고 사유"}
+            data={blockAlertData}
+            confirmMsg={"신고"}
+            status={"block"}
+          />
+        ) : (
+          ""
+        )}
+        {camOpenToggle ? (
+          <SelectModal
+            headerMsg={"카메라 설정"}
+            data={cameraAlertData}
+            confirmMsg={"확인"}
+            status={"camera"}
+          />
+        ) : (
+          ""
+        )}
         <div className="tempBackDiv" onClick={lightAndSmileBgOut}></div>
         <div className="MLeftDiv1">
           <Imoticon />
@@ -481,53 +432,15 @@ function MeetingIn() {
           <div className="MMyCamDiv">
             <video className="MMyCamDiv1" autoPlay playsInline></video>
           </div>
-          <MyCamSubDiv
-            showSetting={showSetting}
-            showCam={showCam}
-            openMyMic={openMyMic}
-            showMySound={showMySound}
-            mySoundVal={mySoundVal}
-            onChangeMySoundSlider={onChangeMySoundSlider}
-          />
+          <MyCamSubDiv showSetting={showSetting} showCam={showCam} myStream={myStream} />
         </div>
-        <div className="MRightDiv1">
+        <div className="MRightDiv">
           <LightTag showLight={showLight} />
           <div className="MPartenerCamDiv">
             <div className="blurEffect"></div>
             <video className="MPartenerCamDiv1" autoPlay playsInline></video>
           </div>
-          <div className="MPartenerCamSubDiv">
-            <span className="MPartenerCamSubText">{partnerNick} </span>
-            <div className="MPartenerCamSubBtnsDiv">
-              <div className="MPartenerCamSubExitBtn" onClick={hangUp}></div>
-              <div className="MPartenerCamSubBlockBtn" onClick={openBlock}></div>
-              <div className="MPartenerCamSubBlockDesc">
-                <div className="MPartenerCamSubBlockDescTop"></div>
-                <div className="MPartenerCamSubBlockDescMain" onClick={showBlockModal}>
-                  <span className="MPartenerCamSubBlockDescText">Report</span>
-                </div>
-              </div>
-              <div className="MPartenerCamSubMicBtn partMicOn" onClick={openPartnerMic}></div>
-              <div className="MPartenerCamSubSoundBtn" onClick={showPartnerSound}></div>
-              <div className="MPartenerCamSubSoundDesc">
-                <div className="MPartenerCamSubSoundDescTop"></div>
-                <div className="MPartenerCamSubSoundDescMain"></div>
-                <span className="MPartenerCamSubSoundDescSoundVal">{partnerSoundVal}</span>
-                <div className="MPartenerCamSubSoundDescBar">
-                  <div className="part-range-slider">
-                    <input
-                      type="range"
-                      className="partSlider"
-                      min="0"
-                      max="100"
-                      onChange={onChangePartnerSoundSlider}
-                    ></input>
-                    <div className="partProgressSlider"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <PartnerCamSubDiv handleHangUp={handleHangUp} />
         </div>
       </div>
       <ProgressBar />

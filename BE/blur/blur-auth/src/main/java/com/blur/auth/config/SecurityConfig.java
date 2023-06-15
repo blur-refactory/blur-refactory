@@ -60,8 +60,8 @@ public class SecurityConfig {
                 //== URL별 권한 관리 옵션 ==//
                 .authorizeRequests()
 
-                .antMatchers( "/ws/**", "/socket.io/**", "/auth/**", "/login/**")
-//                .antMatchers( "/**")
+//                .antMatchers( "/ws/**", "/socket.io/**", "/auth/**", "/api/login/**", "/login/**")
+                .antMatchers( "/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
@@ -143,9 +143,7 @@ public class SecurityConfig {
                         "/swagger/**",
                         "/ws/**",
                         "/actuator/**",
-                        "/auth/**",
-                        "/api/login/**",
-                        "/login/**"
+                        "/auth/**"
                 );
     }
 
