@@ -1,7 +1,7 @@
 package com.blur.auth.oauth2;
 
-import com.blur.auth.api.entity.Role;
-import com.blur.auth.api.entity.SocialType;
+import com.blur.auth.api.dto.Role;
+import com.blur.auth.api.dto.SocialType;
 import com.blur.auth.api.entity.User;
 import com.blur.auth.oauth2.userinfo.KakaoOAuth2UserInfo;
 import com.blur.auth.oauth2.userinfo.OAuth2UserInfo;

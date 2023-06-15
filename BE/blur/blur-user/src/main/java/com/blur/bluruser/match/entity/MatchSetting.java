@@ -1,6 +1,7 @@
 package com.blur.bluruser.match.entity;
 
-import com.blur.bluruser.match.dto.MatchSettingDto;
+import com.blur.bluruser.match.dto.request.RequestUpdateSettingDto;
+import com.blur.bluruser.match.dto.response.ResponseMatchSettingDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,9 +41,9 @@ public class MatchSetting {
         this.maxAge = maxAge;
     }
 
-    public void update(MatchSettingDto matchSettingDto) {
-        this.maxDistance = matchSettingDto.getMaxDistance();
-        this.maxAge = matchSettingDto.getMaxAge();
-        this.minAge = matchSettingDto.getMinAge();
+    public void update(RequestUpdateSettingDto requestUpdateSettingDto) {
+        this.maxDistance = requestUpdateSettingDto.getMaxDistance();
+        this.maxAge = requestUpdateSettingDto.getMaxAge();
+        this.minAge = requestUpdateSettingDto.getMinAge();
     }
 }

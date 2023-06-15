@@ -20,8 +20,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/chat")
 public class testController {
-
     private final ChatroomService chatroomService;
+
     private final ChatMakeService chatMakeService;
 
     @PostMapping("/test")

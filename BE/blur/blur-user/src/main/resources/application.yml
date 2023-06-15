@@ -1,6 +1,9 @@
 server:
   port: 8081
 
+api_gateway_url: blurblur.kr:3307
+#api_gateway_url: localhost:3306
+
 spring:
   application:
     name: blur-user
@@ -12,7 +15,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://blurblur.kr:3307/blur_user?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${api_gateway_url}/blur_user?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
     username: blur
     password: blurblur
     hikari:
@@ -61,6 +64,3 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
-
-blur-auth:
-  url: https://blurblur.kr/blur-auth/user

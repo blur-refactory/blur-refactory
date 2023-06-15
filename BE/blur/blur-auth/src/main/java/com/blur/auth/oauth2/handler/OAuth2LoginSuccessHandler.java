@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -26,8 +27,10 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtService jwtService;
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
-    private static final String home = "https://www.shinemustget.com/home";
-    private static final String create = "https://www.shinemustget.com/create";
+    private static final String home = "https://blurblur.kr/home";
+    private static final String create = "https://blurblur.kr/create";
+//    private static final String home = "http://localhost:3000/home";
+//    private static final String create = "http://localhost:3000/create";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -40,8 +43,10 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         }
     }
 
+    // TODO: jwt인증과정 살펴보기
     private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
-        String getId = oAuth2User.getAttributes().get("id").toString();
+        Map<String, Object> account = (Map<String, Object>) oAuth2User.getAttributes().get("kakao_account");
+        String getId = account.get("email").toString();
         Optional<User> findMember = userRepository.findById(getId);
         User user = findMember.orElseThrow(() -> new IllegalStateException("유저가 존재하지 않음"));
 
@@ -50,13 +55,15 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 .ifPresentOrElse(refreshToken -> {
                             log.info("Refresh Token 있음");
                             String accessToken = jwtService.createAccessToken(getId);
-                            jwtService.setAccessTokenHeader(response, accessToken);
+//                            jwtService.setAccessTokenHeader(response, accessToken);
+                            jwtService.accessTokenAddCookie(response, accessToken);
                             jwtService.refreshTokenAddCookie(response, refreshToken.getRefreshToken());
                         },
                         () -> {
                             log.info("Refresh Token 없음");
                             String accessToken = jwtService.createAccessToken(getId);
-                            jwtService.setAccessTokenHeader(response, accessToken);
+//                            jwtService.setAccessTokenHeader(response, accessToken);
+                            jwtService.accessTokenAddCookie(response, accessToken);
                             String newRefreshToken = jwtService.createRefreshToken();
                             jwtService.refreshTokenAddCookie(response, newRefreshToken);
                             RefreshToken token = RefreshToken.builder()

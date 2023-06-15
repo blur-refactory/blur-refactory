@@ -27,6 +27,7 @@ import java.util.Optional;
 @Slf4j
 public class JwtService {
 
+    // TODO: SecretKey 코드에 직접 노출됨 환경변수로 숨길 필요 있음.
     @Value("${jwt.secretKey}")
     private String secretKey;
 
@@ -42,8 +43,8 @@ public class JwtService {
     @Value("${cookie.refresh.expiration}")
     private int refreshTokenCookieExpirationPeriod;
 
-    @Value("${jwt.access.header}")
-    private String accessHeader;
+//    @Value("${jwt.access.header}")
+//    private String accessHeader;
 
     /**
      * JWT의 Subject와 Claim으로 email 사용 -> 클레임의 name을 "id"으로 설정
@@ -71,7 +72,12 @@ public class JwtService {
     /**
      * RefreshToken 생성
      * RefreshToken은 Claim에 id도 넣지 않으므로 withClaim() X
+     * 그 이유에 RefreshToken은 DB에 저장되기 때문에, id를 토큰안에 넣을 필요가 없음.
      */
+
+    //TODO: 1. refreshToken을 DB에 넣는게 맞는지
+    //      2. 토큰에 id값을 안 넣는게 정말 맞는 것인지 생각해볼 필요가 있음.
+    //      예외가 발생할 경우가 무엇인지 생각해봐야함. ex) accesstoken, refresh토큰이 둘다 만료되었을 때 id식별 어떻게 할꺼?
     public String createRefreshToken() {
         Date now = new Date();
         return JWT.create()
@@ -133,8 +139,24 @@ public class JwtService {
     /**
      * AccessToken 헤더 설정
      */
-    public void setAccessTokenHeader(HttpServletResponse response, String accessToken) {
-        response.setHeader(accessHeader, accessToken);
+//    public void setAccessTokenHeader(HttpServletResponse response, String accessToken) {
+//        response.setHeader(accessHeader, accessToken);
+//    }
+
+    public void accessTokenAddCookie(HttpServletResponse response, String accessToken) {
+        try {
+            String bearerToken = URLEncoder.encode(BEARER + accessToken, "UTF-8");
+            Cookie cookie = new Cookie("accessToken", bearerToken);
+            cookie.setPath("/");
+            cookie.setMaxAge(accessTokenCookieExpirationPeriod);
+            cookie.setHttpOnly(true);
+            response.addCookie(cookie);
+
+            log.info("Access Token 쿠키에 저장 완료");
+            log.info("발급된 Access Token : {}", accessToken);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -162,8 +184,30 @@ public class JwtService {
      * 토큰 형식 : Bearer XXX에서 Bearer를 제외하고 순수 토큰만 가져오기 위해서
      * 헤더를 가져온 후 "Bearer"를 삭제(""로 replace)
      */
+//    public Optional<String> extractAccessToken(HttpServletRequest request) {
+//        return Optional.ofNullable(request.getHeader(accessHeader))
+//                .filter(accessToken -> accessToken.startsWith(BEARER))
+//                .map(accessToken -> accessToken.replace(BEARER, ""));
+//    }
+
     public Optional<String> extractAccessToken(HttpServletRequest request) {
-        return Optional.ofNullable(request.getHeader(accessHeader))
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(Arrays.stream(cookies)
+                        .filter(cookie -> cookie.getName().equals("accessToken"))
+                        .findFirst()
+                        .map(Cookie::getValue)
+                        .orElse(null))
+                .map(accessToken -> {
+                    try {
+                        return URLDecoder.decode(accessToken, "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                 .filter(accessToken -> accessToken.startsWith(BEARER))
                 .map(accessToken -> accessToken.replace(BEARER, ""));
     }
@@ -204,6 +248,8 @@ public class JwtService {
     /**
      * 토큰 유효성 검증
      */
+
+    // TODO: UserController에 있는 validate에 있는 로직이랑 대비시켜서 합칠 필요가 있다고 생각됨.
     public boolean isTokenValid(String token) {
         try {
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
