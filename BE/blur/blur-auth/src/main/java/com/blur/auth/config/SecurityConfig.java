@@ -60,7 +60,7 @@ public class SecurityConfig {
                 //== URL별 권한 관리 옵션 ==//
                 .authorizeRequests()
 
-                .antMatchers( "/ws/**", "/socket.io/**", "/auth/**", "/login/**")
+                .antMatchers( "/ws/**", "/socket.io/**", "/auth/**", "/api/login/**", "/login/**")
 //                .antMatchers( "/**")
                 .permitAll()
                 .anyRequest()
@@ -131,22 +131,22 @@ public class SecurityConfig {
     // WebSecurity가 Bean에 등록되지 않아 WebSecurity가 동작하지 않았음. 그래서 시큐리티의 antMatchers가 동작하지 않고
     // jwtFilter가 작동하는 문제점이 발생했음.
     // WebSecurity를 해결: Bean에 등록하면서 해결함.
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web
-//                .ignoring()
-//                .antMatchers(
-//                        "/swagger-ui/**",
-//                        "/v2/api-docs",
-//                        "/webjars/**",
-//                        "/swagger-resources/**",
-//                        "/swagger/**",
-//                        "/ws/**",
-//                        "/actuator/**",
-//                        "/auth/**",
-//                        "/api/login/**",
-//                        "/login/**"
-//                );
-//    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web
+                .ignoring()
+                .antMatchers(
+                        "/swagger-ui/**",
+                        "/v2/api-docs",
+                        "/webjars/**",
+                        "/swagger-resources/**",
+                        "/swagger/**",
+                        "/ws/**",
+                        "/actuator/**",
+                        "/auth/**",
+                        "/api/login/**",
+                        "/login/**"
+                );
+    }
 
 }
