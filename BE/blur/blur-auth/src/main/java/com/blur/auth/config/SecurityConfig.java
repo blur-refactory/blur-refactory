@@ -59,7 +59,7 @@ public class SecurityConfig {
 
                 //== URL별 권한 관리 옵션 ==//
                 .authorizeRequests()
-                .antMatchers( "/ws/**", "/socket.io/**", "/auth/**", "/api/login/**", "/login/**")
+                .antMatchers( "/ws/**", "/socket.io/**", "/auth/**", "/api/login/**", "/login/**", "/login", "/api/login")
 //                .antMatchers( "/**")
                 .permitAll()
                 .anyRequest()
