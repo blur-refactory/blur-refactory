@@ -39,8 +39,6 @@ public class SecurityConfig {
     private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
 
-
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors();
@@ -62,7 +60,7 @@ public class SecurityConfig {
                 //== URL별 권한 관리 옵션 ==//
                 .authorizeRequests()
 
-                .antMatchers( "/ws/**", "/socket.io/**", "/auth/**")
+                .antMatchers( "/ws/**", "/socket.io/**", "/auth/**", "/api/login/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
