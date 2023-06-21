@@ -54,7 +54,7 @@ function MyInfo() {
   console.log(hashCheck);
 
   // 화면 켜지자 말자 띄우는 거
-  const API_URL = `${process.env.REACT_APP_API_ROOT_DONGHO}//profile/${id}`;
+  const API_URL = `${process.env.REACT_APP_API_ROOT_DONGHO}/profile`;
   const [proFile, setProFile] = useState([]);
   const [userInterests, setUserInterests] = useState([]);
   useEffect(() => {

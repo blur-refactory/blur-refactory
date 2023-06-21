@@ -33,7 +33,7 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      url: `${API_URL}/${id}/getProfile`,
+      url: `${API_URL}/getProfile`,
       data: {},
     })
       .then((res) => {
@@ -71,7 +71,7 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      url: `${API_URL}/${id}/updateProfile`,
+      url: `${API_URL}/updateProfile`,
       data: updatedProfile,
     })
       .then((res) => {
@@ -189,7 +189,7 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
     const formData = new FormData();
     formData.append("profileImage", selectedImage);
     axios
-      .post(`${API_URL}/${id}/updateImage`, formData)
+      .post(`${API_URL}/updateImage`, formData)
       .then((res) => {
         console.log(res.data);
       })

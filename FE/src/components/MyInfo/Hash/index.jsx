@@ -34,7 +34,7 @@ function Hash({ showHashModal, showAlertModal }) {
   useEffect(() => {
     axios({
       method: "GET",
-      url: `${API_URL}/${id}/getInterest`,
+      url: `${API_URL}/getInterest`,
       data: {},
     })
       .then((res) => {
@@ -65,7 +65,7 @@ function Hash({ showHashModal, showAlertModal }) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      url: `${API_URL}/${id}/updateInterest`,
+      url: `${API_URL}/updateInterest`,
       data: updatedHash,
     })
       .then((res) => {
@@ -127,7 +127,7 @@ function Hash({ showHashModal, showAlertModal }) {
 
   const simularSearch = () => {
     axios
-      .post(`${API_URL}/${id}/getInterestRank`, {
+      .post(`${API_URL}/getInterestRank`, {
         interestName: searchQuery,
       })
       .then((response) => {

@@ -26,7 +26,7 @@ function SetModal() {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      url: `${API_URL}/${id}/getProfile`,
+      url: `${API_URL}/getProfile`,
       data: {},
     })
       .then((res) => {
