@@ -28,9 +28,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
     private static final String home = "https://blurblur.kr/home";
-    private static final String create = "https://blurblur.kr/create";
-//    private static final String home = "http://localhost:3000/home";
-//    private static final String create = "http://localhost:3000/create";
+//    private static final String create = "https://blurblur.kr/create";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -73,12 +71,12 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                             refreshTokenRepository.save(token);
                         });
 
-        // 만다라트 생성 시 유저 상태 변경
-        if (user.getRole().getKey() == "ROLE_GUEST") {
-            response.sendRedirect(create);
-        } else {
-            response.sendRedirect(home);
-        }
+//        if (user.getRole().getKey() == "ROLE_GUEST") {
+//            response.sendRedirect(create);
+//        } else {
+//            response.sendRedirect(home);
+//        }
 
+        response.sendRedirect(home);
     }
 }
