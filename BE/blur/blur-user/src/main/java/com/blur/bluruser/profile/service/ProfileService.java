@@ -3,7 +3,9 @@ package com.blur.bluruser.profile.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.blur.bluruser.match.entity.MatchMakingRating;
 import com.blur.bluruser.match.entity.MatchSetting;
+import com.blur.bluruser.match.repository.MatchMakingRatingRepository;
 import com.blur.bluruser.match.repository.MatchSettingRepository;
 import com.blur.bluruser.profile.dto.request.RequestProfileSettingDto;
 import com.blur.bluruser.profile.dto.request.RequestUserInterestDto;
@@ -38,6 +40,8 @@ public class ProfileService {
     private final InterestRepository interestRepository;
 
     private final MatchSettingRepository matchSettingRepository;
+
+    private final MatchMakingRatingRepository matchMakingRatingRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -75,12 +79,23 @@ public class ProfileService {
     public ResponseProfileSettingDto getProfileSetting(String userId) {
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
         if (userProfile == null) {
-            userProfile = UserProfile.builder()
+            UserProfile newProfile = UserProfile.builder()
                     .userId(userId)
                     .build();
-            userProfileRepository.save(userProfile);
+            userProfileRepository.save(newProfile);
+            MatchSetting newSetting = MatchSetting.builder()
+                    .userId(userId)
+                    .userProfile(newProfile)
+                    .build();
+            matchSettingRepository.save(newSetting);
+            MatchMakingRating mmr = MatchMakingRating.builder()
+                    .userId(userId)
+                    .userProfile(newProfile)
+                    .build();
+            matchMakingRatingRepository.save(mmr);
+            ResponseProfileSettingDto responseProfileSettingDto = new ResponseProfileSettingDto(newProfile, newSetting);
+            return responseProfileSettingDto;
         }
-
         MatchSetting matchSetting = matchSettingRepository.findByUserId(userId);
         ResponseProfileSettingDto responseProfileSettingDto = new ResponseProfileSettingDto(userProfile, matchSetting);
         return responseProfileSettingDto;

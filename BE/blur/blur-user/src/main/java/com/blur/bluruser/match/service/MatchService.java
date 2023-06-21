@@ -46,22 +46,6 @@ public class MatchService {
     public ResponseMatchSettingDto getSetting(String userId) {
 
         MatchSetting matchSetting = matchSettingRepository.findByUserId(userId);
-        if (matchSetting == null)  {
-            UserProfile userProfile = userProfileRepository.findByUserId(userId);
-            MatchSetting newSetting = MatchSetting.builder()
-                    .userId(userId)
-                    .userProfile(userProfile)
-                    .build();
-            matchSettingRepository.save(newSetting);
-            MatchMakingRating mmr = MatchMakingRating.builder()
-                    .userId(userId)
-                    .userProfile(userProfile)
-                    .build();
-            matchMakingRatingRepository.save(mmr);
-            ResponseMatchSettingDto responseMatchSettingDto = new ModelMapper().map(newSetting, ResponseMatchSettingDto.class);
-            return responseMatchSettingDto;
-        }
-
         ResponseMatchSettingDto responseMatchSettingDto = new ModelMapper().map(matchSetting, ResponseMatchSettingDto.class);
         return responseMatchSettingDto;
     }
