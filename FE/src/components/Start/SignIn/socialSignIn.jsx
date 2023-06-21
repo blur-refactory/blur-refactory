@@ -15,7 +15,7 @@ function SocialSignInRedirect() {
   useEffect(() => {
     console.log(location);
 
-    const token = location.search.substring(7);
+    const token = '1111111111111';
     console.log(token);
 
     if (token) {
