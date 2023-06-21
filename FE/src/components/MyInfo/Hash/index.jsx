@@ -30,7 +30,7 @@ function Hash({ showHashModal, showAlertModal }) {
 
   const dispatch = useDispatch();
 
-  const API_URL = `${process.env.REACT_APP_API_ROOT_DONGHO}/blur-profile/profile`;
+  const API_URL = `${process.env.REACT_APP_API_ROOT_DONGHO}/api/profile`;
   useEffect(() => {
     axios({
       method: "GET",

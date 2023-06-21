@@ -9,7 +9,7 @@ import axios from "axios";
 import { setDistancee, setAgeRange } from "../../../../redux/reducers/setDatee";
 
 function SetModal() {
-  const API_URL = `${process.env.REACT_APP_API_ROOT_DONGHO}/blur-profile/profile`;
+  const API_URL = `${process.env.REACT_APP_API_ROOT_DONGHO}/api/profile`;
   const id = useSelector((state) => {
     return state.strr.id;
   });
