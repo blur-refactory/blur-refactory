@@ -1,5 +1,6 @@
 package com.blur.bluruser.match.entity;
 
+import com.blur.bluruser.profile.entity.UserProfile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,24 +13,21 @@ import java.util.Collection;
 @Entity
 @Getter
 @NoArgsConstructor
-@Builder
 @Table(name = "matched_user")
 public class MatchedUser {
 
-    @JsonIgnore
-    @Column(name = "user_Id")
     @Id
+    @Column(name = "user_id")
     private String userId;
 
     @ElementCollection
     @Column(name = "matched_list")
     private Collection<String> matchedList = new ArrayList<>();
 
-    @Builder
-    public MatchedUser(String userId, Collection<String> matchedList) {
-        this.userId = userId;
-        this.matchedList = matchedList;
-    }
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "user_id")
+    private UserProfile userProfile;
 
     public void update(Collection<String> matchedList) {
         this.matchedList = matchedList;

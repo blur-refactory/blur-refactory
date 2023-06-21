@@ -1,5 +1,7 @@
 package com.blur.bluruser.profile.entity;
 
+import com.blur.bluruser.match.entity.MatchMakingRating;
+import com.blur.bluruser.match.entity.MatchSetting;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,8 +44,15 @@ public class UserProfile {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "userProfile")
-    private List<UserInterest> userInterests =  new ArrayList<>();
+    private List<UserInterest> userInterests;
 
+    @OneToOne(mappedBy = "userProfile", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private MatchMakingRating matchMakingRating;
+
+    @OneToOne(mappedBy = "userProfile", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private MatchSetting matchSetting;
 
     public void updateProfile(Integer age, String nickname, String gender, String introduce, String mbti) {
         this.age = age;

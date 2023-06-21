@@ -1,10 +1,15 @@
 package com.blur.bluruser.profile.dto.response;
 
+import com.blur.bluruser.match.entity.MatchSetting;
+import com.blur.bluruser.profile.entity.Interest;
+import com.blur.bluruser.profile.entity.UserProfile;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -12,14 +17,11 @@ import lombok.Setter;
 @ApiModel(description = "ResponseProfileSettingDto")
 public class ResponseProfileSettingDto {
 
-    @ApiModelProperty(value = "사용자 ID")
-    private String userId;
+    @ApiModelProperty(value = "닉네임")
+    private String nickname;
 
     @ApiModelProperty(value = "나이")
     private Integer age;
-
-    @ApiModelProperty(value = "닉네임")
-    private String nickname;
 
     @ApiModelProperty(value = "이미지")
     private String image;
@@ -37,7 +39,7 @@ public class ResponseProfileSettingDto {
     private Integer maxDistance;
 
     @ApiModelProperty(value = "최소 나이")
-    private Integer minAge ;
+    private Integer minAge;
 
     @ApiModelProperty(value = "최대 나이")
     private Integer maxAge;
@@ -45,4 +47,16 @@ public class ResponseProfileSettingDto {
     @ApiModelProperty(value = "이메일")
     private String email;
 
+    public ResponseProfileSettingDto(UserProfile userProfile, MatchSetting matchSetting) {
+        this.nickname = userProfile.getNickname();
+        this.age = userProfile.getAge();
+        this.image = userProfile.getImage();
+        this.gender = userProfile.getGender();
+        this.introduce = userProfile.getIntroduce();
+        this.mbti = userProfile.getMbti();
+        this.maxDistance = matchSetting.getMaxDistance();
+        this.minAge = matchSetting.getMinAge();
+        this.maxAge = matchSetting.getMaxAge();
+        this.email = userProfile.getUserId();
+    }
 }

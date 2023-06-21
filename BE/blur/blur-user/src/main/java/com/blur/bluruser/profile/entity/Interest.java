@@ -23,6 +23,5 @@ public class Interest {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "interest")
-    private List<UserInterest> userInterests = new ArrayList<>();
-
+    private List<UserInterest> userInterests;
 }

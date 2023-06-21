@@ -46,13 +46,22 @@ public class MatchService {
     public ResponseMatchSettingDto getSetting(String userId) {
 
         MatchSetting matchSetting = matchSettingRepository.findByUserId(userId);
-        System.out.println(matchSetting == null);
-        if (matchSetting == null) {
-            matchSetting = MatchSetting.builder()
+        if (matchSetting == null)  {
+            UserProfile userProfile = userProfileRepository.findByUserId(userId);
+            MatchSetting newSetting = MatchSetting.builder()
                     .userId(userId)
+                    .userProfile(userProfile)
                     .build();
-            matchSettingRepository.save(matchSetting);
-        };
+            matchSettingRepository.save(newSetting);
+            MatchMakingRating mmr = MatchMakingRating.builder()
+                    .userId(userId)
+                    .userProfile(userProfile)
+                    .build();
+            matchMakingRatingRepository.save(mmr);
+            ResponseMatchSettingDto responseMatchSettingDto = new ModelMapper().map(newSetting, ResponseMatchSettingDto.class);
+            return responseMatchSettingDto;
+        }
+
         ResponseMatchSettingDto responseMatchSettingDto = new ModelMapper().map(matchSetting, ResponseMatchSettingDto.class);
         return responseMatchSettingDto;
     }
@@ -67,16 +76,6 @@ public class MatchService {
     public ResponseStartDto matchStart(String userId, RequestMatchDto requestMatchDto) {
 
         MatchMakingRating matchMakingRating = matchMakingRatingRepository.findByUserId(userId);
-        if (matchMakingRating == null) {
-            matchMakingRating = MatchMakingRating.builder()
-                    .userId(userId)
-                    .point(1000)
-                    .winningStreak(0)
-                    .losingStreak(0)
-                    .reportCount(0)
-                    .build();
-            matchMakingRatingRepository.save(matchMakingRating);
-        }
         if (matchMakingRating.getReportCount() > 10) {
             return null;
         }
@@ -196,18 +195,18 @@ public class MatchService {
         String partnerId = meetingDto.getPartnerId();
         MatchedUser userMet = matchedUserRepository.findByUserId(userId);
         MatchedUser partnerMet = matchedUserRepository.findByUserId(partnerId);
-        if (userMet == null) {
-            userMet = MatchedUser.builder()
-                    .userId(userId)
-                    .build();
-            matchedUserRepository.save(userMet);
-        }
-        if (partnerMet == null) {
-            partnerMet = MatchedUser.builder()
-                    .userId(partnerId)
-                    .build();
-            matchedUserRepository.save(partnerMet);
-        }
+//        if (userMet == null) {
+//            userMet = MatchedUser.builder()
+//                    .userId(userId)
+//                    .build();
+//            matchedUserRepository.save(userMet);
+//        }
+//        if (partnerMet == null) {
+//            partnerMet = MatchedUser.builder()
+//                    .userId(partnerId)
+//                    .build();
+//            matchedUserRepository.save(partnerMet);
+//        }
         Collection<String> userMetList = userMet.getMatchedList();
         Collection<String> partnerMetList = partnerMet.getMatchedList();
         userMetList.add(partnerId);
@@ -226,12 +225,12 @@ public class MatchService {
     private boolean filter(MatchDto maleDto, MatchDto femaleDto) {
 
         MatchedUser matchedUsers = matchedUserRepository.findByUserId(femaleDto.getUserId());
-        if (matchedUsers == null) {
-            matchedUsers = MatchedUser.builder()
-                    .userId(femaleDto.getUserId())
-                    .build();
-            matchedUserRepository.save(matchedUsers);
-        }
+//        if (matchedUsers == null) {
+//            matchedUsers = MatchedUser.builder()
+//                    .userId(femaleDto.getUserId())
+//                    .build();
+//            matchedUserRepository.save(matchedUsers);
+//        }
         Collection<String> matchedList = matchedUsers.getMatchedList();
         if (matchedList != null) {
             if (matchedList.contains(maleDto.getUserId())) {return false;}

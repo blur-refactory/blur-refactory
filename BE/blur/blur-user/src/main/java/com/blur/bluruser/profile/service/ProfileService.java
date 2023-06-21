@@ -3,6 +3,8 @@ package com.blur.bluruser.profile.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.blur.bluruser.match.entity.MatchSetting;
+import com.blur.bluruser.match.repository.MatchSettingRepository;
 import com.blur.bluruser.profile.dto.request.RequestProfileSettingDto;
 import com.blur.bluruser.profile.dto.request.RequestUserInterestDto;
 import com.blur.bluruser.profile.dto.response.ResponseCardDto;
@@ -34,6 +36,8 @@ public class ProfileService {
     private final UserInterestRepository userInterestRepository;
 
     private final InterestRepository interestRepository;
+
+    private final MatchSettingRepository matchSettingRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -77,7 +81,9 @@ public class ProfileService {
             userProfileRepository.save(userProfile);
         }
 
-        return null;
+        MatchSetting matchSetting = matchSettingRepository.findByUserId(userId);
+        ResponseProfileSettingDto responseProfileSettingDto = new ResponseProfileSettingDto(userProfile, matchSetting);
+        return responseProfileSettingDto;
     }
 
     public RequestProfileSettingDto updateProfile(String userId, RequestProfileSettingDto requestProfileSettingDto) {
