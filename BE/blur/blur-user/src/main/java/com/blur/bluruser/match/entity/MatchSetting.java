@@ -32,7 +32,7 @@ public class MatchSetting {
     @Column(name = "max_age")
     private Integer maxAge;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "user_id")
     private UserProfile userProfile;
