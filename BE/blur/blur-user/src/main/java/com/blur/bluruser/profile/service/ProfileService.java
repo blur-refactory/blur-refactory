@@ -68,12 +68,12 @@ public class ProfileService {
                     .build();
             userProfileRepository.save(userProfile);
             MatchSetting newSetting = MatchSetting.builder()
-                    .userId(userId)
+                    .userId(userProfile.getUserId())
                     .userProfile(userProfile)
                     .build();
             matchSettingRepository.save(newSetting);
             MatchMakingRating mmr = MatchMakingRating.builder()
-                    .userId(userId)
+                    .userId(userProfile.getUserId())
                     .userProfile(userProfile)
                     .build();
             matchMakingRatingRepository.save(mmr);

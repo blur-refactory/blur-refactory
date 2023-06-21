@@ -40,7 +40,7 @@ public class MatchMakingRating {
     @ColumnDefault("0")
     private Integer reportCount;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "user_id")
     private UserProfile userProfile;

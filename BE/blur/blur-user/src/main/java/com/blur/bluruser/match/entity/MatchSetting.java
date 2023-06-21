@@ -8,12 +8,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Builder
+@DynamicInsert
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "matching_setting")
@@ -24,15 +27,18 @@ public class MatchSetting {
     private String userId;
 
     @Column(name = "max_distance")
+    @ColumnDefault("30")
     private Integer maxDistance;
 
     @Column(name = "min_age")
+    @ColumnDefault("20")
     private Integer minAge;
 
     @Column(name = "max_age")
+    @ColumnDefault("40")
     private Integer maxAge;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "user_id")
     private UserProfile userProfile;
