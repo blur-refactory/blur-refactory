@@ -60,12 +60,23 @@ public class ProfileService {
     }
 
     public ResponseCardDto getCard(String userId) {
+
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
         if (userProfile == null) {
             userProfile = UserProfile.builder()
                     .userId(userId)
                     .build();
             userProfileRepository.save(userProfile);
+            MatchSetting newSetting = MatchSetting.builder()
+                    .userId(userId)
+                    .userProfile(userProfile)
+                    .build();
+            matchSettingRepository.save(newSetting);
+            MatchMakingRating mmr = MatchMakingRating.builder()
+                    .userId(userId)
+                    .userProfile(userProfile)
+                    .build();
+            matchMakingRatingRepository.save(mmr);
         }
         List<UserInterest> UserInterests = userInterestRepository.findByUserProfile(userProfile);
         List<Interest> userInterests = new ArrayList<>();
@@ -77,25 +88,8 @@ public class ProfileService {
     }
 
     public ResponseProfileSettingDto getProfileSetting(String userId) {
+
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
-        if (userProfile == null) {
-            UserProfile newProfile = UserProfile.builder()
-                    .userId(userId)
-                    .build();
-            userProfileRepository.save(newProfile);
-            MatchSetting newSetting = MatchSetting.builder()
-                    .userId(userId)
-                    .userProfile(newProfile)
-                    .build();
-            matchSettingRepository.save(newSetting);
-            MatchMakingRating mmr = MatchMakingRating.builder()
-                    .userId(userId)
-                    .userProfile(newProfile)
-                    .build();
-            matchMakingRatingRepository.save(mmr);
-            ResponseProfileSettingDto responseProfileSettingDto = new ResponseProfileSettingDto(newProfile, newSetting);
-            return responseProfileSettingDto;
-        }
         MatchSetting matchSetting = matchSettingRepository.findByUserId(userId);
         ResponseProfileSettingDto responseProfileSettingDto = new ResponseProfileSettingDto(userProfile, matchSetting);
         return responseProfileSettingDto;
@@ -111,6 +105,7 @@ public class ProfileService {
     }
 
     public String updateImage(String userId, MultipartFile profileImage) throws IOException {
+
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
         String s3FileName = UUID.randomUUID() + "-" + profileImage.getOriginalFilename();
         ObjectMetadata objMeta = new ObjectMetadata();
@@ -123,6 +118,7 @@ public class ProfileService {
     }
 
     public ResponseInterestDto getInterests(String userId) {
+
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
         List<Interest> allInterests = interestRepository.findAll();
         List<UserInterest> UserInterests = userInterestRepository.findByUserProfile(userProfile);
@@ -135,6 +131,7 @@ public class ProfileService {
     }
 
     public void updateInterest(RequestUserInterestDto requestUserInterestDto, String userId) {
+
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
         List<UserInterest> userInterests = userInterestRepository.findByUserProfile(userProfile);
         userInterestRepository.deleteAll(userInterests);
@@ -150,6 +147,7 @@ public class ProfileService {
     }
 
     public Collection<String> getPartnerInterest(String partnerId) {
+
         UserProfile partner = userProfileRepository.findByUserId(partnerId);
         List<UserInterest> partnerInterests = userInterestRepository.findByUserProfile(partner);
         Collection<String> partnerInterestNames = new ArrayList<>();
