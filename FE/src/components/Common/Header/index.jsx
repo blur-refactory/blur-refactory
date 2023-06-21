@@ -75,6 +75,6 @@ function Header({ showSignInModal, showChatList }) {
 
 export default Header;
 
-<Link to="/MyInfo">
+{/* <Link to="/MyInfo">
   <span className="CommNavBtnMyInfo">MyInfo</span>
-</Link>;
+</Link>; */}

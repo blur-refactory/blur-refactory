@@ -49,7 +49,7 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
 
   const handleSave = () => {
     const updatedProfile = {
-      userId: id,
+
       age: ageInput === "" ? proFile.age : ageInput,
       nickname: nameInput === "" ? proFile.nickname : nameInput,
       introduce: introInput === "" ? proFile.introduce : introInput,
