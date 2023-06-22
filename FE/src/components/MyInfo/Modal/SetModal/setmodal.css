@@ -1,53 +1,165 @@
 @charset "UTF-8";
+
+.SettingModal {
+  box-sizing: border-box;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 84vw;
+  height: 75vh;
+  z-index: 30;
+  background: #ffffff;
+  border-radius: 30px;
+}
+.SettingModal .SetModal {
+  position: absolute;
+  width: 50vw;
+  height: 65vh;
+  left: 31vw;
+  top: 5vh;
+}
+.SettingModal .SetModal .SEtLabel {
+  font-size: 2.5vw;
+  display: flex;
+  align-items: center;
+  color: #b2a5a5;
+}
+.SettingModal .SetModal .SEtMidModalChangediv {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  width: 50vw;
+  height: 55vh;
+  left: 31vw;
+  margin-top: 3vh;
+}
+
+.ModalInputBox {
+  width: 45vw;
+  height: 15vh;
+}
+
+.SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox
+  .SetMidPartnerLable {
+  font-size: 2vw;
+  width: 16vw;
+  color: #9b9a9a;
+  /* background-color: #000000; */
+}
+
+.SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox
+  .SetMMPartnerCheckdiv {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 2vw;
+}
+
+.SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox
+  .SetMMPartnerCheckdiv
+  .blurdiv {
+  position: relative;
+  background: rgba(104, 187, 189, 0.2);
+  filter: blur(18.75px);
+  width: 27vw;
+  height: 8vh;
+}
+
+.SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox
+  .SetMMPartnerCheckdiv
+  .gender {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox
+  .SetMMPartnerCheckdiv
+  .range-slider {
+  width: 100%;
+}
+
+.SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox
+  .SetMMPartnerCheckdiv
+  .range-slider
+  input[type="range"] {
+  position: relative;
+  width: 100%;
+}
+
+.SettingModal
+  .SetModal
+  .SEtMidModalChangediv
+  .ModalInputBox
+  .SetMMPartnerCheckdiv
+  .range-slider
+  .progressSlider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 0.4em;
+  cursor: pointer;
+}
+
+.range-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: auto;
+  width: 1.5vw;
+  height: 1.5vw;
+  background-color: rgb(168, 222, 223);
+  border-radius: 50%;
+  z-index: 20;
+}
+
 .range-slider {
   -webkit-appearance: none;
   position: absolute;
-  top: -5.194vw;
-  left: 2vw;
+  left: 1vw;
   right: 2vw;
-  margin: 8em auto;
   display: flex;
   z-index: 5;
-}
-.range-slider .slider {
-  -webkit-appearance: none;
   width: 100%;
-  height: 0.5em;
-  outline: none;
-  border-radius: 0.208vw;
-  background-color: #eaf6f6;
-  /*
-    ㅁ 슬라이더 핸들(클릭해서 드래그하는 부분)
-    Chrome, Opera, Safari, Edge 브라우저를 다루기 위해선 -webkit-
-    Firefox의 경우 -moz- 사용
-  */
 }
-.range-slider .slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 1.042vw;
-  height: 1.042vw;
-  background-color: rgb(168, 222, 223);
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 6;
-}
+
 .range-slider .progressSlider {
-  position: absolute;
-  width: 50%;
-  height: 0.5em;
-  border-radius: 0.208vw;
   background-color: #a8dedf;
+  border-radius: 10vw;
   top: 0.28vw;
   transform: translateY(-50%);
-  left: 0;
-  z-index: 1;
   pointer-events: none;
 }
 
 .range-slider1 {
   -webkit-appearance: none;
-  width: 100%;
+  width: 80%;
   height: 0.5em;
   background-color: transparent;
   border-radius: 0.25em;
@@ -60,8 +172,9 @@
 
 .range-slider1::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 1.042vw;
-  height: 1.042vw;
+  appearance: none;
+  width: 1.5vw;
+  height: 1.5vw;
   background-color: rgb(168, 222, 223);
   border-radius: 50%;
   pointer-events: auto;
@@ -69,10 +182,10 @@
 
 .range-bar {
   position: absolute;
-  top: 1vw;
-  height: 0.5em;
+  margin-top: 4.1vh;
+  height: 0.4em;
   background-color: #a8dedf;
-  width: 70%;
+  width: 90%;
   border-radius: 0.25em;
   pointer-events: none;
   z-index: 11;
@@ -88,19 +201,16 @@
 
 .setsavebtn {
   position: absolute;
-  width: 130px;
-  height: 50px;
-  left: 1120px;
-  top: 50px;
+  width: 8vw;
+  height: 5vh;
+  left: 69vw;
+  top: 7vh;
   border-radius: 70px;
   color: #68bbbd;
   cursor: pointer;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
+  font-size: 2vw;
   border: solid 1px #68bbbd;
+  z-index: 10;
 }
 
 .setsavebtn:hover {

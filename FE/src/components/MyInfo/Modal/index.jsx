@@ -15,10 +15,6 @@ import axios from "axios";
 
 function MyInfoModal({ showMyinfoModal, showAlertModal }) {
   const API_URL = `${process.env.REACT_APP_API_ROOT_DONGHO}/api/profile`;
-  const id = useSelector((state) => {
-    return state.strr.id;
-  });
-  // const id = "123123";
 
   // 컴포넌트 켜지자말자 데이터 받아 오기
   const [proFile, setProFile] = useState([]);
@@ -222,11 +218,11 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
     <div className="Modal">
       {setModal ? <SetModal showSettingModal={showSettingModal} /> : null}
       <div className="leftModal">
-        <form onSubmit={handleSubmit}>
           <button type="submit" className="imageEditBtn">
-            저장
+            <form onSubmit={handleSubmit}>
+                저장
+            </form>
           </button>
-        </form>
         <div className="imgbox">
           <label htmlFor="profileImg">
             {previewImage ? (
@@ -362,6 +358,5 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
     </div>
   );
 }
-
 export default MyInfoModal;
 // ReactDOM.render(<ExampleSlider />, document.getElementById("root"));
