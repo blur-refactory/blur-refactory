@@ -8,6 +8,7 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -26,20 +27,39 @@ public class CustomHandshakeInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) {
         log.info("HandshakeInterceptor 시작");
+//        if (request instanceof ServletServerHttpRequest) {
+//            // ServletServerHttpRequest를 사용하여 HttpServletRequest를 가져옴
+//            ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
+//            HttpServletRequest httpServletRequest = servletRequest.getServletRequest();
+//            String userId = httpServletRequest.getHeader("X-Username");
+//            String roomId = extractRoomIdFromQuery(httpServletRequest.getQueryString());
+//
+//            log.info("아이디 {}", userId);
+//            log.info("방번호 {}", roomId);
+//
+//            if (userId != null && roomId != null) {
+//                // "id" 속성을 attributes 맵에 추가
+//                attributes.put("id", userId);
+//                attributes.put("roomId", roomId);
+//                return true;
+//            }
+//        }
+
         if (request instanceof ServletServerHttpRequest) {
             // ServletServerHttpRequest를 사용하여 HttpServletRequest를 가져옴
             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
             HttpServletRequest httpServletRequest = servletRequest.getServletRequest();
-//            String userId = (String) httpServletRequest.getAttribute("id");
-//            String roomId = (String) httpServletRequest.getAttribute("roodId");
-            String userId = httpServletRequest.getHeader("X-Username");
-            String roomId = extractRoomIdFromQuery(httpServletRequest.getQueryString());
+            String query = httpServletRequest.getQueryString(); // 쿼리 문자열 가져오기
+            Map<String, String> queryParams = parseQueryParams(query); // 쿼리 문자열 파싱하여 맵으로 변환
+
+            String userId = queryParams.get("userId");
+            String roomId = queryParams.get("roomId");
 
             log.info("아이디 {}", userId);
             log.info("방번호 {}", roomId);
 
             if (userId != null && roomId != null) {
-                // "id" 속성을 attributes 맵에 추가
+                // "id"와 "roomId" 속성을 attributes 맵에 추가
                 attributes.put("id", userId);
                 attributes.put("roomId", roomId);
                 return true;
@@ -63,14 +83,30 @@ public class CustomHandshakeInterceptor implements HandshakeInterceptor {
         log.info("WebSocket 연결이 수립되었습니다.");
     }
 
-    private String extractRoomIdFromQuery(String query) {
-        String[] parameters = query.split("&");
-        for (String parameter : parameters) {
-            String[] keyValue = parameter.split("=");
-            if (keyValue.length == 2 && keyValue[0].equals("roomId")) {
-                return keyValue[1];
+//    private String extractRoomIdFromQuery(String query) {
+//        String[] parameters = query.split("&");
+//        for (String parameter : parameters) {
+//            String[] keyValue = parameter.split("=");
+//            if (keyValue.length == 2 && keyValue[0].equals("roomId")) {
+//                return keyValue[1];
+//            }
+//        }
+//        return null;
+//    }
+
+    private Map<String, String> parseQueryParams(String query) {
+        Map<String, String> queryParams = new HashMap<>();
+        if (query != null && !query.isEmpty()) {
+            String[] parameters = query.split("&");
+            for (String parameter : parameters) {
+                String[] keyValue = parameter.split("=");
+                if (keyValue.length == 2) {
+                    String key = keyValue[0];
+                    String value = keyValue[1];
+                    queryParams.put(key, value);
+                }
             }
         }
-        return null;
+        return queryParams;
     }
 }
