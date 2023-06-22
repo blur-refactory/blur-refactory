@@ -43,7 +43,6 @@ spring:
       password: blurblur
       authentication-database: admin
 
-
   # JPA 설정
   jpa:
     generate-ddl: false

@@ -20,4 +20,8 @@ public class UserInterest {
     private String userId;
 
     private List<String> interests;
+
+    public void update(List<String> interests) {
+        this.interests = interests;
+    }
 }

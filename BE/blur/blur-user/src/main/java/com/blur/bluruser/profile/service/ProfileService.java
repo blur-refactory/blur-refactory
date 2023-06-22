@@ -19,12 +19,13 @@ import com.blur.bluruser.profile.repository.InterestRepository;
 import com.blur.bluruser.profile.repository.UserProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,6 +40,8 @@ public class ProfileService {
     private final MatchSettingRepository matchSettingRepository;
 
     private final MatchMakingRatingRepository matchMakingRatingRepository;
+
+    private final MongoTemplate mongoTemplate;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -75,12 +78,14 @@ public class ProfileService {
                     .build();
             matchMakingRatingRepository.save(mmr);
         }
-//        List<UserInterest> UserInterests = userInterestRepository.findByUserProfile(userProfile);
-        List<Interest> userInterests = new ArrayList<>();
-//        for (UserInterest UserInterest : UserInterests) {
-//            userInterests.add(UserInterest.getInterest());
-//        }
-        ResponseCardDto responseCardDto = new ResponseCardDto(userProfile, userInterests);
+        UserInterest userInterest = mongoTemplate.findOne(
+                Query.query(Criteria.where("userId").is(userId)),
+                UserInterest.class
+        );
+
+        List<String> userInterests = userInterest.getInterests();
+        ResponseCardDto responseCardDto = new ResponseCardDto(userProfile, userInterests); // 이부분 바꼈음 성훈님한테 말해야함
+        //유저 관심사를 객체를 줬었는데 string으로 리팩토링
         return responseCardDto;
     }
 
@@ -116,13 +121,13 @@ public class ProfileService {
 
     public ResponseInterestDto getInterests(String userId) {
 
-        UserProfile userProfile = userProfileRepository.findByUserId(userId);
         List<Interest> allInterests = interestRepository.findAll();
-//        List<UserInterest> UserInterests = userInterestRepository.findByUserProfile(userProfile);
-        List<Interest> userInterests = new ArrayList<>();
-//        for (UserInterest userInterest : UserInterests) {
-//            userInterests.add(userInterest.getInterest());
-//        }
+        UserInterest userInterest = mongoTemplate.findOne(
+                Query.query(Criteria.where("userId").is(userId)),
+                UserInterest.class
+        );
+
+        List<String> userInterests = userInterest.getInterests();
         ResponseInterestDto responseInterestDto = new ResponseInterestDto(allInterests, userInterests);
         return responseInterestDto;
     }
@@ -130,27 +135,12 @@ public class ProfileService {
     public void updateInterest(RequestUserInterestDto requestUserInterestDto, String userId) {
 
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
-//        List<UserInterest> userInterests = userInterestRepository.findByUserProfile(userProfile);
-//        userInterestRepository.deleteAll(userInterests);
+        UserInterest userInterest = mongoTemplate.findOne(
+                Query.query(Criteria.where("userId").is(userId)),
+                UserInterest.class
+        );
         List<String> interests = requestUserInterestDto.getInterests();
-//        for (String interestName : interests) {
-//            Interest interest = interestRepository.findByInterestName(interestName);
-//            UserInterest userInterest = UserInterest.builder()
-//                    .userProfile(userProfile)
-//                    .interest(interest)
-//                    .build();
-//            userInterestRepository.save(userInterest);
-//        }
-    }
-
-    public Collection<String> getPartnerInterest(String partnerId) {
-
-        UserProfile partner = userProfileRepository.findByUserId(partnerId);
-//        List<UserInterest> partnerInterests = userInterestRepository.findByUserProfile(partner);
-        Collection<String> partnerInterestNames = new ArrayList<>();
-//        for (UserInterest partnerInterest : partnerInterests) {
-//            partnerInterestNames.add(partnerInterest.getInterest().getInterestName());
-//        }
-        return partnerInterestNames;
+        userInterest.update(interests);
+        mongoTemplate.insert(userInterest, "user_interest");
     }
 }

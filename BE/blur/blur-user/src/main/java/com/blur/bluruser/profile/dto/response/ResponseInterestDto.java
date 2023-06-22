@@ -19,9 +19,9 @@ public class ResponseInterestDto {
     private List<Interest> interests;
 
     @ApiModelProperty(value = "사용자 관심사 목록")
-    private List<Interest> userInterests;
+    private List<String> userInterests;
 
-    public ResponseInterestDto(List<Interest> allInterests, List<Interest> userInterests) {
+    public ResponseInterestDto(List<Interest> allInterests, List<String> userInterests) {
         this.interests = allInterests;
         this.userInterests = userInterests;
     }
