@@ -16,7 +16,6 @@ import com.blur.bluruser.profile.entity.Interest;
 import com.blur.bluruser.profile.entity.UserInterest;
 import com.blur.bluruser.profile.entity.UserProfile;
 import com.blur.bluruser.profile.repository.InterestRepository;
-import com.blur.bluruser.profile.repository.UserInterestRepository;
 import com.blur.bluruser.profile.repository.UserProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,8 +33,6 @@ import java.util.UUID;
 public class ProfileService {
 
     private final UserProfileRepository userProfileRepository;
-
-    private final UserInterestRepository userInterestRepository;
 
     private final InterestRepository interestRepository;
 
@@ -78,11 +75,11 @@ public class ProfileService {
                     .build();
             matchMakingRatingRepository.save(mmr);
         }
-        List<UserInterest> UserInterests = userInterestRepository.findByUserProfile(userProfile);
+//        List<UserInterest> UserInterests = userInterestRepository.findByUserProfile(userProfile);
         List<Interest> userInterests = new ArrayList<>();
-        for (UserInterest UserInterest : UserInterests) {
-            userInterests.add(UserInterest.getInterest());
-        }
+//        for (UserInterest UserInterest : UserInterests) {
+//            userInterests.add(UserInterest.getInterest());
+//        }
         ResponseCardDto responseCardDto = new ResponseCardDto(userProfile, userInterests);
         return responseCardDto;
     }
@@ -121,11 +118,11 @@ public class ProfileService {
 
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
         List<Interest> allInterests = interestRepository.findAll();
-        List<UserInterest> UserInterests = userInterestRepository.findByUserProfile(userProfile);
+//        List<UserInterest> UserInterests = userInterestRepository.findByUserProfile(userProfile);
         List<Interest> userInterests = new ArrayList<>();
-        for (UserInterest userInterest : UserInterests) {
-            userInterests.add(userInterest.getInterest());
-        }
+//        for (UserInterest userInterest : UserInterests) {
+//            userInterests.add(userInterest.getInterest());
+//        }
         ResponseInterestDto responseInterestDto = new ResponseInterestDto(allInterests, userInterests);
         return responseInterestDto;
     }
@@ -133,27 +130,27 @@ public class ProfileService {
     public void updateInterest(RequestUserInterestDto requestUserInterestDto, String userId) {
 
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
-        List<UserInterest> userInterests = userInterestRepository.findByUserProfile(userProfile);
-        userInterestRepository.deleteAll(userInterests);
+//        List<UserInterest> userInterests = userInterestRepository.findByUserProfile(userProfile);
+//        userInterestRepository.deleteAll(userInterests);
         List<String> interests = requestUserInterestDto.getInterests();
-        for (String interestName : interests) {
-            Interest interest = interestRepository.findByInterestName(interestName);
-            UserInterest userInterest = UserInterest.builder()
-                    .userProfile(userProfile)
-                    .interest(interest)
-                    .build();
-            userInterestRepository.save(userInterest);
-        }
+//        for (String interestName : interests) {
+//            Interest interest = interestRepository.findByInterestName(interestName);
+//            UserInterest userInterest = UserInterest.builder()
+//                    .userProfile(userProfile)
+//                    .interest(interest)
+//                    .build();
+//            userInterestRepository.save(userInterest);
+//        }
     }
 
     public Collection<String> getPartnerInterest(String partnerId) {
 
         UserProfile partner = userProfileRepository.findByUserId(partnerId);
-        List<UserInterest> partnerInterests = userInterestRepository.findByUserProfile(partner);
+//        List<UserInterest> partnerInterests = userInterestRepository.findByUserProfile(partner);
         Collection<String> partnerInterestNames = new ArrayList<>();
-        for (UserInterest partnerInterest : partnerInterests) {
-            partnerInterestNames.add(partnerInterest.getInterest().getInterestName());
-        }
+//        for (UserInterest partnerInterest : partnerInterests) {
+//            partnerInterestNames.add(partnerInterest.getInterest().getInterestName());
+//        }
         return partnerInterestNames;
     }
 }

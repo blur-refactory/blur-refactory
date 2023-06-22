@@ -2,34 +2,30 @@ package com.blur.bluruser.match.entity;
 
 import com.blur.bluruser.profile.entity.UserProfile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-@Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "matched_user")
+@AllArgsConstructor
+@Builder
+@Document(collection = "matched_user")
 public class MatchedUser {
 
     @Id
-    @Column(name = "user_id")
     private String userId;
 
-    @ElementCollection
-    @Column(name = "matched_list")
-    private Collection<String> matchedList = new ArrayList<>();
+    private List<String> matchedList;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "user_id")
-    private UserProfile userProfile;
-
-    public void update(Collection<String> matchedList) {
+    public void update(List<String> matchedList) {
         this.matchedList = matchedList;
     }
 }

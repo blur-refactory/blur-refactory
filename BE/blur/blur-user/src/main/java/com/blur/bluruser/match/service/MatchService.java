@@ -14,8 +14,6 @@ import com.blur.bluruser.match.dto.*;
 import com.blur.bluruser.match.entity.MatchedUser;
 import com.blur.bluruser.match.repository.MatchMakingRatingRepository;
 import com.blur.bluruser.match.repository.MatchSettingRepository;
-import com.blur.bluruser.match.repository.MatchedUserRepository;
-import com.blur.bluruser.profile.entity.UserInterest;
 import com.blur.bluruser.profile.entity.UserProfile;
 import com.blur.bluruser.profile.repository.UserProfileRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,8 +32,6 @@ public class MatchService {
     private final MatchMakingRatingRepository matchMakingRatingRepository;
 
     private final UserProfileRepository userProfileRepository;
-
-    private final MatchedUserRepository matchedUserRepository;
 
     private static Map<String, MatchDto> males = new ConcurrentHashMap<>();
 
@@ -149,9 +145,9 @@ public class MatchService {
             String partnerId = requestAcceptDto.getPartnerId();
             UserProfile partner = userProfileRepository.findByUserId(partnerId);
             List<String> partnerInterests = new ArrayList<>();
-            for (UserInterest partnerInterest: partner.getUserInterests()) {
-                partnerInterests.add(partnerInterest.getInterest().getInterestName());
-            }
+//            for (UserInterest partnerInterest: partner.getUserInterests()) {
+//                partnerInterests.add(partnerInterest.getInterest().getInterestName());
+//            }
             ResponseAceeptDto responseAceeptDto = new ResponseAceeptDto(partner, partnerInterests);
             return responseAceeptDto;
         }
@@ -165,9 +161,9 @@ public class MatchService {
             success.remove(userId);
             UserProfile partner = userProfileRepository.findByUserId(partnerId);
             List<String> partnerInterests = new ArrayList<>();
-            for (UserInterest partnerInterest: partner.getUserInterests()) {
-                partnerInterests.add(partnerInterest.getInterest().getInterestName());
-            }
+//            for (UserInterest partnerInterest: partner.getUserInterests()) {
+//                partnerInterests.add(partnerInterest.getInterest().getInterestName());
+//            }
             ResponseAceeptDto responseAceeptDto = new ResponseAceeptDto(partner, partnerInterests);
             return responseAceeptDto;
         }
@@ -177,8 +173,8 @@ public class MatchService {
 
         String userId = meetingDto.getUserId();
         String partnerId = meetingDto.getPartnerId();
-        MatchedUser userMet = matchedUserRepository.findByUserId(userId);
-        MatchedUser partnerMet = matchedUserRepository.findByUserId(partnerId);
+//        MatchedUser userMet = matchedUserRepository.findByUserId(userId);
+//        MatchedUser partnerMet = matchedUserRepository.findByUserId(partnerId);
 //        if (userMet == null) {
 //            userMet = MatchedUser.builder()
 //                    .userId(userId)
@@ -191,14 +187,14 @@ public class MatchService {
 //                    .build();
 //            matchedUserRepository.save(partnerMet);
 //        }
-        Collection<String> userMetList = userMet.getMatchedList();
-        Collection<String> partnerMetList = partnerMet.getMatchedList();
-        userMetList.add(partnerId);
-        partnerMetList.add(userId);
-        userMet.update(userMetList);
-        partnerMet.update(partnerMetList);
-        matchedUserRepository.save(userMet);
-        matchedUserRepository.save(partnerMet);
+//        Collection<String> userMetList = userMet.getMatchedList();
+//        Collection<String> partnerMetList = partnerMet.getMatchedList();
+//        userMetList.add(partnerId);
+//        partnerMetList.add(userId);
+//        userMet.update(userMetList);
+//        partnerMet.update(partnerMetList);
+//        matchedUserRepository.save(userMet);
+//        matchedUserRepository.save(partnerMet);
         Integer playTime = meetingDto.getPlayTime();
         MatchMakingRating myMmr = matchMakingRatingRepository.findByUserId(userId);
         MatchMakingRating partnerMmr = matchMakingRatingRepository.findByUserId(partnerId);
@@ -208,17 +204,17 @@ public class MatchService {
 
     private boolean filter(MatchDto maleDto, MatchDto femaleDto) {
 
-        MatchedUser matchedUsers = matchedUserRepository.findByUserId(femaleDto.getUserId());
+//        MatchedUser matchedUsers = matchedUserRepository.findByUserId(femaleDto.getUserId());
 //        if (matchedUsers == null) {
 //            matchedUsers = MatchedUser.builder()
 //                    .userId(femaleDto.getUserId())
 //                    .build();
 //            matchedUserRepository.save(matchedUsers);
 //        }
-        Collection<String> matchedList = matchedUsers.getMatchedList();
-        if (matchedList != null) {
-            if (matchedList.contains(maleDto.getUserId())) {return false;}
-        }
+//        Collection<String> matchedList = matchedUsers.getMatchedList();
+//        if (matchedList != null) {
+//            if (matchedList.contains(maleDto.getUserId())) {return false;}
+//        }
         int maleAge = maleDto.getAge();
         int femaleAge = femaleDto.getAge();
         if (femaleAge < maleDto.getMinAge() || femaleAge > maleDto.getMaxAge() || maleAge < femaleDto.getMinAge() || maleAge > femaleDto.getMaxAge()) {return false;}

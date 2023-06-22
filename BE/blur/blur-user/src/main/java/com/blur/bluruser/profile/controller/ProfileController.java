@@ -6,7 +6,6 @@ import com.blur.bluruser.profile.dto.response.ResponseCardDto;
 import com.blur.bluruser.profile.dto.response.ResponseInterestDto;
 import com.blur.bluruser.profile.dto.response.ResponseProfileSettingDto;
 import com.blur.bluruser.profile.repository.InterestRepository;
-import com.blur.bluruser.profile.service.InterestService;
 import com.blur.bluruser.profile.service.ProfileService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +25,6 @@ public class ProfileController {
     private final ProfileService profileService;
 
     private final InterestRepository interestRepository;
-
-    private final InterestService interestService;
 
     @ApiOperation(value = "프로필 유무 확인", response = ResponseCardDto.class)
     @ApiResponses(value = {
@@ -145,20 +142,4 @@ public class ProfileController {
         profileService.updateInterest(requestUserInterestDto, userId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-
-//   이거 뭐지?
-//    @ApiOperation(value = "관심사 순위 가져오기", response = ResponseInterestDto.class)
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "관심사 순위 가져오기 성공"),
-//            @ApiResponse(code = 400, message = "Bad request"),
-//            @ApiResponse(code = 401, message = "Unauthorized"),
-//            @ApiResponse(code = 403, message = "Forbidden"),
-//            @ApiResponse(code = 404, message = "Not found"),
-//            @ApiResponse(code = 500, message = "Internal server error")
-//    })
-//    @PostMapping("/getInterestRank")
-//    public ResponseEntity<?> getInterestRank(@RequestBody String interestName) {
-//    	System.out.println(interestService.findPopularInterestsByInterestName(interestName).toString());
-//        return ResponseEntity.status(HttpStatus.OK).body(interestService.findPopularInterestsByInterestName(interestName));
-//    }
 }

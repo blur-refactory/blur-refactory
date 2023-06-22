@@ -42,10 +42,6 @@ public class UserProfile {
     @Column(name = "mbti")
     private String mbti;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "userProfile", fetch = FetchType.LAZY)
-    private List<UserInterest> userInterests;
-
     @OneToOne(mappedBy = "userProfile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private MatchMakingRating matchMakingRating;

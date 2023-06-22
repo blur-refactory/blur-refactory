@@ -1,34 +1,23 @@
 package com.blur.bluruser.profile.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
+import java.util.List;
 
-@Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "user_interest")
+@Document(collection = "user_interest")
 public class UserInterest {
+
     @Id
-    @Column(name = "seq")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long seq;
+    private String userId;
 
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserProfile userProfile;
-
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "interest_name")
-    private Interest interest;
-
-
+    private List<String> interests;
 }
