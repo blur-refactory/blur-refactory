@@ -32,9 +32,9 @@ public class ResponseCardDto {
     private String image;
 
     @ApiModelProperty(value = "사용자 관심사")
-    private List<Interest> userInterests;
+    private List<String> userInterests;
 
-    public ResponseCardDto(UserProfile userProfile, List<Interest> userInterests) {
+    public ResponseCardDto(UserProfile userProfile, List<String> userInterests) {
         this.nickname = userProfile.getNickname();
         this.age = userProfile.getAge();
         this.introduce = userProfile.getIntroduce();

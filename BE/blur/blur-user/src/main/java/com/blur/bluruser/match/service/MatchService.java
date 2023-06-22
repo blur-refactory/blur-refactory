@@ -14,12 +14,14 @@ import com.blur.bluruser.match.dto.*;
 import com.blur.bluruser.match.entity.MatchedUser;
 import com.blur.bluruser.match.repository.MatchMakingRatingRepository;
 import com.blur.bluruser.match.repository.MatchSettingRepository;
-import com.blur.bluruser.match.repository.MatchedUserRepository;
 import com.blur.bluruser.profile.entity.UserInterest;
 import com.blur.bluruser.profile.entity.UserProfile;
 import com.blur.bluruser.profile.repository.UserProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -35,7 +37,7 @@ public class MatchService {
 
     private final UserProfileRepository userProfileRepository;
 
-    private final MatchedUserRepository matchedUserRepository;
+    private final MongoTemplate mongoTemplate;
 
     private static Map<String, MatchDto> males = new ConcurrentHashMap<>();
 
@@ -80,7 +82,6 @@ public class MatchService {
 
     public ResponseCheckDto femaleCheck(String userId, RequestFemaleCheckDto requestFemaleCheckDto) {
 
-        UserProfile userProfile = userProfileRepository.findByUserId(userId);
         Queue<QueueDto> maleList = new PriorityQueue<>((o1, o2) -> {
             if(o1.getPoint()  == o2.getPoint()) {
                 return o2.getPoint();
@@ -148,10 +149,11 @@ public class MatchService {
             success.put(requestAcceptDto.getPartnerId(), successInfo);
             String partnerId = requestAcceptDto.getPartnerId();
             UserProfile partner = userProfileRepository.findByUserId(partnerId);
-            List<String> partnerInterests = new ArrayList<>();
-            for (UserInterest partnerInterest: partner.getUserInterests()) {
-                partnerInterests.add(partnerInterest.getInterest().getInterestName());
-            }
+            UserInterest partnerInterest = mongoTemplate.findOne(
+                    Query.query(Criteria.where("userId").is(partnerId)),
+                    UserInterest.class
+            );
+            List<String> partnerInterests = partnerInterest.getInterests();
             ResponseAceeptDto responseAceeptDto = new ResponseAceeptDto(partner, partnerInterests);
             return responseAceeptDto;
         }
@@ -164,10 +166,11 @@ public class MatchService {
             String partnerId = successInfo.get(1);
             success.remove(userId);
             UserProfile partner = userProfileRepository.findByUserId(partnerId);
-            List<String> partnerInterests = new ArrayList<>();
-            for (UserInterest partnerInterest: partner.getUserInterests()) {
-                partnerInterests.add(partnerInterest.getInterest().getInterestName());
-            }
+            UserInterest partnerInterest = mongoTemplate.findOne(
+                    Query.query(Criteria.where("userId").is(partnerId)),
+                    UserInterest.class
+            );
+            List<String> partnerInterests = partnerInterest.getInterests();
             ResponseAceeptDto responseAceeptDto = new ResponseAceeptDto(partner, partnerInterests);
             return responseAceeptDto;
         }
@@ -177,28 +180,32 @@ public class MatchService {
 
         String userId = meetingDto.getUserId();
         String partnerId = meetingDto.getPartnerId();
-        MatchedUser userMet = matchedUserRepository.findByUserId(userId);
-        MatchedUser partnerMet = matchedUserRepository.findByUserId(partnerId);
-//        if (userMet == null) {
-//            userMet = MatchedUser.builder()
-//                    .userId(userId)
-//                    .build();
-//            matchedUserRepository.save(userMet);
-//        }
-//        if (partnerMet == null) {
-//            partnerMet = MatchedUser.builder()
-//                    .userId(partnerId)
-//                    .build();
-//            matchedUserRepository.save(partnerMet);
-//        }
-        Collection<String> userMetList = userMet.getMatchedList();
-        Collection<String> partnerMetList = partnerMet.getMatchedList();
+        MatchedUser userMet = mongoTemplate.findOne(
+                Query.query(Criteria.where("userId").is(userId)),
+                MatchedUser.class
+        );
+        MatchedUser partnerMet = mongoTemplate.findOne(
+                Query.query(Criteria.where("userId").is(partnerId)),
+                MatchedUser.class
+        );
+        if (userMet == null) {
+            userMet = MatchedUser.builder()
+                    .userId(userId)
+                    .build();
+        }
+        if (partnerMet == null) {
+            partnerMet = MatchedUser.builder()
+                    .userId(partnerId)
+                    .build();
+        }
+        List<String> userMetList = userMet.getMatchedList();
+        List<String> partnerMetList = partnerMet.getMatchedList();
         userMetList.add(partnerId);
         partnerMetList.add(userId);
         userMet.update(userMetList);
         partnerMet.update(partnerMetList);
-        matchedUserRepository.save(userMet);
-        matchedUserRepository.save(partnerMet);
+        mongoTemplate.insert(userMet, "matched_user");
+        mongoTemplate.insert(partnerMet, "matched_user");
         Integer playTime = meetingDto.getPlayTime();
         MatchMakingRating myMmr = matchMakingRatingRepository.findByUserId(userId);
         MatchMakingRating partnerMmr = matchMakingRatingRepository.findByUserId(partnerId);
@@ -208,14 +215,16 @@ public class MatchService {
 
     private boolean filter(MatchDto maleDto, MatchDto femaleDto) {
 
-        MatchedUser matchedUsers = matchedUserRepository.findByUserId(femaleDto.getUserId());
-//        if (matchedUsers == null) {
-//            matchedUsers = MatchedUser.builder()
-//                    .userId(femaleDto.getUserId())
-//                    .build();
-//            matchedUserRepository.save(matchedUsers);
-//        }
-        Collection<String> matchedList = matchedUsers.getMatchedList();
+        MatchedUser matchedUsers = mongoTemplate.findOne(
+                Query.query(Criteria.where("userId").is(femaleDto.getUserId())),
+                MatchedUser.class
+        );
+        if (matchedUsers == null) {
+            matchedUsers = MatchedUser.builder()
+                    .userId(femaleDto.getUserId())
+                    .build();
+        }
+        List<String> matchedList = matchedUsers.getMatchedList();
         if (matchedList != null) {
             if (matchedList.contains(maleDto.getUserId())) {return false;}
         }

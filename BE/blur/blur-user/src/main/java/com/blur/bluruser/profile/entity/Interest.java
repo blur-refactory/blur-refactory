@@ -17,11 +17,8 @@ import java.util.List;
 @Builder
 @Table(name = "interest")
 public class Interest {
+
     @Id
     @Column(nullable = false, length = 120, unique = true, name = "interest_name")
     private String interestName;
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "interest")
-    private List<UserInterest> userInterests;
 }
