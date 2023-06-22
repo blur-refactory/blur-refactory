@@ -2,44 +2,60 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
 import ChatItem from "./ChatItem";
+import ChatPage from "./ChatPage";
+import axios from 'axios';
 
 function ChatList({ showChatPage }) {
   const [chatRooms, setChatRooms] = useState([]);
+  const [selectedChatRoom, setSelectedChatRoom] = useState(null);
+  const [isChatPageVisible, setIsChatPageVisible] = useState(false);
 
   useEffect(() => {
-    // TODO: 서버에서 채팅방 정보를 가져오는 로직을 작성하세요.
-    // 예를 들면, fetch나 axios 등의 HTTP 클라이언트를 사용할 수 있습니다.
-    // 아래 코드는 임시로 채팅방 정보를 가정한 것입니다.
-    const fetchedChatRooms = [
-      {
-        id: "chat_room_1",
-        name: "상대방 이름",
-        picture: "상대방 사진 URL",
-        lastMessage: "웹소켓에서 마지막으로 보낸 메시지",
-        unreadCount: 5,
-      },
-    ];
-
-    setChatRooms(fetchedChatRooms);
+    axios({
+      method: "GET",
+      url: 'http://blurblur.kr/api/chat/getChatrooms',
+      data: {},
+    })
+    .then((response) => {
+      setChatRooms(response.data);
+      setSelectedChatRoom(response.data[0]); // 첫 번째 채팅방을 선택
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }, []);
 
+  const handleChatItemClick = (chatRoom) => {
+    setSelectedChatRoom(chatRoom);
+    setIsChatPageVisible(true);
+  };
+
+  const handleBackClick = () => {
+    setIsChatPageVisible(false);
+  };
+  
   return (
     <div className="ChatBackground">
       <div className="ChatHeader">
         <div className="ChatHeaderEmoticon"></div>
-        <div className="ChatHeaderText">
-          <h3>Chatting</h3>
+        <div className="ChatHeaderText">Chatting</div>
+      </div>
+      {isChatPageVisible ? (
+        <ChatPage
+          chatRoom={selectedChatRoom}
+          showChatPage={handleBackClick}
+        />
+      ) : (
+        <div className="ChatList">
+          {chatRooms.map((chatRoom) => (
+            <ChatItem
+              key={chatRoom.id}
+              chatRoom={chatRoom}
+              showChatPage={handleChatItemClick}
+            />
+          ))}
         </div>
-      </div>
-      <div className="ChatList">
-        {chatRooms.map((chatRoom) => (
-          <ChatItem
-            key={chatRoom.id}
-            chatRoom={chatRoom}
-            showChatPage={showChatPage}
-          />
-        ))}
-      </div>
+      )}
     </div>
   );
 }
