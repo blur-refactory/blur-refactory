@@ -42,7 +42,6 @@
   position: relative;
   margin-left: 15vw;
   top: 6vh;
-  z-index: 10;
 }
 
 .leftModal .imageEditBtn,
