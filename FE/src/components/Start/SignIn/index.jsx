@@ -1,11 +1,11 @@
 import "./index.css";
-import { useState } from "react";
 import axios from "axios";
-import { loginId, saveLogin } from "../../../redux/reducers/saveToken";
+
+import { useState } from "react";
+import { saveLogin } from "../../../redux/reducers/saveToken";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useRef } from "react";
-import { useSelector } from "react-redux";
+// import { useRef } from "react";
 
 function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
   let API_URL = `${process.env.REACT_APP_API_ROOT_DONGHO}`;
@@ -13,8 +13,7 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
   const SOCIAL_API_URL = process.env.REACT_APP_SOCIAL_SIGN_API_URL;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const savedId = useSelector((state) => state.strr.id);
-  const checkbox = useRef();
+  // const checkbox = useRef();
 
   const [signId, setSignId] = useState("");
   const [signPs, setSignPs] = useState("");
@@ -30,23 +29,10 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
         },
       })
         .then((res) => {
-          // if (res.data.header.code === 407) {
-          //   alert(res.data.header.message);
-          // } else if (res.data.header.code === 408) {
-          //   alert(res.data.header.message);
-          // } else {
           console.log("로그인 성공", res);
-
           dispatch(saveLogin(true));
-          // dispatch(loginId(signId));
-          // if (checkbox.current.checked) {
-          //   dispatch(saveId(signId));
-          // } else {
-          //   dispatch(saveId(""));
-          // }
           navigate("/home");
           alert("로그인에 성공했습니다.");
-          // }
         })
         .catch((err) => {
           alert("에러가 발생했습니다.", err);
@@ -77,7 +63,6 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
           id="user_id"
           placeholder="ID를 입력해 주세요"
           onChange={(e) => setSignId(e.target.value)}
-          defaultValue={savedId}
         ></input>
       </div>
       <div className="ModalInputPwDiv">

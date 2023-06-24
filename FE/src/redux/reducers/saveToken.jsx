@@ -4,17 +4,12 @@ const saveTokenReducer = createSlice({
   name: "saveTokenReducer",
   initialState: {
     isLogin: "false",
-    savedId: "",
     id: "",
     profiled: "false",
   },
   reducers: {
     saveLogin: (state, action) => {
       state.isLogin = action.payload;
-    },
-
-    saveId: (state, action) => {
-      state.savedId = action.payload;
     },
 
     loginId: (state, action) => {
@@ -28,4 +23,4 @@ const saveTokenReducer = createSlice({
 });
 
 export default saveTokenReducer.reducer;
-export const { saveLogin, saveId, loginId, ISMYPROFILE } = saveTokenReducer.actions;
+export const { saveLogin, loginId, ISMYPROFILE } = saveTokenReducer.actions;
