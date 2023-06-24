@@ -302,7 +302,7 @@ function MeetingIn() {
       await getMedia();
       makeConnection();
       roomName = sendRoomName;
-      // socket.emit("join_room", roomName);
+      socket.emit("join_room", roomName);
       console.log(`sendRoomName: ${sendRoomName}, ${roomName}`);
       socket = io("https://blurblur.kr", {
         path: "/socket",
