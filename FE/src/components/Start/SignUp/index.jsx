@@ -43,7 +43,6 @@ function SignUp({ showSignUpModal, showSignInModal }) {
       setIdMessage("공백없이 3글자 이상 15글자 미만으로 입력해주세요.");
       setIsId(false);
     }
-    console.log(currentId);
   };
 
   //입력받는 비밀번호 1
@@ -59,13 +58,11 @@ function SignUp({ showSignUpModal, showSignInModal }) {
       setPasswordMessage("안전한 비밀번호에요 : )");
       setIsPassword(true);
     }
-    console.log(ps1);
   };
 
   //입력받는 비밀번호 2
   const enterPs2 = (e) => {
     setPs2(e.target.value);
-    console.log(ps2);
   };
 
   //입력받는 이메일
@@ -153,12 +150,10 @@ function SignUp({ showSignUpModal, showSignInModal }) {
       axiosInstance
         .post("auth/sendAuthEmail", reqEmailCheckData)
         .then((res) => {
-          console.log(res);
           setEmailCheck(true);
           alert("인증번호를 보냈습니다!");
         })
         .catch((err) => {
-          console.log(err);
           alert("인증번호를 보내지 못했습니다.");
         });
     } else {
@@ -211,7 +206,7 @@ function SignUp({ showSignUpModal, showSignInModal }) {
   //중복확인 통과뒤 아이디가 바뀐경우 경고
   useEffect(() => {
     if (idCheck === true) {
-      alert("아이디가 바뀌었습니다. 다시 중복확인 해주세요");
+      // alert("아이디가 바뀌었습니다. 다시 중복확인 해주세요");
       setIdCheck(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
