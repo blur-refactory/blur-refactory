@@ -1,19 +1,19 @@
 import "./index.css";
 import { Link } from "react-router-dom";
-import { loginId, saveToken } from "../../../redux/reducers/saveToken";
+import { loginId, saveLogin } from "../../../redux/reducers/saveToken";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function Header({ showSignInModal, showChatList }) {
-  const userState = useSelector((state) => state.strr.token);
+  const isLogin = useSelector((state) => state.strr.isLogin);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const logInOut = () => {
-    if (userState) {
-      dispatch(saveToken(null));
+    if (isLogin) {
+      dispatch(saveLogin(false));
       dispatch(loginId(null));
 
       console.log("로그아웃");
@@ -25,16 +25,16 @@ function Header({ showSignInModal, showChatList }) {
   };
 
   const MyInfo = () => {
-    if (userState) {
+    if (isLogin) {
       navigate("/MyInfo");
     } else {
-      console.log(userState);
+      console.log(isLogin);
       showSignInModal();
     }
   };
 
   const Chat = () => {
-    if (userState) {
+    if (isLogin) {
       navigate("/home");
 
       //채팅창 뜨는 기능 추가 예정
@@ -45,7 +45,7 @@ function Header({ showSignInModal, showChatList }) {
   };
 
   const BlurIcon = () => {
-    if (userState) {
+    if (isLogin) {
       navigate("/home");
     } else {
       showSignInModal();
@@ -66,7 +66,7 @@ function Header({ showSignInModal, showChatList }) {
           MyInfo
         </span>
         <span className="CommNavBtnAbout" onClick={logInOut}>
-          {userState ? "Logout" : "Login"}
+          {isLogin ? "Logout" : "Login"}
         </span>
       </div>
     </div>
@@ -75,6 +75,8 @@ function Header({ showSignInModal, showChatList }) {
 
 export default Header;
 
-{/* <Link to="/MyInfo">
+{
+  /* <Link to="/MyInfo">
   <span className="CommNavBtnMyInfo">MyInfo</span>
-</Link>; */}
+</Link>; */
+}

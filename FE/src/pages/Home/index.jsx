@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { MTOGGLE, MYGENDER, MYGEO } from "../../redux/reducers/MToggle";
-import { saveToken, ISMYPROFILE } from "../../redux/reducers/saveToken";
+import { ISMYPROFILE } from "../../redux/reducers/saveToken";
 
 import Header from "../../components/Common/Header";
 import BlurInfo from "../../components/Home/Info";
