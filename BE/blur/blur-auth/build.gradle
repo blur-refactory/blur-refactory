@@ -31,13 +31,10 @@ dependencyManagement {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
-    //Test lombok
-    testImplementation 'org.projectlombok:lombok:1.18.22'
 
     //common
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compileOnly 'org.projectlombok:lombok'
 
     //DB
@@ -61,7 +58,4 @@ dependencies {
 
 }
 
-test {
-    useJUnitPlatform()
-}
 
