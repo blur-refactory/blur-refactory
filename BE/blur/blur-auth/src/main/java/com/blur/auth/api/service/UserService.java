@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 @Service
@@ -56,7 +58,7 @@ public class UserService {
                 .body(userSignUpRes);
     }
 
-    public ResponseEntity normalLogin(UserLoginReq userLoginReq) {
+    public ResponseEntity normalLogin(HttpServletResponse response, UserLoginReq userLoginReq) {
         String givenEmail = userLoginReq.getEmail();
         String givenPassword = userLoginReq.getPassword();
         System.out.println(givenPassword);
@@ -76,9 +78,10 @@ public class UserService {
                 } else {
                     throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
                 }
+                jwtService.accessTokenAddCookie(response, accessToken);
+                jwtService.refreshTokenAddCookie(response, refreshToken);
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .header("accessToken", accessToken)
                         .build();
             }
         } else {
