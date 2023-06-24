@@ -111,7 +111,7 @@ function Home() {
      *         실패 시 : 알람 띄움
      */
     // console.log(`profiled: ${profiled}`);
-    dispatch(MTOGGLE(true));
+    // dispatch(MTOGGLE(true));
     navigate("/meeting");
 
     if (profiled) {
