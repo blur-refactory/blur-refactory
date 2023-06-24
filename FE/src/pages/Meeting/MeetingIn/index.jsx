@@ -68,7 +68,7 @@ function MeetingIn() {
   const partnerNick = useSelector((state) => state.mt.partnerNick);
 
   const [timer, setTimer] = useState(null);
-  // const [timer2, setTimer2] = useState(null);
+  const [timer2, setTimer2] = useState(null);
 
   // 컴퓨터와 연결되어있는 모든 장치를 가져옴
   const getCameras = async () => {
@@ -141,42 +141,6 @@ function MeetingIn() {
   }
 
   // socket Code
-
-  //Peer A
-  socket.on("welcome", async (rooms) => {
-    console.log("node로 부터 온 welcome ");
-    console.log(`현재 들어온 rooms들 확인`, rooms);
-    const offer = await myPeerConnection.createOffer();
-    myPeerConnection.setLocalDescription(offer);
-    // console.log(myPeerConnection.setLocalDescription(offer));
-    console.log("send the offer");
-    socket.emit("offer", offer, roomName);
-  });
-
-  socket.on("roomsCheck", (rooms) => {
-    console.log(rooms);
-  });
-
-  // Peer B
-  socket.on("offer", async (offer) => {
-    console.log("received the offer");
-    await myPeerConnection.setRemoteDescription(offer);
-    const answer = await myPeerConnection.createAnswer();
-    myPeerConnection.setLocalDescription(answer);
-    socket.emit("answer", answer, roomName);
-    console.log("sent the answer ");
-  });
-
-  // Peer A
-  socket.on("answer", (answer) => {
-    console.log("received the answer");
-    myPeerConnection.setRemoteDescription(answer);
-  });
-
-  socket.on("ice", (ice) => {
-    console.log("receive candidate");
-    myPeerConnection.addIceCandidate(ice);
-  });
 
   socket.on("peer-leaving", () => {
     const peerStream = document.querySelector(".MPartenerCamDiv1");
@@ -299,38 +263,76 @@ function MeetingIn() {
     dispatch(CLOSE_ALERT_TOGGLE(false));
   };
 
-  useEffect(() => {
-    if (!firstRendering) {
-      firstRendering = true;
-      setTimer(
-        setTimeout(async () => {
-          // 소켓통신을 통해서 방에 접속(이부분은 매칭이 되었을때 진행해야 하므로 전 페이지로 빼낼예정)
-          // 카메라 장치 동작 메서드
-          await getMedia();
-          makeConnection();
-          roomName = sendRoomName;
-          console.log(`sendRoomName: ${sendRoomName}, ${roomName}`);
-          socket = io("https://blurblur.kr", {
-            path: "/socket",
-            transports: ["websocket", "polling"],
-            secure: true,
-          });
-          socket.emit("join_room", roomName);
-          console.log(`socket: ${socket} `, socket);
-          setTimer(null);
-          clearTimeout(timer);
-        }, 3000)
-      );
+  function setUpSocketListeners() {
+    console.log("setUpSocketListeners 실행");
+    socket.emit("join_room", roomName);
 
-      // setTimeout(() => {
-      //   if (!alert("상대가 접속하지 않았기 때문에 홈페이지로 이동합니다.")) {
-      //     dispatch(ROOM_NUM(""));
-      //     dispatch(PARTNERNICK(""));
-      //     navigate("/home");
-      //   }
-      // }, 30000);
-    }
-  }, []);
+    //Peer A
+    socket.on("welcome", async (rooms) => {
+      console.log("node로 부터 온 welcome ");
+      console.log(`현재 들어온 rooms들 확인`, rooms);
+      const offer = await myPeerConnection.createOffer();
+      myPeerConnection.setLocalDescription(offer);
+      // console.log(myPeerConnection.setLocalDescription(offer));
+      console.log("send the offer");
+      socket.emit("offer", offer, roomName);
+    });
+
+    socket.on("roomsCheck", (rooms) => {
+      console.log(rooms);
+    });
+
+    // Peer B
+    socket.on("offer", async (offer) => {
+      console.log("received the offer");
+      await myPeerConnection.setRemoteDescription(offer);
+      const answer = await myPeerConnection.createAnswer();
+      myPeerConnection.setLocalDescription(answer);
+      socket.emit("answer", answer, roomName);
+      console.log("sent the answer ");
+    });
+
+    // Peer A
+    socket.on("answer", (answer) => {
+      console.log("received the answer");
+      myPeerConnection.setRemoteDescription(answer);
+    });
+
+    socket.on("ice", (ice) => {
+      console.log("receive candidate");
+      myPeerConnection.addIceCandidate(ice);
+    });
+  }
+
+  if (!firstRendering) {
+    firstRendering = true;
+    setTimeout(async () => {
+      // 소켓통신을 통해서 방에 접속(이부분은 매칭이 되었을때 진행해야 하므로 전 페이지로 빼낼예정)
+      // 카메라 장치 동작 메서드
+      await getMedia();
+      makeConnection();
+      roomName = sendRoomName;
+
+      socket = io("https://blurblur.kr", {
+        path: "/socket",
+        transports: ["websocket", "polling"],
+        secure: true,
+      });
+
+      setUpSocketListeners();
+
+      console.log(`sendRoomName: ${sendRoomName}, ${roomName}`);
+      console.log(`socket: ${socket} `, socket);
+    }, 3000);
+
+    // setTimeout(() => {
+    //   if (!alert("상대가 접속하지 않았기 때문에 홈페이지로 이동합니다.")) {
+    //     dispatch(ROOM_NUM(""));
+    //     dispatch(PARTNERNICK(""));
+    //     navigate("/home");
+    //   }
+    // }, 30000);
+  }
 
   return (
     <div className="MeetingIn">
