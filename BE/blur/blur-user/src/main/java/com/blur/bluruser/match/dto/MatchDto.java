@@ -35,6 +35,7 @@ public class MatchDto {
     private Integer maxAge;
 
     public MatchDto(RequestMatchDto requestMatchDto, MatchSetting matchSetting, MatchMakingRating matchMakingRating, UserProfile userProfile) {
+        this.userId = userProfile.getUserId();
         this.gender = userProfile.getGender();
         this.age = userProfile.getAge();
         this.point = matchMakingRating.getPoint();
