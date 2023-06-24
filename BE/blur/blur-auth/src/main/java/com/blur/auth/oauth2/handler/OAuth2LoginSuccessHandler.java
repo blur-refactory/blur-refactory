@@ -27,8 +27,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtService jwtService;
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
-    private static final String home = "https://blurblur.kr/home";
-//    private static final String create = "https://blurblur.kr/create";
+    private static final String home = "https://blurblur.kr/home?isLogin=true";
+
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
