@@ -38,23 +38,5 @@ public class AuthenticationController {
                     .build();
         }
 
-//        Optional<String> jwtToken = jwtService.extractAccessToken(request);
-//        if(jwtToken.isPresent()){
-//            String token = jwtToken.get();
-//            log.info("jwtToken", token);
-//            Boolean isTokenValid = jwtService.isTokenValid(token);
-//            if (isTokenValid == true) {
-//                String userId = jwtService.getUserIdFromToken(token);
-//                log.info("userId", userId);
-//                return ResponseEntity.ok()
-//                        .header("X-Username", userId)
-//                        .build();
-//            } else {
-//                log.error("토큰값", token);
-//                throw new CustomException(ErrorCode.TOKEN_NOT_VALID);
-//            }
-//        } else {
-//            throw new CustomException(ErrorCode.TOKEN_NOT_VALID);
-//        }
     }
 }

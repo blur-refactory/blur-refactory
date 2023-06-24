@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.Optional;
 
@@ -36,8 +37,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity normalLogin(@RequestBody UserLoginReq userLoginReq) throws Exception {
-        return userService.normalLogin(userLoginReq);
+    public ResponseEntity normalLogin(HttpServletResponse response, @RequestBody UserLoginReq userLoginReq) throws Exception {
+        return userService.normalLogin(response, userLoginReq);
     }
 
     @PostMapping("/sendAuthEmail") // 이메일 인증메일 발송
