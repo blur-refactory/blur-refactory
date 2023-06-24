@@ -142,22 +142,6 @@ function MeetingIn() {
 
   // socket Code
 
-  socket.on("peer-leaving", () => {
-    const peerStream = document.querySelector(".MPartenerCamDiv1");
-
-    dispatch(PARTNERNICK(""));
-    document.querySelector(".MPartenerCamSubText").innerText = partnerNick;
-
-    peerStream.srcObject.getTracks().forEach((track) => {
-      track.stop();
-    });
-    peerStream.srcObject = null;
-
-    if (!alert("상대방이 나가셨습니다.\n 확인을 누르시면 홈페이지로 이동합니다.")) {
-      handleHangUp();
-    }
-  });
-
   // 미팅 나가기버튼 && (한명이 나가고) 미팅 나가기 버튼 클릭시
   function handleHangUp() {
     const peerStream = document.querySelector(".MPartenerCamDiv1");
@@ -301,6 +285,22 @@ function MeetingIn() {
     socket.on("ice", (ice) => {
       console.log("receive candidate");
       myPeerConnection.addIceCandidate(ice);
+    });
+
+    socket.on("peer-leaving", () => {
+      const peerStream = document.querySelector(".MPartenerCamDiv1");
+
+      dispatch(PARTNERNICK(""));
+      document.querySelector(".MPartenerCamSubText").innerText = partnerNick;
+
+      peerStream.srcObject.getTracks().forEach((track) => {
+        track.stop();
+      });
+      peerStream.srcObject = null;
+
+      if (!alert("상대방이 나가셨습니다.\n 확인을 누르시면 홈페이지로 이동합니다.")) {
+        handleHangUp();
+      }
     });
   }
 
