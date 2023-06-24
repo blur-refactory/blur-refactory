@@ -13,6 +13,8 @@ import MyCamSubDiv from "../../../components/Meeting/MyCamSubDiv";
 import SelectModal from "../../../components/Common/SelectModal";
 import PartnerCamSubDiv from "../../../components/Meeting/PartnerCamSubDiv";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
 
 // let socket = io("https://blurblur.kr", {
 //   path: "/socket",
@@ -64,6 +66,9 @@ function MeetingIn() {
   const camOpenToggle = useSelector((state) => state.mt.camOpenToggle);
   const sendRoomName = useSelector((state) => state.mt.roomNumber);
   const partnerNick = useSelector((state) => state.mt.partnerNick);
+
+  const [timer, setTimer] = useState(null);
+  // const [timer2, setTimer2] = useState(null);
 
   // 컴퓨터와 연결되어있는 모든 장치를 가져옴
   const getCameras = async () => {
@@ -294,34 +299,38 @@ function MeetingIn() {
     dispatch(CLOSE_ALERT_TOGGLE(false));
   };
 
-  if (!firstRendering) {
-    firstRendering = true;
-    setTimeout(async () => {
-      // 소켓통신을 통해서 방에 접속(이부분은 매칭이 되었을때 진행해야 하므로 전 페이지로 빼낼예정)
-      // 카메라 장치 동작 메서드
-      await getMedia();
-      makeConnection();
-      roomName = sendRoomName;
-      console.log(`sendRoomName: ${sendRoomName}, ${roomName}`);
-      socket = io("https://blurblur.kr", {
-        path: "/socket",
-        transports: ["websocket", "polling"],
-        secure: true,
-      });
-      setTimeout(async () => {
-        socket.emit("join_room", roomName);
-      }, 5000);
-      console.log(`socket: ${socket} `, socket);
-    }, 3000);
+  useEffect(() => {
+    if (!firstRendering) {
+      firstRendering = true;
+      setTimer(
+        setTimeout(async () => {
+          // 소켓통신을 통해서 방에 접속(이부분은 매칭이 되었을때 진행해야 하므로 전 페이지로 빼낼예정)
+          // 카메라 장치 동작 메서드
+          await getMedia();
+          makeConnection();
+          roomName = sendRoomName;
+          console.log(`sendRoomName: ${sendRoomName}, ${roomName}`);
+          socket = io("https://blurblur.kr", {
+            path: "/socket",
+            transports: ["websocket", "polling"],
+            secure: true,
+          });
+          socket.emit("join_room", roomName);
+          console.log(`socket: ${socket} `, socket);
+          setTimer(null);
+          clearTimeout(timer);
+        }, 3000)
+      );
 
-    // setTimeout(() => {
-    //   if (!alert("상대가 접속하지 않았기 때문에 홈페이지로 이동합니다.")) {
-    //     dispatch(ROOM_NUM(""));
-    //     dispatch(PARTNERNICK(""));
-    //     navigate("/home");
-    //   }
-    // }, 30000);
-  }
+      // setTimeout(() => {
+      //   if (!alert("상대가 접속하지 않았기 때문에 홈페이지로 이동합니다.")) {
+      //     dispatch(ROOM_NUM(""));
+      //     dispatch(PARTNERNICK(""));
+      //     navigate("/home");
+      //   }
+      // }, 30000);
+    }
+  }, []);
 
   return (
     <div className="MeetingIn">
