@@ -60,8 +60,8 @@ spring:
           kakao:
             client-id: 2820dd0f9d4da11c57a25ab3f29de16c
             client-secret: cXiw9put8fVqQ0rW436JqzJIdtSyRDWp
-#            redirect-uri: http://blurblur.kr/api/login/oauth2/code/kakao
-            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            redirect-uri: http://blurblur.kr/api/login/oauth2/code/kakao
+#            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
             client-authentication-method: POST
             authorization-grant-type: authorization_code
             client-name: Kakao
