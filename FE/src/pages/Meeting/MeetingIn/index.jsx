@@ -216,7 +216,10 @@ function MeetingIn() {
   function handleAddStream(data) {
     console.log("got an event from my peer");
     const peerStream = document.querySelector(".MPartenerCamDiv1");
-    peerStream.srcObject = data.stream[0];
+    console.log(`peerStream: `, peerStream);
+    console.log(`data: `, data);
+
+    peerStream.srcObject = data?.stream[0];
   }
 
   // (관심사/이미지가 켜져있을 때) 바깥 배경 누르게되면 토글 off 처리
