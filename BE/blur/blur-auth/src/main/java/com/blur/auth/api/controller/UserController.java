@@ -83,11 +83,12 @@ public class UserController {
 
     @PostMapping("/isLogin")
     public ResponseEntity<?> isLogin(HttpServletRequest request) {
-        Optional<Cookie> optionalCookie = Arrays.stream(request.getCookies())
+        Cookie accessTokenCookie = Arrays.stream(request.getCookies())
                 .filter(cookie -> cookie.getName().equals("accessToken"))
-                .findFirst();
+                .findFirst()
+                .orElse(null);
 
-        if (optionalCookie.isPresent()) {
+        if (accessTokenCookie != null) {
             // "accessToken" 쿠키가 존재하는 경우
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
