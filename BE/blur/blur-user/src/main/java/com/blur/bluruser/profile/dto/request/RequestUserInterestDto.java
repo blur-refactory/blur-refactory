@@ -14,10 +14,5 @@ import java.util.List;
 public class RequestUserInterestDto {
 
     @ApiModelProperty(value = "관심사 목록", required = true)
-    private List<String> Interests;
-
-    public RequestUserInterestDto(List<String> interests) {
-        this.Interests = interests;
-    }
-
+    private List<String> interests;
 }

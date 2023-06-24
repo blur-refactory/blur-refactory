@@ -41,7 +41,7 @@ spring:
       database: blur
       username: blurUser
       password: starrail123
-      authentication-database: admin
+      authentication-database: blur
 
   # JPA 설정
   jpa:

@@ -24,20 +24,16 @@ public class MatchMakingRating {
     @Column(name = "user_id")
     private String userId;
 
-    @Column(name = "point")
-    @ColumnDefault("1000")
+    @Column(name = "point", columnDefinition = "integer default 1000")
     private Integer point;
 
-    @Column(name = "winning_streak")
-    @ColumnDefault("0")
+    @Column(name = "winning_streak", columnDefinition = "integer default 0")
     private Integer winningStreak;
 
-    @Column(name = "losing_streak")
-    @ColumnDefault("0")
+    @Column(name = "losing_streak", columnDefinition = "integer default 0")
     private Integer losingStreak;
 
-    @Column(name = "report_count")
-    @ColumnDefault("0")
+    @Column(name = "report_count", columnDefinition = "integer default 0")
     private Integer reportCount;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

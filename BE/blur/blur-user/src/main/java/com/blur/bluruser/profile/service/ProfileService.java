@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.blur.bluruser.match.entity.MatchMakingRating;
 import com.blur.bluruser.match.entity.MatchSetting;
+import com.blur.bluruser.match.entity.MatchedUser;
 import com.blur.bluruser.match.repository.MatchMakingRatingRepository;
 import com.blur.bluruser.match.repository.MatchSettingRepository;
 import com.blur.bluruser.profile.dto.request.RequestProfileSettingDto;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,6 +57,8 @@ public class ProfileService {
             return false;
         } else if (userProfile.getAge() == null || userProfile.getGender() == null || userProfile.getNickname() == null) {
             return false;
+        } else if (userProfile.getRole().equals("Guest")) {
+            return false;
         }
         return true;
     }
@@ -65,28 +69,55 @@ public class ProfileService {
         if (userProfile == null) {
             userProfile = UserProfile.builder()
                     .userId(userId)
+                    .role("Guest")
                     .build();
             userProfileRepository.save(userProfile);
-            MatchSetting newSetting = MatchSetting.builder()
-                    .userId(userId)
-                    .userProfile(userProfile)
-                    .build();
-            matchSettingRepository.save(newSetting);
-            MatchMakingRating mmr = MatchMakingRating.builder()
-                    .userId(userId)
-                    .userProfile(userProfile)
-                    .build();
-            matchMakingRatingRepository.save(mmr);
-            UserInterest userInterest = UserInterest.builder()
-                    .userId(userId)
-                    .build();
-            mongoTemplate.insert(userInterest, "user_interest");
         }
+        if (userProfile.getRole().equals("Guest")) {
+            MatchSetting matchSetting = matchSettingRepository.findByUserId(userId);
+            if (matchSetting == null) {
+                matchSetting = MatchSetting.builder()
+                        .userId(userId)
+                        .userProfile(userProfile)
+                        .build();
+                matchSettingRepository.save(matchSetting);
+            }
+            MatchMakingRating mmr = matchMakingRatingRepository.findByUserId(userId);
+            if (mmr == null) {
+                mmr = MatchMakingRating.builder()
+                        .userId(userId)
+                        .userProfile(userProfile)
+                        .build();
+                matchMakingRatingRepository.save(mmr);
+            }
+            UserInterest userInterest = mongoTemplate.findOne(
+                    Query.query(Criteria.where("userId").is(userId)),
+                    UserInterest.class
+            );
+            if (userInterest == null) {
+                userInterest = UserInterest.builder()
+                        .userId(userId)
+                        .build();
+                mongoTemplate.insert(userInterest, "user_interest");
+            }
+            MatchedUser matchedUser = mongoTemplate.findOne(
+                    Query.query(Criteria.where("userId").is(userId)),
+                    MatchedUser.class
+            );
+            if (matchedUser == null) {
+                matchedUser = MatchedUser.builder()
+                        .userId(userId)
+                        .build();
+                mongoTemplate.insert(matchedUser, "matched_user");
+            }
+        }
+
+        userProfile.updateRole("User");
+        userProfileRepository.save(userProfile);
         UserInterest userInterest = mongoTemplate.findOne(
                 Query.query(Criteria.where("userId").is(userId)),
                 UserInterest.class
         );
-
         List<String> userInterests = userInterest.getInterests();
         ResponseCardDto responseCardDto = new ResponseCardDto(userProfile, userInterests); // 이부분 바꼈음 성훈님한테 말해야함
         //유저 관심사를 객체를 줬었는데 string으로 리팩토링
@@ -138,13 +169,9 @@ public class ProfileService {
 
     public void updateInterest(RequestUserInterestDto requestUserInterestDto, String userId) {
 
-        UserProfile userProfile = userProfileRepository.findByUserId(userId);
-        UserInterest userInterest = mongoTemplate.findOne(
-                Query.query(Criteria.where("userId").is(userId)),
-                UserInterest.class
-        );
         List<String> interests = requestUserInterestDto.getInterests();
-        userInterest.update(interests);
-        mongoTemplate.insert(userInterest, "user_interest");
+        Query query = new Query(Criteria.where("userId").is(userId));
+        Update update = new Update().set("interests", interests);
+        mongoTemplate.updateFirst(query, update, UserInterest.class);
     }
 }
