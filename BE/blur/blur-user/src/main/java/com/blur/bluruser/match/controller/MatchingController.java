@@ -1,9 +1,6 @@
 package com.blur.bluruser.match.controller;
 
-import com.blur.bluruser.match.dto.request.RequestAcceptDto;
-import com.blur.bluruser.match.dto.request.RequestFemaleCheckDto;
-import com.blur.bluruser.match.dto.request.RequestMatchDto;
-import com.blur.bluruser.match.dto.request.RequestUpdateSettingDto;
+import com.blur.bluruser.match.dto.request.*;
 import com.blur.bluruser.match.dto.response.ResponseAceeptDto;
 import com.blur.bluruser.match.dto.response.ResponseCheckDto;
 import com.blur.bluruser.match.dto.response.ResponseMatchSettingDto;
@@ -172,5 +169,21 @@ public class MatchingController {
         return ResponseEntity.status(HttpStatus.OK).body(responseAceeptDto);
     }
 
+    @ApiOperation(value = "매칭 수락", response = String.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "매칭 수락 성공"),
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not found"),
+            @ApiResponse(code = 500, message = "Internal server error")
+    })
+    @PostMapping("/exit")
+    public ResponseEntity<?> meetingExit(@ApiParam(value = "사용자의 ID", required = true)
+                                         @RequestHeader("X-Username") String userId,
+                                         @RequestBody RequestExitDto requestExitDto) {
 
+        String res = matchService.meetingExit(userId, requestExitDto);
+        return ResponseEntity.status(HttpStatus.OK).body(res);
+    }
 }

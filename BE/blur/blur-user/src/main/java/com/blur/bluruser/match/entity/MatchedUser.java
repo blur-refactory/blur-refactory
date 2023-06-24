@@ -24,8 +24,4 @@ public class MatchedUser {
     private String userId;
 
     private List<String> matchedList;
-
-    public void update(List<String> matchedList) {
-        this.matchedList = matchedList;
-    }
 }

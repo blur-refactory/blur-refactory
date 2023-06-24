@@ -39,9 +39,9 @@ spring:
       host: blurblur.kr
       port: 27017
       database: blur
-      username: blur
-      password: blurblur
-      authentication-database: admin
+      username: blurUser
+      password: starrail123
+      authentication-database: blur
 
   # JPA 설정
   jpa:

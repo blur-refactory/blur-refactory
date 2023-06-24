@@ -24,6 +24,9 @@ public class UserProfile {
     @Column(name = "user_id")
     private String userId;
 
+    @Column(name = "role")
+    private String role;
+
     @Column(name = "age")
     private Integer age;
 
@@ -49,6 +52,10 @@ public class UserProfile {
     @OneToOne(mappedBy = "userProfile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private MatchSetting matchSetting;
+
+    public void updateRole(String role) {
+        this.role = role;
+    }
 
     public void updateProfile(Integer age, String nickname, String gender, String introduce, String mbti) {
         this.age = age;

@@ -1,9 +1,6 @@
 package com.blur.bluruser.match.service;
 
-import com.blur.bluruser.match.dto.request.RequestAcceptDto;
-import com.blur.bluruser.match.dto.request.RequestFemaleCheckDto;
-import com.blur.bluruser.match.dto.request.RequestMatchDto;
-import com.blur.bluruser.match.dto.request.RequestUpdateSettingDto;
+import com.blur.bluruser.match.dto.request.*;
 import com.blur.bluruser.match.dto.response.ResponseAceeptDto;
 import com.blur.bluruser.match.dto.response.ResponseCheckDto;
 import com.blur.bluruser.match.dto.response.ResponseMatchSettingDto;
@@ -22,6 +19,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -176,37 +174,28 @@ public class MatchService {
         }
     }
 
-    public String meetingExit(MeetingDto meetingDto) {
+    public String meetingExit(String userId, RequestExitDto requestExitDto) {
 
-        String userId = meetingDto.getUserId();
-        String partnerId = meetingDto.getPartnerId();
-        MatchedUser userMet = mongoTemplate.findOne(
-                Query.query(Criteria.where("userId").is(userId)),
-                MatchedUser.class
-        );
-        MatchedUser partnerMet = mongoTemplate.findOne(
-                Query.query(Criteria.where("userId").is(partnerId)),
-                MatchedUser.class
-        );
-        if (userMet == null) {
-            userMet = MatchedUser.builder()
-                    .userId(userId)
-                    .build();
-        }
-        if (partnerMet == null) {
-            partnerMet = MatchedUser.builder()
-                    .userId(partnerId)
-                    .build();
-        }
+        String partnerId = requestExitDto.getPartnerId();
+        Query userQuery = new Query(Criteria.where("userId").is(userId));
+        Query partnerQuery = new Query(Criteria.where("userId").is(partnerId));
+        MatchedUser userMet = mongoTemplate.findOne(userQuery, MatchedUser.class);
+        MatchedUser partnerMet = mongoTemplate.findOne(partnerQuery, MatchedUser.class);
         List<String> userMetList = userMet.getMatchedList();
         List<String> partnerMetList = partnerMet.getMatchedList();
+        if (userMetList == null) {
+            userMetList = new ArrayList<>();
+        }
+        if (partnerMetList == null) {
+            partnerMetList = new ArrayList<>();
+        }
         userMetList.add(partnerId);
         partnerMetList.add(userId);
-        userMet.update(userMetList);
-        partnerMet.update(partnerMetList);
-        mongoTemplate.insert(userMet, "matched_user");
-        mongoTemplate.insert(partnerMet, "matched_user");
-        Integer playTime = meetingDto.getPlayTime();
+        Update userUpdate = new Update().set("matched_list", userMetList);
+        Update partnerUpdate = new Update().set("matched_list", partnerMetList);
+        mongoTemplate.updateFirst(userQuery, userUpdate, MatchedUser.class);
+        mongoTemplate.updateFirst(partnerQuery, partnerUpdate, MatchedUser.class);
+        Integer playTime = requestExitDto.getPlayTime();
         MatchMakingRating myMmr = matchMakingRatingRepository.findByUserId(userId);
         MatchMakingRating partnerMmr = matchMakingRatingRepository.findByUserId(partnerId);
         String res = mmrUpdate(myMmr, partnerMmr, playTime);
@@ -219,11 +208,6 @@ public class MatchService {
                 Query.query(Criteria.where("userId").is(femaleDto.getUserId())),
                 MatchedUser.class
         );
-        if (matchedUsers == null) {
-            matchedUsers = MatchedUser.builder()
-                    .userId(femaleDto.getUserId())
-                    .build();
-        }
         List<String> matchedList = matchedUsers.getMatchedList();
         if (matchedList != null) {
             if (matchedList.contains(maleDto.getUserId())) {return false;}

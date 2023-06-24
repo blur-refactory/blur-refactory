@@ -1,4 +1,4 @@
-package com.blur.bluruser.match.dto;
+package com.blur.bluruser.match.dto.request;
 
 
 import io.swagger.annotations.ApiModel;
@@ -13,10 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @ApiModel(description = "MeetingDto")
-public class MeetingDto {
-
-    @ApiModelProperty(notes = "사용자 ID")
-    private String userId;
+public class RequestExitDto {
 
     @ApiModelProperty(notes = "파트너 ID")
     private String partnerId;

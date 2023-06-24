@@ -15,10 +15,10 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @DynamicInsert
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "matching_setting")
 public class MatchSetting {
 
@@ -26,16 +26,13 @@ public class MatchSetting {
     @Column(name = "user_id")
     private String userId;
 
-    @Column(name = "max_distance")
-    @ColumnDefault("30")
+    @Column(name = "max_distance", columnDefinition = "integer default 30")
     private Integer maxDistance;
 
-    @Column(name = "min_age")
-    @ColumnDefault("20")
+    @Column(name = "min_age", columnDefinition = "integer default 20")
     private Integer minAge;
 
-    @Column(name = "max_age")
-    @ColumnDefault("40")
+    @Column(name = "max_age", columnDefinition = "integer default 40")
     private Integer maxAge;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
