@@ -13,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 
@@ -79,6 +81,20 @@ public class UserController {
         return userService.changePassword(changePasswordReq);
     }
 
+    @PostMapping("/isLogin")
+    public ResponseEntity<?> isLogin(HttpServletRequest request) {
+        Optional<Cookie> optionalCookie = Arrays.stream(request.getCookies())
+                .filter(cookie -> cookie.getName().equals("accessToken"))
+                .findFirst();
+
+        if (optionalCookie.isPresent()) {
+            // "accessToken" 쿠키가 존재하는 경우
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            // "accessToken" 쿠키가 존재하지 않는 경우
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
 //    @PostMapping("userInfo/{userId}")
 //    public ResponseEntity<?> getUserInfo(@PathVariable(name ="userId") String userId) throws Exception{
 //        UserInfo userInfo = userService.getUserInfo(userId);
