@@ -67,7 +67,6 @@ function MeetingIn() {
   const sendRoomName = useSelector((state) => state.mt.roomNumber);
   const partnerNick = useSelector((state) => state.mt.partnerNick);
 
-  const [timer, setTimer] = useState(null);
   const [timer2, setTimer2] = useState(null);
 
   // 컴퓨터와 연결되어있는 모든 장치를 가져옴
@@ -306,7 +305,8 @@ function MeetingIn() {
 
   if (!firstRendering) {
     firstRendering = true;
-    setTimeout(async () => {
+
+    const timer = setTimeout(async () => {
       // 소켓통신을 통해서 방에 접속(이부분은 매칭이 되었을때 진행해야 하므로 전 페이지로 빼낼예정)
       // 카메라 장치 동작 메서드
       await getMedia();
@@ -320,10 +320,11 @@ function MeetingIn() {
       });
 
       setUpSocketListeners();
+      clearTimeout(timer);
 
       console.log(`sendRoomName: ${sendRoomName}, ${roomName}`);
       console.log(`socket: ${socket} `, socket);
-    }, 3000);
+    }, 5 * 1000);
 
     // setTimeout(() => {
     //   if (!alert("상대가 접속하지 않았기 때문에 홈페이지로 이동합니다.")) {
