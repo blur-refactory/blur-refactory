@@ -308,7 +308,9 @@ function MeetingIn() {
         transports: ["websocket", "polling"],
         secure: true,
       });
-      socket.emit("join_room", roomName);
+      setTimeout(async () => {
+        socket.emit("join_room", roomName);
+      }, 5000);
       console.log(`socket: ${socket} `, socket);
     }, 3000);
 
