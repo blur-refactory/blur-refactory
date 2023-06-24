@@ -38,8 +38,7 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
           // } else {
           console.log("로그인 성공", res);
 
-          // dispatch(saveToken(res.data.header.token));
-          dispatch(saveToken("aaaaaaaaaaaaaaaaaaa"));
+          // dispatch(saveToken("aaaaaaaaaaaaaaaaaaa"));
           dispatch(loginId(signId));
           // if (checkbox.current.checked) {
           //   dispatch(saveId(signId));

@@ -95,6 +95,7 @@ function Home() {
       .get(`/api/profile/check`)
       .then((res) => {
         console.log("check 로직 OK");
+        console.log(`프로필 여부: `, res.data);
         dispatch(ISMYPROFILE(res.data));
       })
       .catch((err) => console.log(err));
