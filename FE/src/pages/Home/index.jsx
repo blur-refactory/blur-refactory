@@ -93,10 +93,6 @@ function Home() {
     const axiosInstance = CustomAxios;
     axiosInstance
       .get(`/api/profile/check`)
-      // axios({
-      //   method: "get",
-      //   url: `170.30.1.22:8081/api/profile/check`,
-      // })
       .then((res) => {
         console.log("check 로직 OK");
         dispatch(ISMYPROFILE(res.data));
