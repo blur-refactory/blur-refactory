@@ -1,8 +1,7 @@
 import "./index.css";
 import { useState } from "react";
 import axios from "axios";
-import { loginId, saveToken } from "../../../redux/reducers/saveToken";
-import { saveId } from "../../../redux/reducers/saveToken";
+import { loginId, saveLogin } from "../../../redux/reducers/saveToken";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useRef } from "react";
@@ -38,8 +37,8 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
           // } else {
           console.log("로그인 성공", res);
 
-          // dispatch(saveToken("aaaaaaaaaaaaaaaaaaa"));
-          dispatch(loginId(signId));
+          dispatch(saveLogin(true));
+          // dispatch(loginId(signId));
           // if (checkbox.current.checked) {
           //   dispatch(saveId(signId));
           // } else {
