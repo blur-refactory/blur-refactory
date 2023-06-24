@@ -18,7 +18,7 @@ import Slide3 from "../../components/Home/Carousel/Slide3";
 import Slide4 from "../../components/Home/Carousel/Slide4";
 import Slide5 from "../../components/Home/Carousel/Slide5";
 import ChatList from "../../components/Chat/ChatList";
-import ChatPage from "../../components/Chat/ChatPage";
+import ChatPage from "../../components/Chat/ChatList/ChatPage";
 import { CustomAxios } from "../../api/CustomAxios";
 
 let myStream;

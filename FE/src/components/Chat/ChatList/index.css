@@ -14,24 +14,30 @@
 }
 .ChatBackground .ChatHeader .ChatHeaderEmoticon {
   position: absolute;
-  top: 2vh;
+  top: 3vh;
   left: 1vw;
   display: inline-block;
-  height: 50px;
-  width: 50px;
+  height: 5vh;
+  width: 3vw;
   background: url("../../../assets/images/bubble-chat.png");
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
+
 .ChatBackground .ChatHeader .ChatHeaderText {
-  position: absolute;
-  top: 1.5vh;
-  left: 5vw;
+  position: relative;
+  top: 3vh;
+  font-size: 1.8vw;
 }
 .ChatBackground .ChatList {
-  position: absolute;
+  position: relative;
   width: 25vw;
   height: 70vh;
-  top: 10vh;
+  top: 4.7vh;
   background: #ffffff;
   border-radius: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
 }

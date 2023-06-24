@@ -5,7 +5,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import SocialSignInRedirect from "./components/Start/SignIn/socialSignIn";
-import ChatPage from "../src/components/Chat/ChatPage";
+import ChatPage from "../src/components/Chat/ChatList/ChatPage";
 import Start from "./pages/Start";
 import Home from "./pages/Home";
 import Meeting from "./pages/Meeting";

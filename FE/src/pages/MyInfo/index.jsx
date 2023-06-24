@@ -105,7 +105,10 @@ function MyInfo() {
       ) : null}
 
       {alertModal && !miModal && !hashModal ? (
-        <Alert showAlertModal={showAlertModal} content={"변경사항이 저장되었습니다."} />
+        <Alert
+          showAlertModal={showAlertModal}
+          content={"변경사항이 저장되었습니다."}
+        />
       ) : null}
 
       <div className="DarkBlurDiv"></div>
@@ -113,10 +116,10 @@ function MyInfo() {
         onClick={() => {
           navigate("/home");
         }}
-        className="MIbackbtn"
-      >
+        className="MIbackbtn">
         out
       </div>
+
       <div className="MIImgDiv">
         {proFile.image ? (
           <img className="MIImg" src={proFile.image} />
@@ -129,8 +132,7 @@ function MyInfo() {
         <div
           className="showint"
           onClick={showHashModal}
-          disabled={alertModal === true ? true : false}
-        >
+          disabled={alertModal === true ? true : false}>
           {userInterests.map((item, idx) => {
             return (
               <div className="showintdiv" key={item.userinterests}>
@@ -145,21 +147,22 @@ function MyInfo() {
         <div
           className="MIHashSet"
           onClick={showHashModal}
-          disabled={alertModal === true ? true : false}
-        >
+          disabled={alertModal === true ? true : false}>
           <div className="MIHashSetIcon">
             <span className="MIHashSetText">설정하기</span>
           </div>
         </div>
       )}
-      {/*  */}
+
       <div className="MINameAgeDiv">
         <span className="MIAge"> {age === "" ? proFile.age : age}</span>
         <span className="MIName">{user === "" ? proFile.nickname : user}</span>
       </div>
       <div className="MIIntroducingDiv">
         <span className="MIIntroducingTitle">Introducing</span>
-        <span className="MIIntroducingText">{intro === "" ? proFile.introduce : intro} </span>
+        <span className="MIIntroducingText">
+          {intro === "" ? proFile.introduce : intro}{" "}
+        </span>
       </div>
       <span className="MIProfileLogo">Blur:-)</span>
       <div
@@ -167,12 +170,12 @@ function MyInfo() {
         onClick={() => {
           showMyinfoModal();
         }}
-        disabled={alertModal === true ? true : false}
-      >
+        disabled={alertModal === true ? true : false}>
         profile edit
       </div>
     </div>
   );
 }
+
 
 export default MyInfo;

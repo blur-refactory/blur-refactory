@@ -1,29 +1,11 @@
 @charset "UTF-8";
-/* 
-  mixin name: sf
-  arg: x
-  desc: SubFrame css
-*/
-/* 
-  mixin name: image
-  arg: name, format
-  desc: 인자(이미지이름, 파일포맷)받아 이미지 설정
-*/
-/* 
-  mixin name: circle
-  arg: size
-  desc: 인자(size)를 받아 원을 만듦
-*/
+
 .MIbackbtn {
   position: absolute;
-  width: 75px;
-  height: 50px;
-  left: 5%;
-  top: 5%;
-  font-weight: 400;
-  font-size: 43px;
-  line-height: 88px;
-  /* identical to box height */
+  width: 10vw;
+  margin-top: 5vh;
+  margin-left: 5vh;
+  font-size: 4vw;
   align-items: center;
   text-align: right;
   cursor: pointer;
@@ -36,102 +18,99 @@
     line-height: 64px;
   }
 }
+
 .MIImgDiv {
   position: absolute;
-  width: 500px;
-  height: 500px;
-  left: 16%;
-  top: 16%;
-  background-size: 100% 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 35vw;
+  height: 70vh;
 }
+
 .MIImgDiv .MIImgBack {
-  position: absolute;
-  width: 500px;
-  height: 500px;
+  width: 35vw;
+  height: 70vh;
   background-image: url(../../assets/images/woman.jpg);
   background-size: 100% 100%;
   border-radius: 70%;
 }
+
 .MIImgDiv .MIImg {
-  position: absolute;
-  width: 500px;
-  height: 500px;
+  width: 35vw;
+  height: 70vh;
   background-size: 100% 100%;
   border-radius: 70%;
 }
+
 .MIImgDiv .MIUserImg {
-  position: absolute;
-  width: 500px;
-  height: 500px;
+  width: 35vw;
+  height: 70vh;
   background-size: 100% 100%;
   border-radius: 70%;
 }
 
 .MIHashTag {
   position: absolute;
-  width: 190px;
-  height: 55px;
+  width: 15vw;
   left: 5%;
   top: 20%;
-  font-weight: 400;
-  font-size: 40px;
-  line-height: 55px;
-  /* identical to box height */
+  font-size: 3vw;
   align-items: center;
   color: #ffffff;
 }
 
 .MIHashSet {
   position: absolute;
-  width: 135px;
-  height: 50px;
+  width: 9vw;
+  height: 7vh;
   left: 6.5%;
   top: 28%;
   background: #ffffff;
   border: 1.5px dashed #50a1a3;
   border-radius: 30px;
   cursor: pointer;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
 }
 .MIHashSet .MIHashSetIcon {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  left: 19px;
-  top: 15px;
+  position: relative;
+  width: 1.5vw;
+  height: 3vh;
+  margin-left: 1vw;
   background: url(../../assets/images/plus.png);
   background-size: 100% 100%;
 }
 .MIHashSet .MIHashSetText {
   position: absolute;
-  width: 80px;
-  height: 30px;
-  left: 25px;
-  top: -4px;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 27px;
+  width: 5vw;
+  height: 4vh;
+  font-size: 1.2vw;
+  margin-left: 1vw;
   align-items: center;
   text-align: center;
   color: #50a1a3;
+  /* background-color: black; */
 }
 
 .MINameAgeDiv {
   position: absolute;
-  width: 400px;
-  height: 100px;
+  width: 25vw;
+  height: 15vh;
   left: 5%;
   bottom: 10%;
 }
 .MINameAgeDiv .MIName {
   position: absolute;
-  width: 400px;
-  height: 55px;
+  width: 25vw;
+  height: 7.5vh;
   left: 0px;
   bottom: 0px;
   margin-left: 20;
-  font-weight: 400px;
-  font-size: 40px;
-  line-height: 55px;
+  /* font-weight: 400px; */
+  font-size: 2.5vw;
+  /* line-height: 55px; */
   /* identical to box height */
   align-items: center;
   text-align: left;
@@ -139,13 +118,11 @@
 }
 .MINameAgeDiv .MIAge {
   position: absolute;
-  width: 40px;
-  height: 50px;
+  width: 25vw;
+  height: 7.5vh;
   left: 0%;
-  bottom: 50px;
-  font-weight: 400;
-  font-size: 40px;
-  line-height: 55px;
+  font-size: 2.5vw;
+  /* line-height: 55px; */
   /* identical to box height */
   text-align: center;
   color: #ffffff;
@@ -153,14 +130,11 @@
 
 .MIEdit {
   position: absolute;
-  width: 300px;
-  height: 55px;
-  bottom: 80px;
+  width: 15vw;
+  height: 8vh;
   right: 5%;
   bottom: 10%;
-  font-weight: 400px;
-  font-size: 40px;
-  line-height: 55px;
+  font-size: 2.5vw;
   align-items: center;
   text-align: right;
   justify-content: end;
@@ -170,34 +144,28 @@
 
 .MIIntroducingDiv {
   position: absolute;
-  width: 270px;
-  height: 300px;
+  width: 16.5vw;
+  height: 40vh;
   right: 5%;
-  top: 250px;
+  top: 30vh;
 }
 .MIIntroducingDiv .MIIntroducingTitle {
   position: absolute;
-  width: 230px;
-  height: 55px;
-  left: 15px;
-  top: 0px;
-  font-weight: 400;
-  font-size: 40px;
-  line-height: 55px;
-  /* identical to box height */
+  width: 15vw;
+  height: 8vh;
+  right: 5%;
+  font-size: 2.5vw; /* identical to box height */
   align-items: center;
   text-align: right;
   color: #ffffff;
 }
 .MIIntroducingDiv .MIIntroducingText {
   position: absolute;
-  width: 300px;
-  height: 270px;
+  width: 16.5vw;
+  height: 30vh;
   left: 0px;
-  top: 70px;
-  font-weight: 400px;
-  font-size: 30px;
-  line-height: 35x;
+  top: 7vh;
+  font-size: 2px;
   text-align: left;
   color: #ffffff;
   justify-content: center;
@@ -205,15 +173,12 @@
 
 .MIProfileLogo {
   position: absolute;
-  width: 160px;
-  height: 80px;
+  width: 13vw;
+  height: 10vh;
   right: 5%;
   top: 5%;
-  font-weight: 400;
-  font-size: 60px;
-  line-height: 90px;
+  font-size: 4vw;
   align-items: center;
-  text-transform: capitalize;
   color: #ffffff;
 }
 
