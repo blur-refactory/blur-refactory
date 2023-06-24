@@ -219,7 +219,7 @@ function MeetingIn() {
     console.log(`peerStream: `, peerStream);
     console.log(`data: `, data);
 
-    peerStream.srcObject = data?.stream[0];
+    peerStream.srcObject = data?.streams[0];
   }
 
   // (관심사/이미지가 켜져있을 때) 바깥 배경 누르게되면 토글 off 처리
