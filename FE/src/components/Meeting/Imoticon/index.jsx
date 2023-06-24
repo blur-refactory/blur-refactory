@@ -25,10 +25,10 @@ export default function Imoticon() {
 
   useEffect(() => {
     const lightTagsDiv = document.querySelector(".lightTagsDiv");
-    for (let i = 1; i <= partnerInterests.length; i++) {
+    for (let i = 0; i < partnerInterests?.length; i++) {
       const lightTag = document.createElement("span");
-      lightTag.id = `lightTag${i}`;
-      lightTag.innerText = partnerInterests[i - 1];
+      lightTag.id = `lightTag${i + 1}`;
+      lightTag.innerText = partnerInterests[i];
       lightTagsDiv.appendChild(lightTag);
     }
   });

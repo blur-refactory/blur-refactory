@@ -12,6 +12,7 @@ import LightTag from "../../../components/Meeting/LightTag";
 import MyCamSubDiv from "../../../components/Meeting/MyCamSubDiv";
 import SelectModal from "../../../components/Common/SelectModal";
 import PartnerCamSubDiv from "../../../components/Meeting/PartnerCamSubDiv";
+import { useNavigate } from "react-router-dom";
 
 // let socket = io("https://blurblur.kr", {
 //   path: "/socket",
@@ -56,6 +57,7 @@ const blockAlertData = [
 // console.log("MeetingIn 페이지 렌더링");
 function MeetingIn() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const isShowBlockModal = useSelector((state) => state.mt.isShowBlockModal);
   const closeAlertToggle = useSelector((state) => state.mt.closeAlertToggle);
@@ -135,57 +137,57 @@ function MeetingIn() {
 
   // socket Code
 
+  //Peer A
+  socket.on("welcome", async (rooms) => {
+    console.log("node로 부터 온 welcome ");
+    console.log(`현재 들어온 rooms들 확인`, rooms);
+    const offer = await myPeerConnection.createOffer();
+    myPeerConnection.setLocalDescription(offer);
+    // console.log(myPeerConnection.setLocalDescription(offer));
+    console.log("send the offer");
+    socket.emit("offer", offer, roomName);
+  });
+
+  socket.on("roomsCheck", (rooms) => {
+    console.log(rooms);
+  });
+
+  // Peer B
+  socket.on("offer", async (offer) => {
+    console.log("received the offer");
+    await myPeerConnection.setRemoteDescription(offer);
+    const answer = await myPeerConnection.createAnswer();
+    myPeerConnection.setLocalDescription(answer);
+    socket.emit("answer", answer, roomName);
+    console.log("sent the answer ");
+  });
+
   // Peer A
-  // socket.on("welcome", async (rooms) => {
-  //   console.log("node로 부터 온 welcome ");
-  //   console.log(`현재 들어온 rooms들 확인`, rooms);
-  //   const offer = await myPeerConnection.createOffer();
-  //   myPeerConnection.setLocalDescription(offer);
-  //   // console.log(myPeerConnection.setLocalDescription(offer));
-  //   console.log("send the offer");
-  //   socket.emit("offer", offer, roomName);
-  // });
+  socket.on("answer", (answer) => {
+    console.log("received the answer");
+    myPeerConnection.setRemoteDescription(answer);
+  });
 
-  // socket.on("roomsCheck", (rooms) => {
-  //   console.log(rooms);
-  // });
+  socket.on("ice", (ice) => {
+    console.log("receive candidate");
+    myPeerConnection.addIceCandidate(ice);
+  });
 
-  // // Peer B
-  // socket.on("offer", async (offer) => {
-  //   console.log("received the offer");
-  //   await myPeerConnection.setRemoteDescription(offer);
-  //   const answer = await myPeerConnection.createAnswer();
-  //   myPeerConnection.setLocalDescription(answer);
-  //   socket.emit("answer", answer, roomName);
-  //   console.log("sent the answer ");
-  // });
+  socket.on("peer-leaving", () => {
+    const peerStream = document.querySelector(".MPartenerCamDiv1");
 
-  // // Peer A
-  // socket.on("answer", (answer) => {
-  //   console.log("received the answer");
-  //   myPeerConnection.setRemoteDescription(answer);
-  // });
+    dispatch(PARTNERNICK(""));
+    document.querySelector(".MPartenerCamSubText").innerText = partnerNick;
 
-  // socket.on("ice", (ice) => {
-  //   console.log("receive candidate");
-  //   myPeerConnection.addIceCandidate(ice);
-  // });
+    peerStream.srcObject.getTracks().forEach((track) => {
+      track.stop();
+    });
+    peerStream.srcObject = null;
 
-  // socket.on("peer-leaving", () => {
-  //   const peerStream = document.querySelector(".MPartenerCamDiv1");
-
-  //   dispatch(PARTNERNICK(""));
-  //   document.querySelector(".MPartenerCamSubText").innerText = partnerNick;
-
-  //   peerStream.srcObject.getTracks().forEach((track) => {
-  //     track.stop();
-  //   });
-  //   peerStream.srcObject = null;
-
-  //   if (!alert("상대방이 나가셨습니다.\n 확인을 누르시면 홈페이지로 이동합니다.")) {
-  //     handleHangUp();
-  //   }
-  // });
+    if (!alert("상대방이 나가셨습니다.\n 확인을 누르시면 홈페이지로 이동합니다.")) {
+      handleHangUp();
+    }
+  });
 
   // 미팅 나가기버튼 && (한명이 나가고) 미팅 나가기 버튼 클릭시
   function handleHangUp() {
@@ -211,19 +213,19 @@ function MeetingIn() {
     }
 
     // 방 떠나기
-    // socket.emit("leave-room", roomName, () => {
-    //   roomName = "";
+    socket.emit("leave-room", roomName, () => {
+      roomName = "";
 
-    //   // Generate new socketIO socket (disconnect from previous)
-    //   socket.disconnect();
-    //   // socket = io("https://blurblur.kr", {
-    //   //     path: "/socket",
-    //   //     transports: ["websocket", "polling"],
-    //   //     secure: true,
-    //   // });
-    //   // 인터벌 초기화 해줘야 함!!!!!!!!!!!!!!!!!!!!!!!
-    //   navigate("/home");
-    // });
+      // Generate new socketIO socket (disconnect from previous)
+      socket.disconnect();
+      // socket = io("https://blurblur.kr", {
+      //     path: "/socket",
+      //     transports: ["websocket", "polling"],
+      //     secure: true,
+      // });
+      // 인터벌 초기화 해줘야 함!!!!!!!!!!!!!!!!!!!!!!!
+      navigate("/home");
+    });
   }
 
   // RTC Code
@@ -255,8 +257,8 @@ function MeetingIn() {
 
   function handleIce(data) {
     console.log("sent candidate");
-    // socket.emit("ice", data.candidate, roomName);
-    // console.log(socket.emit("ice", data.candidate, roomName));
+    socket.emit("ice", data.candidate, roomName);
+    console.log(socket.emit("ice", data.candidate, roomName));
   }
 
   function handleAddStream(data) {
