@@ -9,7 +9,7 @@ function SocialSignInRedirect() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const axiosInstance = CustomAxios;
+  // const axiosInstance = CustomAxios;
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   useEffect(() => {
