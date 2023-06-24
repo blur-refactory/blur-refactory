@@ -83,16 +83,25 @@ public class UserController {
 
     @PostMapping("/isLogin")
     public ResponseEntity<?> isLogin(HttpServletRequest request) {
-        Cookie accessTokenCookie = Arrays.stream(request.getCookies())
-                .filter(cookie -> cookie.getName().equals("accessToken"))
-                .findFirst()
-                .orElse(null);
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            boolean accessTokenExists = false;
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("accessToken")) {
+                    accessTokenExists = true;
+                    break;
+                }
+            }
 
-        if (accessTokenCookie != null) {
-            // "accessToken" 쿠키가 존재하는 경우
-            return new ResponseEntity<>(HttpStatus.OK);
+            if (accessTokenExists) {
+                // "accessToken" 쿠키가 존재하는 경우
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                // "accessToken" 쿠키가 존재하지 않는 경우
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
         } else {
-            // "accessToken" 쿠키가 존재하지 않는 경우
+            // 쿠키가 없는 경우
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
