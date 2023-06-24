@@ -68,15 +68,19 @@ public class ProfileService {
                     .build();
             userProfileRepository.save(userProfile);
             MatchSetting newSetting = MatchSetting.builder()
-                    .userId(userProfile.getUserId())
+                    .userId(userId)
                     .userProfile(userProfile)
                     .build();
             matchSettingRepository.save(newSetting);
             MatchMakingRating mmr = MatchMakingRating.builder()
-                    .userId(userProfile.getUserId())
+                    .userId(userId)
                     .userProfile(userProfile)
                     .build();
             matchMakingRatingRepository.save(mmr);
+            UserInterest userInterest = UserInterest.builder()
+                    .userId(userId)
+                    .build();
+            mongoTemplate.insert(userInterest, "user_interest");
         }
         UserInterest userInterest = mongoTemplate.findOne(
                 Query.query(Criteria.where("userId").is(userId)),
