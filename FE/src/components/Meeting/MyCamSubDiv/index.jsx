@@ -25,10 +25,6 @@ export default function MyCamSubDiv({ camOff, micOff, myStream }) {
     progress.style.width = val;
   };
 
-  useEffect(() => {
-    console.log(`11`, myStream);
-  });
-
   // 나의 음량 토글
   const showMySound = () => {
     if (!mysoundToggle) {
