@@ -14,7 +14,7 @@ function Header({ showSignInModal, showChatList }) {
   const logInOut = () => {
     if (isLogin) {
       dispatch(saveLogin(false));
-      dispatch(loginId(null));
+      // dispatch(loginId(null));
 
       console.log("로그아웃");
 
