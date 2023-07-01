@@ -5,9 +5,7 @@ import "../../../App.css";
 import "./index.css";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { edit } from "../../../redux/reducers/userEdit";
-import { intro } from "../../../redux/reducers/introEdit";
-import { age } from "../../../redux/reducers/ageEdit";
+import { nickname, intro, age } from "../../../redux/reducers/userEdit";
 import SetModal from "./SetModal/setmodal";
 
 import axios from "axios";
@@ -71,13 +69,12 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
       data: updatedProfile,
     })
       .then((res) => {
-        dispatch(edit(res.data.nickname));
+        dispatch(nickname(res.data.nickname));
         dispatch(intro(res.data.introduce));
         dispatch(age(res.data.age));
-        console.log(res.data);
         setProFile(res.data);
       })
-      .catch((err) => {});
+      .catch((err) => {console.log(err)});
   };
 
 
