@@ -5,13 +5,14 @@ const userEdit = createSlice({
   initialState: { value: "" },
   reducers: {
     nickname: (state, action) => {
-      state.value = action.payload;
+      state.nickname = action.payload;
+      console.log(state.ncikname);
     },
     intro: (state, action) => {
-      state.value = action.payload;
+      state.intro = action.payload;
     },
     age: (state, action) => {
-      state.value = action.payload;
+      state.age = action.payload;
     },
   },
 });

@@ -44,10 +44,11 @@ function MyInfo() {
   const age = useSelector((state) => {
     return state.user.age;
   });
-
+  console.log(nickName);
   const nickName = useSelector((state) => {
     return state.user.nickname;
   });
+  console.log(nickName);
   const hashCheck = useSelector((state) => {
     return state.hashCheck.checkIntData;
   });

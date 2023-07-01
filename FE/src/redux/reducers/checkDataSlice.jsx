@@ -8,7 +8,7 @@ const checkDataSlice = createSlice({
   reducers: {
     setCheckDataa: (state, action) => {
       state.checkIntData = action.payload;
-      console.log(state.checkIntData);
+   
     },
   },
 });
