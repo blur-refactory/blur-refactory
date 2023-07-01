@@ -128,7 +128,7 @@ function MyInfo() {
         )}
       </div>
       <span className="MIHashTag">Hash Tag</span>
-      {userInterests.length > 0 ? (
+      {userInterests !== null && userInterests.length > 0 ? (
         <div
           className="showint"
           onClick={showHashModal}
@@ -136,9 +136,7 @@ function MyInfo() {
           {userInterests.map((item, idx) => {
             return (
               <div className="showintdiv" key={item.userinterests}>
-                {item.interestName}
-                {/* {hashCheck === "" ? item.interestName : hashCheck} */}
-                {/* {user === "" ? proFile.userInterests : user} */}
+                {item}
               </div>
             );
           })}
@@ -161,7 +159,7 @@ function MyInfo() {
       <div className="MIIntroducingDiv">
         <span className="MIIntroducingTitle">Introducing</span>
         <span className="MIIntroducingText">
-          {intro === "" ? proFile.introduce : intro}{" "}
+          {intro === "" ? proFile.introduce : intro}
         </span>
       </div>
       <span className="MIProfileLogo">Blur:-)</span>
