@@ -279,7 +279,7 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
             <input
               type="text"
               className="fieldInput narrow"
-              value={proFile.nickname ? proFile.nickname : nameInput}
+              value={proFile.nickname || ""}
               onChange={handleInputChange}
               placeholder="10자까지만 가능합니다."
               onKeyPress={handleOnKeyPress}></input>
@@ -289,7 +289,7 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
             <input
               type="text"
               className="fieldInput narrow"
-              value={proFile.age ? proFile.age : ageInput}
+              value={proFile.age || ""}
               onChange={handleAgeChange}
               placeholder="숫자만 입력 가능합니다."></input>
           </div>
@@ -340,7 +340,7 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
           <input
             type="text"
             className="PMIntroducingInput"
-            value={proFile.introduce ? proFile.introduce : introInput}
+            value={proFile.introduce || ""}
             onChange={introHandleChange}
           />
         </div>
