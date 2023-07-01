@@ -70,9 +70,8 @@ function Hash({ showHashModal, showAlertModal }) {
     })
       .then((res) => {
         // console.log(res.data);
-        console.log("성공><");
         dispatch(setCheckDataa(checkData));
-        console.log(updatedHash);
+        setcheckData([]);
       })
       .catch((err) => {
         console.log(err);
@@ -131,8 +130,7 @@ function Hash({ showHashModal, showAlertModal }) {
         interestName: searchQuery,
       })
       .then((response) => {
-        console.dir(response);
-        console.log(searchQuery);
+  
 
         const data = response.data; // 응답 데이터 추출
 
@@ -141,7 +139,7 @@ function Hash({ showHashModal, showAlertModal }) {
       })
       .catch((error) => {
         console.error(error);
-        console.error(error.status);
+  
       });
   };
 
