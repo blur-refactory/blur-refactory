@@ -53,6 +53,7 @@ function MyInfo() {
   });
   console.log(hashCheck);
 
+
   // 화면 켜지자 말자 띄우는 거
   const API_URL = `${process.env.REACT_APP_API_ROOT_DONGHO}/api/profile`;
   const [proFile, setProFile] = useState([]);
@@ -69,7 +70,6 @@ function MyInfo() {
         console.log(res.data.userInterests);
         setProFile(res.data);
         setUserInterests(res.data.userInterests);
-        console.log("성공><");
         // console.log(hashCheck);
       })
       .catch((err) => {
@@ -77,6 +77,26 @@ function MyInfo() {
       });
   }, [user, intro, age, hashCheck]);
 
+  // 모달 창이 닫힐 때 데이터를 다시 불러오는 로직
+  useEffect(() => {
+    if (!miModal && !hashModal) {
+      axios({
+        method: "GET",
+        url: `${API_URL}`,
+        data: {},
+      })
+        .then((res) => {
+          console.log(res.data);
+          // 데이터 업데이트 로직 작성
+          setProFile(res.data);
+          setUserInterests(res.data.userInterests);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [miModal, hashModal]);
+  
   return (
     <div className="myinfo">
       {miModal || hashModal ? (
@@ -128,11 +148,10 @@ function MyInfo() {
         )}
       </div>
       <span className="MIHashTag">Hash Tag</span>
+      
+
       {userInterests !== null && userInterests.length > 0 ? (
-        <div
-          className="showint"
-          onClick={showHashModal}
-          disabled={alertModal === true ? true : false}>
+        <div className="showint" onClick={showHashModal} disabled={alertModal === true ? true : false}>
           {userInterests.map((item, idx) => {
             return (
               <div className="showintdiv" key={idx}>
@@ -142,10 +161,7 @@ function MyInfo() {
           })}
         </div>
       ) : (
-        <div
-          className="MIHashSet"
-          onClick={showHashModal}
-          disabled={alertModal === true ? true : false}>
+        <div className="MIHashSet" onClick={showHashModal} disabled={alertModal === true ? true : false}>
           <div className="MIHashSetIcon">
             <span className="MIHashSetText">설정하기</span>
           </div>
