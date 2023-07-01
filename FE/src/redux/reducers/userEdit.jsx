@@ -2,7 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const userEdit = createSlice({
   name: "userEdit",
-  initialState: { value: "" },
+  initialState: { 
+    nickname: "",
+    intro: "",
+    age: ""
+  },
   reducers: {
     nickname: (state, action) => {
       state.nickname = action.payload;
@@ -17,5 +21,5 @@ const userEdit = createSlice({
   },
 });
 
-export default userEdit.reducer;
 export const { nickname, intro, age } = userEdit.actions;
+export default userEdit.reducer;

@@ -52,7 +52,7 @@ function MyInfo() {
   const hashCheck = useSelector((state) => {
     return state.hashCheck.checkIntData;
   });
-  console.log(hashCheck);
+
 
 
   // 화면 켜지자 말자 띄우는 거
