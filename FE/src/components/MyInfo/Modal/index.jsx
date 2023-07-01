@@ -80,6 +80,7 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
       .catch((err) => {});
   };
 
+
   //setmodal
   const [setModal, setSettingmodal] = useState(false);
   const showSettingModal = () => {
