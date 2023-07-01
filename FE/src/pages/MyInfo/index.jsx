@@ -38,15 +38,15 @@ function MyInfo() {
   });
 
   const intro = useSelector((state) => {
-    return state.intro.value;
+    return state.user.intro;
   });
 
   const age = useSelector((state) => {
-    return state.age.value;
+    return state.user.age;
   });
 
-  const id = useSelector((state) => {
-    return state.strr.id;
+  const nickName = useSelector((state) => {
+    return state.user.nickname;
   });
   const hashCheck = useSelector((state) => {
     return state.hashCheck.checkIntData;
@@ -77,26 +77,6 @@ function MyInfo() {
       });
   }, [user, intro, age, hashCheck]);
 
-  // 모달 창이 닫힐 때 데이터를 다시 불러오는 로직
-  useEffect(() => {
-    if (!miModal && !hashModal) {
-      axios({
-        method: "GET",
-        url: `${API_URL}`,
-        data: {},
-      })
-        .then((res) => {
-          console.log(res.data);
-          // 데이터 업데이트 로직 작성
-          setProFile(res.data);
-          setUserInterests(res.data.userInterests);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [miModal, hashModal]);
-  
   return (
     <div className="myinfo">
       {miModal || hashModal ? (
@@ -150,7 +130,13 @@ function MyInfo() {
       <span className="MIHashTag">Hash Tag</span>
       
 
-      {userInterests !== null && userInterests.length > 0 ? (
+      {userInterests === null || userInterests.length === 0 || userInterests.includes(null) ? (
+        <div className="MIHashSet" onClick={showHashModal} disabled={alertModal === true ? true : false}>
+          <div className="MIHashSetIcon">
+            <span className="MIHashSetText">설정하기</span>
+          </div>
+        </div>
+      ) : (
         <div className="showint" onClick={showHashModal} disabled={alertModal === true ? true : false}>
           {userInterests.map((item, idx) => {
             return (
@@ -160,17 +146,12 @@ function MyInfo() {
             );
           })}
         </div>
-      ) : (
-        <div className="MIHashSet" onClick={showHashModal} disabled={alertModal === true ? true : false}>
-          <div className="MIHashSetIcon">
-            <span className="MIHashSetText">설정하기</span>
-          </div>
-        </div>
       )}
+
 
       <div className="MINameAgeDiv">
         <span className="MIAge"> {age === "" ? proFile.age : age}</span>
-        <span className="MIName">{user === "" ? proFile.nickname : user}</span>
+        <span className="MIName">{user === "" ? proFile.nickname : nickName}</span>
       </div>
       <div className="MIIntroducingDiv">
         <span className="MIIntroducingTitle">Introducing</span>
