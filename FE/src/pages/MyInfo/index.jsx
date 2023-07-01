@@ -135,7 +135,7 @@ function MyInfo() {
           disabled={alertModal === true ? true : false}>
           {userInterests.map((item, idx) => {
             return (
-              <div className="showintdiv" key={item.userinterests}>
+              <div className="showintdiv" key={idx}>
                 {item}
               </div>
             );
