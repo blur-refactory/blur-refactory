@@ -4,9 +4,9 @@ import "./index.css";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { MTOGGLE, MYGENDER, MYGEO } from "../../redux/reducers/MToggle";
-import { ISMYPROFILE } from "../../redux/reducers/saveToken";
+import { ISMYPROFILE, saveLogin } from "../../redux/reducers/saveToken";
 
 import Header from "../../components/Common/Header";
 import BlurInfo from "../../components/Home/Info";
@@ -35,9 +35,12 @@ function Home() {
   const [chatList, setChatList] = useState(false);
   const [chatPage, setChatPage] = useState(false);
   const [slideNumber, setSlideNumber] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  console.log(`searchParams: `, searchParams);
 
   // startVideo 함수 실행하면 자신의 모습 볼수있음
   const videoRef = useRef(null);
@@ -97,6 +100,7 @@ function Home() {
         console.log("check 로직 OK");
         console.log(`프로필 여부: `, res.data);
         dispatch(ISMYPROFILE(res.data));
+        dispatch(saveLogin(true));
       })
       .catch((err) => console.log(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
