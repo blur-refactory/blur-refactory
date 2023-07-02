@@ -39,7 +39,6 @@ function SetModal() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
       url: `${API_URL}/getProfile`,
       data: {},

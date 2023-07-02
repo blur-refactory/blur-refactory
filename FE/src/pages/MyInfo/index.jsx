@@ -44,11 +44,11 @@ function MyInfo() {
   const age = useSelector((state) => {
     return state.user.age;
   });
-  console.log(nickName);
+
   const nickName = useSelector((state) => {
     return state.user.nickname;
   });
-  console.log(nickName);
+
   const hashCheck = useSelector((state) => {
     return state.hashCheck.checkIntData;
   });
@@ -61,22 +61,23 @@ function MyInfo() {
   const [userInterests, setUserInterests] = useState([]);
   useEffect(() => {
     axios({
+      headers: {
+        "Content-Type": "application/json",
+      },
+   
       method: "GET",
       url: `${API_URL}`,
       data: {},
     })
       .then((res) => {
-        console.log(res.data);
-        // console.log(res.status);
-        console.log(res.data.userInterests);
         setProFile(res.data);
         setUserInterests(res.data.userInterests);
-        // console.log(hashCheck);
+  
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [user, intro, age, hashCheck]);
+  }, [nickName, intro, age, hashCheck]);
 
   return (
     <div className="myinfo">
@@ -152,7 +153,7 @@ function MyInfo() {
 
       <div className="MINameAgeDiv">
         <span className="MIAge"> {age === "" ? proFile.age : age}</span>
-        <span className="MIName">{user === "" ? proFile.nickname : nickName}</span>
+        <span className="MIName">{nickName === "" ? proFile.nickname : nickName}</span>
       </div>
       <div className="MIIntroducingDiv">
         <span className="MIIntroducingTitle">Introducing</span>
