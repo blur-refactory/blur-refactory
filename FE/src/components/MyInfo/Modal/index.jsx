@@ -24,8 +24,8 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
     axios({
       method: "GET",
       headers: {
+
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
       url: `${API_URL}/getProfile`,
       data: {},
@@ -64,14 +64,16 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
+
+     
       },
       url: `${API_URL}/updateProfile`,
       data: updatedProfile,
     })
       .then((res) => {
-        dispatch(nickname(res.data.nickname));
-        dispatch(intro(res.data.introduce));
-        dispatch(age(res.data.age));
+        dispatch(nickname(proFile.nickname));
+        dispatch(intro(proFile.introduce));
+        dispatch(age(proFile.age));
         setProFile(res.data);
       })
       .catch((err) => {console.log(err)});
@@ -190,6 +192,7 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
       .catch((err) => {
         console.log(err.data);
       });
+    console.log("click")
   }
 
   // 성별
@@ -216,11 +219,11 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
     <div className="Modal">
       {setModal ? <SetModal showSettingModal={showSettingModal} /> : null}
       <div className="leftModal">
-          <button type="submit" className="imageEditBtn">
             <form onSubmit={handleSubmit}>
+          <button type="submit" className="imageEditBtn">
                 저장
-            </form>
           </button>
+            </form>
         <div className="imgbox">
           <label htmlFor="profileImg">
             {previewImage ? (
