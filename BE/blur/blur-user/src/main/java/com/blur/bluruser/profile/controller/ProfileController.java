@@ -142,4 +142,9 @@ public class ProfileController {
         profileService.updateInterest(requestUserInterestDto, userId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
+
+    @GetMapping("/getUserId")
+    public ResponseEntity<?> getUserId(@RequestHeader("X-Username") String userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(userId);
+    }
 }
