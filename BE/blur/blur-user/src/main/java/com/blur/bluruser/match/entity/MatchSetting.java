@@ -2,6 +2,7 @@ package com.blur.bluruser.match.entity;
 
 import com.blur.bluruser.match.dto.request.RequestUpdateSettingDto;
 import com.blur.bluruser.match.dto.response.ResponseMatchSettingDto;
+import com.blur.bluruser.profile.dto.request.RequestProfileSettingDto;
 import com.blur.bluruser.profile.entity.UserProfile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -39,6 +40,12 @@ public class MatchSetting {
     @MapsId
     @JoinColumn(name = "user_id")
     private UserProfile userProfile;
+
+    public void updateSetting(RequestProfileSettingDto requestProfileSettingDto) {
+        this.maxDistance = requestProfileSettingDto.getMaxDistance();
+        this.maxAge = requestProfileSettingDto.getMaxAge();
+        this.minAge = requestProfileSettingDto.getMinAge();
+    }
 
     public void update(RequestUpdateSettingDto requestUpdateSettingDto) {
         this.maxDistance = requestUpdateSettingDto.getMaxDistance();

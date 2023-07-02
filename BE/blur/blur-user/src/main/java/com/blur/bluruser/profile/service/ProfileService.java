@@ -138,6 +138,9 @@ public class ProfileService {
         userProfile.updateProfile(requestProfileSettingDto.getAge(), requestProfileSettingDto.getNickname(),
                 requestProfileSettingDto.getGender(), requestProfileSettingDto.getIntroduce(), requestProfileSettingDto.getMbti());
         userProfileRepository.save(userProfile);
+        MatchSetting matchSetting = matchSettingRepository.findByUserId(userId);
+        matchSetting.updateSetting(requestProfileSettingDto);
+        matchSettingRepository.save(matchSetting);
         return null;
     }
 
