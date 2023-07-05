@@ -105,27 +105,26 @@ public class RedisChatRepositoryImpl implements RedisChatRepository {
      * @param latestChatsResultDto 처리 결과를 저장할 LatestAlarmsResultDto
      */
     private void processAlarms(Set<ZSetOperations.TypedTuple<ChatDto>> chats, LatestChatsResultDto latestChatsResultDto) {
-        List<SendChatDto> alarmList = new ArrayList<>();
+        List<SendChatDto> chatList = new ArrayList<>();
         double minScore = Double.MAX_VALUE;
 
         for (ZSetOperations.TypedTuple<ChatDto> tuple : chats) {
             double score = tuple.getScore();
             ChatDto chatDto = tuple.getValue();
             if (chatDto != null) {
-                alarmList.add(new SendChatDto(chatDto.getUserId(),
+                chatList.add(new SendChatDto(chatDto.getUserId(),
                         chatDto.getNickname(),
                         chatDto.getMessage(),
-                        chatDto.getFormattedCreatedAt(),
-                        score));
+                        chatDto.getFormattedCreatedAt()));
                 if (score < minScore) {
                     minScore = score;
                 }
             }
         }
 
-        latestChatsResultDto.setChats(alarmList);
+        latestChatsResultDto.setChats(chatList);
 
-        if (alarmList.size() < MAX_ALARM_COUNT) {
+        if (chatList.size() < MAX_ALARM_COUNT) {
             latestChatsResultDto.setLastScore(NO_MORE_ALARMS);
         } else {
             latestChatsResultDto.setLastScore(minScore);
