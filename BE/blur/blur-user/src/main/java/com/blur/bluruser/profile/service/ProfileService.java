@@ -13,6 +13,7 @@ import com.blur.bluruser.profile.dto.request.RequestUserInterestDto;
 import com.blur.bluruser.profile.dto.response.ResponseCardDto;
 import com.blur.bluruser.profile.dto.response.ResponseInterestDto;
 import com.blur.bluruser.profile.dto.response.ResponseProfileSettingDto;
+import com.blur.bluruser.profile.dto.response.ResponseUserInfoDto;
 import com.blur.bluruser.profile.entity.Interest;
 import com.blur.bluruser.profile.entity.UserInterest;
 import com.blur.bluruser.profile.entity.UserProfile;
@@ -176,5 +177,11 @@ public class ProfileService {
         Query query = new Query(Criteria.where("userId").is(userId));
         Update update = new Update().set("interests", interests);
         mongoTemplate.updateFirst(query, update, UserInterest.class);
+    }
+
+    public ResponseUserInfoDto getNickname(String userId){
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        ResponseUserInfoDto responseUserInfoDto = new ResponseUserInfoDto(userId, userProfile.getNickname());
+        return responseUserInfoDto;
     }
 }

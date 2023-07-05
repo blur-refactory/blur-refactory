@@ -5,6 +5,7 @@ import com.blur.bluruser.profile.dto.request.RequestUserInterestDto;
 import com.blur.bluruser.profile.dto.response.ResponseCardDto;
 import com.blur.bluruser.profile.dto.response.ResponseInterestDto;
 import com.blur.bluruser.profile.dto.response.ResponseProfileSettingDto;
+import com.blur.bluruser.profile.dto.response.ResponseUserInfoDto;
 import com.blur.bluruser.profile.repository.InterestRepository;
 import com.blur.bluruser.profile.service.ProfileService;
 import io.swagger.annotations.*;
@@ -145,6 +146,7 @@ public class ProfileController {
 
     @GetMapping("/getUserId")
     public ResponseEntity<?> getUserId(@RequestHeader("X-Username") String userId) {
-        return ResponseEntity.status(HttpStatus.OK).body(userId);
+        ResponseUserInfoDto responseUserInfoDto = profileService.getNickname(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(responseUserInfoDto);
     }
 }

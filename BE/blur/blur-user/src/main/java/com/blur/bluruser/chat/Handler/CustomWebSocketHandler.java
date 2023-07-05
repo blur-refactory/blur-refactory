@@ -120,8 +120,7 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
                                 new SendChatDto(userId,
                                         chatDto.getNickname(),
                                         chatDto.getMessage(),
-                                        chatDto.getFormattedCreatedAt(),
-                                        chatUtils.changeLocalDateTimeToDouble(chatDto.getCreatedAt())))
+                                        chatDto.getFormattedCreatedAt()))
                         )
                 );
             } else {

@@ -1,4 +1,4 @@
-package com.blur.bluruser.chat.dto;
+package com.blur.bluruser.profile.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SendChatDto {
+public class ResponseUserInfoDto {
     private String userId;
     private String nickname;
-    private String message;
-    private String formattedCreatedAt;
 }
