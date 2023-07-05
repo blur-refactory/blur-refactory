@@ -24,7 +24,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(customWebSocketHandler(), "/ws")
                 .addInterceptors(customHandshakeInterceptor())
-                .setAllowedOrigins("http://localhost:8081", "http://blurblur.kr", "https://blurblur.kr");
+                .setAllowedOrigins("http://localhost:8081", "http://blurblur.kr", "https://blurblur.kr", "http:localhost:3000");
     }
 
     @Bean
