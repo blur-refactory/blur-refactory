@@ -33,10 +33,6 @@ function MyInfo() {
   // 페이지 이동
   const navigate = useNavigate();
   // reducer에서 변경된 값을 가져오자
-  const user = useSelector((state) => {
-    return state.user.value;
-  });
-
   const intro = useSelector((state) => {
     return state.user.intro;
   });
@@ -47,6 +43,10 @@ function MyInfo() {
 
   const nickName = useSelector((state) => {
     return state.user.nickname;
+  });
+
+  const userimage = useSelector((state) => {
+    return state.user.image;
   });
 
   const hashCheck = useSelector((state) => {
@@ -62,6 +62,7 @@ function MyInfo() {
   useEffect(() => {
     axios({
       headers: {
+        // "X-Username" : "tjd951753@naver.com",
         "Content-Type": "application/json",
       },
    
@@ -77,7 +78,7 @@ function MyInfo() {
       .catch((err) => {
         console.log(err);
       });
-  }, [nickName, intro, age, hashCheck]);
+  }, [nickName, intro, age, hashCheck, userimage]);
 
   return (
     <div className="myinfo">

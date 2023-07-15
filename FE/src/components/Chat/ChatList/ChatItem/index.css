@@ -15,7 +15,6 @@
   width: 4vw;
   height: 6vh;
   border-radius: 30px;
-  /* background: url(../../../../assets/images/hanhyoju.jpg); */
   background-size: cover;
 }
 .ChatItem .ChatContent {
@@ -43,6 +42,7 @@
 }
 .ChatItem .ChatContent .ChatText .ChatTextWhat {
   position: absolute;
+  font-size: 1.2vw;
   left: 0px;
 }
 .ChatItem .ChatAlarm {

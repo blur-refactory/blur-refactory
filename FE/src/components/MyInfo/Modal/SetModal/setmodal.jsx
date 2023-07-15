@@ -14,19 +14,23 @@ function SetModal() {
   const [distance, setDistance] = useState(0);
   const [leftSliderValue, setLeftSliderValue] = useState(20);
   const [rightSliderValue, setRightSliderValue] = useState(50);
+
   const handleSave = () => {
     dispatch(setDistancee(distance));
     dispatch(setAgeRange([leftSliderValue, rightSliderValue]));
   };
+
   const changeDistance = (event) => {
     setDistance(event.target.value);
   };
+
   const handleLeftSliderChange = (event) => {
     const newLeftSliderValue = Number(event.target.value);
     if (newLeftSliderValue <= rightSliderValue) {
       setLeftSliderValue(newLeftSliderValue);
     }
   };
+
   const handleRightSliderChange = (event) => {
     const newRightSliderValue = Number(event.target.value);
     if (newRightSliderValue >= leftSliderValue) {
@@ -39,6 +43,7 @@ function SetModal() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        // "X-Username": "tjd951753@naver.com",
       },
       url: `${API_URL}/getProfile`,
       data: {},
@@ -63,7 +68,7 @@ function SetModal() {
             <span className="SetMidPartnerLable">Partner Gender</span>
             <div className="SetMMPartnerCheckdiv">
               <div className="gender">{gender}</div>
-              <div className="blurdiv"></div>
+              <div className="blurdiv" />
             </div>
           </div>
 
@@ -79,7 +84,12 @@ function SetModal() {
                   min="0"
                   max="50"
                   value={distance}
-                  onChange={changeDistance}></input>
+                  onChange={changeDistance}
+                />
+                <div
+                  className="range-bar"
+                  style={{ left: 0, width: `${(distance / 50) * 100}%` }}
+                />
               </div>
             </div>
           </div>
@@ -88,7 +98,7 @@ function SetModal() {
             <span className="SetMidPartnerLable">Partner's age group</span>
             {leftSliderValue}살 ~ {rightSliderValue}살
             <div className="SetMMPartnerCheckdiv">
-              <div className="blurdiv"></div>
+              <div className="blurdiv" />
               <div className="range-slider">
                 <input
                   className="range-slider1 range-slider1-left"
@@ -110,9 +120,7 @@ function SetModal() {
                   className="range-bar"
                   style={{
                     left: `${((leftSliderValue - 20) / 30) * 100}%`,
-                    width: `${
-                      ((rightSliderValue - leftSliderValue) / 30) * 100
-                    }%`,
+                    width: `${((rightSliderValue - leftSliderValue) / 30) * 100}%`,
                   }}
                 />
               </div>

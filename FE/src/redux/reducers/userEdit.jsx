@@ -5,12 +5,12 @@ const userEdit = createSlice({
   initialState: { 
     nickname: "",
     intro: "",
-    age: ""
+    age: "",
+    image: ""
   },
   reducers: {
     nickname: (state, action) => {
       state.nickname = action.payload;
-      console.log(state.ncikname);
     },
     intro: (state, action) => {
       state.intro = action.payload;
@@ -18,8 +18,11 @@ const userEdit = createSlice({
     age: (state, action) => {
       state.age = action.payload;
     },
+    image: (state, action) => {
+      state.image = action.payload;
+    },
   },
 });
 
-export const { nickname, intro, age } = userEdit.actions;
+export const { nickname, intro, age, image } = userEdit.actions;
 export default userEdit.reducer;

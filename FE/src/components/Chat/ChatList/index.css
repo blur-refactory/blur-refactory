@@ -33,11 +33,13 @@
 .ChatBackground .ChatList {
   position: relative;
   width: 25vw;
-  height: 70vh;
+  height: 75vh;
   top: 4.7vh;
   background: #ffffff;
   border-radius: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 0.1rem;
+  justify-items: center; /* 가운데 정렬을 위한 추가 속성 */
+  align-content: start; 
 }
