@@ -31,6 +31,7 @@ function SignIn({ showSignUpModal, showSignInModal, showSearchPwModal, ref }) {
         .then((res) => {
           console.log("로그인 성공", res);
           dispatch(saveLogin(true));
+          dispatch(saveLogin(signId))
           navigate("/home");
           alert("로그인에 성공했습니다.");
         })

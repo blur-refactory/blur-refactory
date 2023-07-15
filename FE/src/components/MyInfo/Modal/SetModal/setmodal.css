@@ -12,6 +12,7 @@
   background: #ffffff;
   border-radius: 30px;
 }
+
 .SettingModal .SetModal {
   position: absolute;
   width: 50vw;
@@ -19,12 +20,14 @@
   left: 31vw;
   top: 5vh;
 }
+
 .SettingModal .SetModal .SEtLabel {
   font-size: 2.5vw;
   display: flex;
   align-items: center;
   color: #b2a5a5;
 }
+
 .SettingModal .SetModal .SEtMidModalChangediv {
   display: grid;
   grid-template-rows: repeat(3, 1fr);
@@ -46,22 +49,13 @@
   box-sizing: border-box;
 }
 
-.SettingModal
-  .SetModal
-  .SEtMidModalChangediv
-  .ModalInputBox
-  .SetMidPartnerLable {
+.SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox .SetMidPartnerLable {
   font-size: 2vw;
   width: 16vw;
   color: #9b9a9a;
-  /* background-color: #000000; */
 }
 
-.SettingModal
-  .SetModal
-  .SEtMidModalChangediv
-  .ModalInputBox
-  .SetMMPartnerCheckdiv {
+.SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox .SetMMPartnerCheckdiv {
   position: relative;
   display: flex;
   align-items: center;
@@ -69,12 +63,7 @@
   font-size: 2vw;
 }
 
-.SettingModal
-  .SetModal
-  .SEtMidModalChangediv
-  .ModalInputBox
-  .SetMMPartnerCheckdiv
-  .blurdiv {
+.SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox .SetMMPartnerCheckdiv .blurdiv {
   position: relative;
   background: rgba(104, 187, 189, 0.2);
   filter: blur(18.75px);
@@ -82,12 +71,7 @@
   height: 8vh;
 }
 
-.SettingModal
-  .SetModal
-  .SEtMidModalChangediv
-  .ModalInputBox
-  .SetMMPartnerCheckdiv
-  .gender {
+.SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox .SetMMPartnerCheckdiv .gender {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -95,33 +79,16 @@
   z-index: 1;
 }
 
-.SettingModal
-  .SetModal
-  .SEtMidModalChangediv
-  .ModalInputBox
-  .SetMMPartnerCheckdiv
-  .range-slider {
+.SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox .SetMMPartnerCheckdiv .range-slider {
   width: 100%;
 }
 
-.SettingModal
-  .SetModal
-  .SEtMidModalChangediv
-  .ModalInputBox
-  .SetMMPartnerCheckdiv
-  .range-slider
-  input[type="range"] {
+.SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox .SetMMPartnerCheckdiv .range-slider input[type="range"] {
   position: relative;
   width: 100%;
 }
 
-.SettingModal
-  .SetModal
-  .SEtMidModalChangediv
-  .ModalInputBox
-  .SetMMPartnerCheckdiv
-  .range-slider
-  .progressSlider {
+.SettingModal .SetModal .SEtMidModalChangediv .ModalInputBox .SetMMPartnerCheckdiv .range-slider .progressSlider {
   -webkit-appearance: none;
   width: 100%;
   height: 0.4em;
@@ -142,19 +109,24 @@
 .range-slider {
   -webkit-appearance: none;
   position: absolute;
-  left: 1vw;
-  right: 2vw;
+  width: 80%;
+  cursor: pointer;
   display: flex;
   z-index: 5;
   width: 100%;
+  outline: none;
+  background-color: transparent;
 }
 
 .range-slider .progressSlider {
-  background-color: #a8dedf;
-  border-radius: 10vw;
-  top: 0.28vw;
-  transform: translateY(-50%);
+  margin-top: 4.1vh;
+  height: 0.4em;
+  /* background-color: #a8dedf; */
+  width: 90%;
+  border-radius: 0.25em;
   pointer-events: none;
+  z-index: 11;
+  background-color: #eaf6f6;
 }
 
 .range-slider1 {

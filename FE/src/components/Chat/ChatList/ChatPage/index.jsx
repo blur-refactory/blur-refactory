@@ -1,185 +1,128 @@
-// import React, { useEffect, useState } from "react";
-// import "./index.css";
-// import ChatPageDialogueMe from "./ChatDialogueMe";
-// import ChatPageDialogueYou from "./ChatDialogueYou";
-// import axios from 'axios';
-
-// export function ChatPage({ showChatPage, chatRoom }) {
-//   const [messages, setMessages] = useState([]);
-//   const [messageInput, setMessageInput] = useState("");
-//   // console.log(chatRoom)
-
-//   useEffect(() => {
-//     // const username = chatRoom.maleId;
-//     const username = 'test@test.com';
-
-//     // HTTP 요청을 통해 헤더 값을 설정
-//     axios.defaults.headers.common['X-Username'] = username;
-
-//     // WebSocket 연결 시도
-//     var socket = new WebSocket(`ws://localhost:8081/ws?roomId=${chatRoom.id}`);
-    
-//     socket.addEventListener("message", (event) => {
-//       const message = JSON.parse(event.data);
-
-//       if (Array.isArray(message)) {
-//         // 배열 형태의 메시지인 경우, 여러 메시지를 받아온 경우입니다.
-//         // 적절한 처리를 수행합니다.
-//         for (let i = 0; i < message.length; i++) {
-//           setMessages((prevMessages) => [...prevMessages, message[i]]);
-//         }
-//       } else if (message.message !== undefined) {
-//         // 단일 메시지인 경우, 새로운 메시지를 받았을 때입니다.
-//         // 적절한 처리를 수행합니다.
-//         setMessages((prevMessages) => [message, ...prevMessages]);
-//       }
-//     });
-
-//     return () => {
-//       socket.close();
-//     };
-//   }, []);
-
-//   // 채팅 메시지를 전송하는 함수를 구현합니다.
-//   const sendMessage = () => {
-//     // 서버로 메시지를 전송하는 코드를 작성합니다.
-//     // ...
-
-//     // 전송한 메시지를 화면에 표시합니다.
-//     if (messageInput.trim() !== "") {
-//       setMessages((prevMessages) => [
-//         { sender: "me", text: messageInput },
-//         ...prevMessages,
-//       ]);
-//       setMessageInput("");
-//     }
-//   };
-
-//   return (
-//     <div className="ChatPageBack">
-//       <div className="ChatPageHeader">
-//         <div className="ChatPageHeaderBtn" onClick={showChatPage}></div>
-//         <div className="ChatPageHeaderName">{chatRoom.femaleName}</div>
-//       </div>
-//       <div className="ChatPageContent">
-//         <div className="ChatPageDialogue">
-//           {messages.map((message, index) =>
-//             message.sender === "me" ? (
-//               <ChatPageDialogueMe key={index} content={message.text} />
-//             ) : (
-//               <ChatPageDialogueYou key={index} content={message.text} />
-//             )
-//           )}
-//         </div>
-//         <div className="ChatPageInputDiv">
-//           <div className="ChatPageInput">
-//           <input
-//                 className="ChatPageInputMessage"
-//                 value={messageInput}
-//                 onChange={(e) => setMessageInput(e.target.value)}
-//               />
-//               <button
-//                 className="ChatPageInputButton"
-//                 onClick={sendMessage}
-//               >
-//                 Send message
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//   );
-// }
-
-// export default ChatPage;
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./index.css";
 import ChatPageDialogueMe from "./ChatDialogueMe";
 import ChatPageDialogueYou from "./ChatDialogueYou";
-import axios from 'axios';
+
 
 export function ChatPage({ showChatPage, chatRoom }) {
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
-
+  const chatContentRef = useRef(null);
+  const socketUrl = `wss://blurblur.kr/api/ws?userId=${chatRoom.myId}&roomId=${chatRoom.id}`;
+  // const socketUrl = `ws://localhost:8081/ws?userId=${chatRoom.myId}&roomId=${chatRoom.id}`;
+  const initialCursor = useRef("-1.0");
+  
 
   useEffect(() => {
-    const roomId = 'testtest2'; // 방 ID
+    const socket = new WebSocket(socketUrl);
 
-    const queryParams = {
-      roomId: roomId,
+    const handleSocketMessage = (event) => {
+      const message = JSON.parse(event.data);
+
+      if (Array.isArray(message)) {
+        setMessages((prevMessages) => [...prevMessages, ...message]);
+      } else if (message.cursor !== undefined && message.cursor !== "-1.0") {
+        const jsonStr = JSON.stringify({ cursor: message.cursor });
+        socket.send(jsonStr);
+        initialCursor.current = message.cursor;
+      } else if (message.message !== undefined) {
+        setMessages((prevMessages) => [message, ...prevMessages]);
+      }
     };
-  
-    // HTTP 요청 보내기
-    axios.get('ws://localhost:8081/ws?roomId=testMaletestFemale&userId=man', { params: queryParams })
-      .then(response => {
-        // HTTP 요청 성공 시 WebSocket 연결 시도
-        const url = 'ws://blurblur.kr/api/ws';
-        const webSocket = new WebSocket(url);
-        
-        webSocket.onopen = () => {
-          // WebSocket 연결이 열리면 실행되는 코드
-          console.log('WebSocket 연결이 열렸습니다.');
-        };
-  
-        // 이벤트 핸들러 등록 등 WebSocket 사용에 필요한 로직 작성
-  
-        // 컴포넌트 언마운트 시 WebSocket 연결 종료
-        return () => {
-          webSocket.close();
-        };
-      })
-      .catch(error => {
-        // HTTP 요청 실패 시 처리
-        console.error('HTTP 요청 실패:', error);
-      });
-  }, []);
+
+    socket.addEventListener("open", () => {
+      if (messageInput.trim() !== "") {
+        socket.send(
+          JSON.stringify({
+            nickname: chatRoom.myName,
+            message: messageInput,
+          })
+        );
+      }
+    });
+
+    socket.addEventListener("message", handleSocketMessage);
+
+    return () => {
+      socket.removeEventListener("message", handleSocketMessage);
+      socket.close();
+    };
+  }, [socketUrl]);
+
+  useEffect(() => {
+    if (chatContentRef.current) {
+      chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const sendMessage = () => {
-    // 서버로 메시지를 전송하는 코드를 작성합니다.
-    // ...
-
-    // 전송한 메시지를 화면에 표시합니다.
     if (messageInput.trim() !== "") {
-      setMessages((prevMessages) => [
-        { sender: "me", text: messageInput },
-        ...prevMessages,
-      ]);
+      const newMessage = {
+        nickname: chatRoom.myName,
+        message: messageInput,
+      };
+
+      const socket = new WebSocket(socketUrl);
+
+      socket.addEventListener("open", () => {
+        const jsonStr = JSON.stringify(newMessage);
+
+        socket.send(jsonStr);
+      });
+
+      socket.addEventListener("message", (event) => {
+        console.log("Message sent:", event.data);
+      });
+
+      socket.addEventListener("close", () => {
+        socket.close();
+      });
+
+      if (newMessage.nickname === chatRoom.myName) {
+        setMessages((prevMessages) => [newMessage, ...prevMessages]);
+      } else {
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
+      }
       setMessageInput("");
     }
   };
+
 
   return (
     <div className="ChatPageBack">
       <div className="ChatPageHeader">
         <div className="ChatPageHeaderBtn" onClick={showChatPage}></div>
-        <div className="ChatPageHeaderName">{chatRoom.femaleName}</div>
+        <div className="ChatPageHeaderName">{chatRoom.opponentName}</div>
       </div>
-      <div className="ChatPageContent">
+  
+      <div className="ChatPageContent" ref={chatContentRef}>
         <div className="ChatPageDialogue">
-          {messages.map((message, index) =>
-            message.sender === "me" ? (
-              <ChatPageDialogueMe key={index} content={message.text} />
-            ) : (
-              <ChatPageDialogueYou key={index} content={message.text} />
-            )
-          )}
+          {messages.slice(0).reverse().map((message, index) => (
+            <div key={index}>
+              {message.nickname === chatRoom.myName ? (
+                <ChatPageDialogueMe key={index} content={message.message} />
+              ) : (
+                <ChatPageDialogueYou key={index} content={message.message} chatRoom={chatRoom} />
+              )}
+            </div>
+          ))}
         </div>
-        <div className="ChatPageInputDiv">
-          <div className="ChatPageInput">
-            <input
-              className="ChatPageInputMessage"
-              value={messageInput}
-              onChange={(e) => setMessageInput(e.target.value)}
-            />
-            <button
-              className="ChatPageInputButton"
-              onClick={sendMessage}
-            >
-              Send message
-            </button>
-          </div>
+      </div>
+  
+      <div className="ChatPageInputDiv">
+        <div className="ChatPageInput">
+          <input
+            className="ChatPageInputMessage"
+            value={messageInput}
+            onChange={(e) => setMessageInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                sendMessage();
+              }
+            }}
+          />
+          <button className="ChatPageInputButton" onClick={sendMessage}/>
         </div>
       </div>
     </div>
@@ -187,3 +130,6 @@ export function ChatPage({ showChatPage, chatRoom }) {
 }
 
 export default ChatPage;
+
+
+

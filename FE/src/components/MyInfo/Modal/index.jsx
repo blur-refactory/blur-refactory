@@ -5,7 +5,7 @@ import "../../../App.css";
 import "./index.css";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { nickname, intro, age } from "../../../redux/reducers/userEdit";
+import { nickname, intro, age, image } from "../../../redux/reducers/userEdit";
 import SetModal from "./SetModal/setmodal";
 
 import axios from "axios";
@@ -16,16 +16,13 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
 
   // 컴포넌트 켜지자말자 데이터 받아 오기
   const [proFile, setProFile] = useState([]);
-  const token = useSelector((state) => {
-    return state.strr.token;
-  });
 
   useEffect(() => {
     axios({
       method: "GET",
       headers: {
-
         "Content-Type": "application/json",
+        // "X-Username": "tjd951753@naver.com",
       },
       url: `${API_URL}/getProfile`,
       data: {},
@@ -40,6 +37,8 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
   const distance = useSelector((state) => state.setDatee.distancee);
   const minAge = useSelector((state) => state.setDatee.ageRange[0]);
   const maxAge = useSelector((state) => state.setDatee.ageRange[1]);
+
+  console.log(minAge)
 
   const handleSave = () => {
     const updatedProfile = {
@@ -63,9 +62,7 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
       method: "put",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-
-     
+        "X-Username": "tjd951753@naver.com"
       },
       url: `${API_URL}/updateProfile`,
       data: updatedProfile,
@@ -75,10 +72,11 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
         dispatch(intro(proFile.introduce));
         dispatch(age(proFile.age));
         setProFile(res.data);
+   
       })
       .catch((err) => {console.log(err)});
   };
-
+console.log(proFile)
 
   //setmodal
   const [setModal, setSettingmodal] = useState(false);
@@ -182,17 +180,26 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
 
   function handleSubmit(event) {
     event.preventDefault();
+    if (!selectedImage) {
+      return; 
+    }
     const formData = new FormData();
     formData.append("profileImage", selectedImage);
+    const header = {
+      headers : {
+        // "Content-Type": "application/json",
+        "X-Username": "tjd951753@naver.com"
+      }
+    }
     axios
-      .post(`${API_URL}/updateImage`, formData)
+      .post(`${API_URL}/updateImage`, formData, header)
       .then((res) => {
         console.log(res.data);
+        dispatch(image(res.data));
       })
       .catch((err) => {
         console.log(err.data);
       });
-    console.log("click")
   }
 
   // 성별
@@ -219,11 +226,11 @@ function MyInfoModal({ showMyinfoModal, showAlertModal }) {
     <div className="Modal">
       {setModal ? <SetModal showSettingModal={showSettingModal} /> : null}
       <div className="leftModal">
-            <form onSubmit={handleSubmit}>
-          <button type="submit" className="imageEditBtn">
-                저장
-          </button>
-            </form>
+          <form onSubmit={handleSubmit}>
+            <button type="submit" className="imageEditBtn">
+                  저장
+            </button>
+          </form>
         <div className="imgbox">
           <label htmlFor="profileImg">
             {previewImage ? (

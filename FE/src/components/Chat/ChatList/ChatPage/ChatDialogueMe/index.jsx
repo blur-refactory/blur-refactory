@@ -1,12 +1,9 @@
 import React from "react";
 
-function ChatPageDialogueMe({ content, picture }) {
+function ChatPageDialogueMe({ content }) {
   return (
     <div className="ChatPageDialogueMe">
       <div className="ChatPageDialogueContent">{content}</div>
-      <div className="ChatPageProfilePicture">
-        <img src={picture} alt="내 프로필 사진" />
-      </div>
     </div>
   );
 }

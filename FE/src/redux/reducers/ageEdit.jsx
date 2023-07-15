@@ -5,11 +5,11 @@ const ageEdit = createSlice({
   name: "ageEdit",
   initialState: { value: "" },
   reducers: {
-    age: (state, action) => {
+    agerange: (state, action) => {
       state.value = action.payload;
     },
   },
 });
 
 export default ageEdit.reducer;
-export const { age } = ageEdit.actions;
+export const { agerange } = ageEdit.actions;
