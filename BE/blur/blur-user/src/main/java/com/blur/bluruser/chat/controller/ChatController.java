@@ -1,7 +1,7 @@
 package com.blur.bluruser.chat.controller;
 
+import com.blur.bluruser.chat.dto.ChatroomDto;
 import com.blur.bluruser.chat.dto.MakeChatroomDto;
-import com.blur.bluruser.chat.entity.Chatroom;
 import com.blur.bluruser.chat.service.ChatroomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class ChatController {
 
     @GetMapping("/getChatrooms")
     public ResponseEntity<?> getChatrooms(@RequestHeader("X-Username") String userId) {
-        List<Chatroom> chatroomList = chatroomService.getChatroom(userId);
+        List<ChatroomDto> chatroomList = chatroomService.getChatroom(userId);
         if (!chatroomList.isEmpty())
             return new ResponseEntity<>(chatroomList, HttpStatus.OK);
         else

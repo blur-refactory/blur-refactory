@@ -1,5 +1,6 @@
 package com.blur.bluruser.chat.service;
 
+import com.blur.bluruser.chat.dto.ChatroomDto;
 import com.blur.bluruser.chat.dto.MakeChatroomDto;
 import com.blur.bluruser.chat.entity.Chatroom;
 import com.blur.bluruser.chat.repository.ChatroomRepository;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,21 +46,40 @@ public class ChatroomServiceImpl implements ChatroomService {
     }
 
     @Override
-    public List<Chatroom> getChatroom(String userId) {
+    public List<ChatroomDto> getChatroom(String userId) {
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
 
         if (userProfile != null) {
+            List<Chatroom> chatroomList;
             if (userProfile.getGender().equals("M")) {
-                List<Chatroom> chatroomList = chatroomRepository.findByMaleId(userId)
+                chatroomList = chatroomRepository.findByMaleId(userId)
                         .orElse(Collections.emptyList());
-                return chatroomList;
             } else {
-                List<Chatroom> chatroomList = chatroomRepository.findByFemaleId(userId)
+                chatroomList = chatroomRepository.findByFemaleId(userId)
                         .orElse(Collections.emptyList());
-                return chatroomList;
             }
-        }
 
+            List<ChatroomDto> chatroomDtoList = new ArrayList<>();
+            for (Chatroom chatroom : chatroomList) {
+                ChatroomDto chatroomDto = new ChatroomDto();
+                chatroomDto.setId(chatroom.getId());
+                if (chatroom.getMaleId().equals(userId)) {
+                    chatroomDto.setMyName(chatroom.getMaleName());
+                    chatroomDto.setMyId(chatroom.getMaleId());
+                    chatroomDto.setOpponentName(chatroom.getFemaleName());
+                    chatroomDto.setOpponentId(chatroom.getFemaleId());
+                } else {
+                    chatroomDto.setMyName(chatroom.getFemaleName());
+                    chatroomDto.setMyId(chatroom.getFemaleId());
+                    chatroomDto.setOpponentName(chatroom.getMaleName());
+                    chatroomDto.setOpponentId(chatroom.getMaleId());
+                }
+                chatroomDtoList.add(chatroomDto);
+            }
+            log.info("상대 유저 목록 {}", chatroomDtoList);
+            return chatroomDtoList;
+        }
+        log.info("상대 유저 없음");
         return Collections.emptyList();
     }
 }
