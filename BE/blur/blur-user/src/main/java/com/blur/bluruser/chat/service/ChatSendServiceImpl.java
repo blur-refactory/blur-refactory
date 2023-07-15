@@ -18,7 +18,7 @@ import java.util.Optional;
 public class ChatSendServiceImpl implements ChatSendService {
     private final ChatMakeService chatMakeService;
     private final ChatroomRepository chatroomRepository;
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM-dd HH:mm");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM-dd HH:mm:ss");
 
     @Override
     public ChatDto sendChat(String userId, String roodId, ReceiveDto receivedMessage) throws Exception {
