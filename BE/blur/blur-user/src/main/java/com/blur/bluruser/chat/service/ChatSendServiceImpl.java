@@ -23,6 +23,9 @@ public class ChatSendServiceImpl implements ChatSendService {
 
         if (optionalChatroom.isPresent()) {
             ChatDto chatDto = chatMakeService.saveChat(userId, roodId, receivedMessage);
+            Chatroom chatroom = optionalChatroom.get();
+            chatroom.setLastestMessage(receivedMessage.getMessage());
+            chatroomRepository.save(chatroom);
             return chatDto;
         } else {
             log.warn("존재하지 않는 채팅방");
