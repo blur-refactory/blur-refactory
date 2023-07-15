@@ -71,6 +71,7 @@ public class ChatroomServiceImpl implements ChatroomService {
                     chatroomDto.setOpponentId(chatroom.getFemaleId());
                     chatroomDto.setOpponentImage(opponentUserProfile.getImage());
                     chatroomDto.setLastestMessage(chatroom.getLastestMessage());
+                    chatroomDto.setLastestMessageTime(chatroom.getLastestMessageTime());
                 } else {
                     UserProfile opponentUserProfile = userProfileRepository.findByUserId(chatroom.getMaleId());
                     chatroomDto.setMyName(chatroom.getFemaleName());
@@ -79,6 +80,7 @@ public class ChatroomServiceImpl implements ChatroomService {
                     chatroomDto.setOpponentId(chatroom.getMaleId());
                     chatroomDto.setOpponentImage(opponentUserProfile.getImage());
                     chatroomDto.setLastestMessage(chatroom.getLastestMessage());
+                    chatroomDto.setLastestMessageTime(chatroom.getLastestMessageTime());
                 }
                 chatroomDtoList.add(chatroomDto);
             }

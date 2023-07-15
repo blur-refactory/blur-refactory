@@ -17,4 +17,5 @@ public class ChatroomDto {
     private String OpponentId;
     private String OpponentImage;
     private String lastestMessage;
+    private String lastestMessageTime;
 }
