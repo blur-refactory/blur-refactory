@@ -28,6 +28,8 @@ public class Chatroom {
 
     private String lastestMessage;
 
+    private String lastestMessageTime;
+
     @OneToMany(mappedBy = "chatroom")
     private List<Chat> chats = new ArrayList<>();
 }
