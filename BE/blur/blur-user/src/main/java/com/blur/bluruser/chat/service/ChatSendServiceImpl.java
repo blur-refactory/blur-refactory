@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Slf4j
@@ -16,6 +18,7 @@ import java.util.Optional;
 public class ChatSendServiceImpl implements ChatSendService {
     private final ChatMakeService chatMakeService;
     private final ChatroomRepository chatroomRepository;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM-dd HH:mm");
 
     @Override
     public ChatDto sendChat(String userId, String roodId, ReceiveDto receivedMessage) throws Exception {
@@ -23,8 +26,12 @@ public class ChatSendServiceImpl implements ChatSendService {
 
         if (optionalChatroom.isPresent()) {
             ChatDto chatDto = chatMakeService.saveChat(userId, roodId, receivedMessage);
+
+            LocalDateTime time = LocalDateTime.now();
             Chatroom chatroom = optionalChatroom.get();
             chatroom.setLastestMessage(receivedMessage.getMessage());
+            chatroom.setLastestMessageTime(time.format(FORMATTER));
+
             chatroomRepository.save(chatroom);
             return chatDto;
         } else {
