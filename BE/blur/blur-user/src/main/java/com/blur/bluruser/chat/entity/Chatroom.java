@@ -26,6 +26,9 @@ public class Chatroom {
 
     private String femaleId;
 
+    private String lastestMessage;
+
     @OneToMany(mappedBy = "chatroom")
     private List<Chat> chats = new ArrayList<>();
+
 }

@@ -84,15 +84,21 @@ public class ChatroomServiceImpl implements ChatroomService {
                 ChatroomDto chatroomDto = new ChatroomDto();
                 chatroomDto.setId(chatroom.getId());
                 if (chatroom.getMaleId().equals(userId)) {
+                    UserProfile opponentUserProfile = userProfileRepository.findByUserId(chatroom.getFemaleId());
                     chatroomDto.setMyName(chatroom.getMaleName());
                     chatroomDto.setMyId(chatroom.getMaleId());
                     chatroomDto.setOpponentName(chatroom.getFemaleName());
                     chatroomDto.setOpponentId(chatroom.getFemaleId());
+                    chatroomDto.setOpponentImage(opponentUserProfile.getImage());
+                    chatroomDto.setLastestMessage(chatroom.getLastestMessage());
                 } else {
+                    UserProfile opponentUserProfile = userProfileRepository.findByUserId(chatroom.getMaleId());
                     chatroomDto.setMyName(chatroom.getFemaleName());
                     chatroomDto.setMyId(chatroom.getFemaleId());
                     chatroomDto.setOpponentName(chatroom.getMaleName());
                     chatroomDto.setOpponentId(chatroom.getMaleId());
+                    chatroomDto.setOpponentImage(opponentUserProfile.getImage());
+                    chatroomDto.setLastestMessage(chatroom.getLastestMessage());
                 }
                 chatroomDtoList.add(chatroomDto);
             }

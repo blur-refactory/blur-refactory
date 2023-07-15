@@ -11,12 +11,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ChatroomDto {
     private String id;
-
     private String MyName;
-
     private String OpponentName;
-
     private String MyId;
-
     private String OpponentId;
+    private String OpponentImage;
+    private String lastestMessage;
 }
