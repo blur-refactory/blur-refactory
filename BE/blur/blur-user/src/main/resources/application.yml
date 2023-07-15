@@ -17,7 +17,7 @@ spring:
 #    password: blurblur
     url: jdbc:mysql://127.0.0.1:3306/blur?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
     username: root
-    password: root
+    password: alcls1743!@
 
 #  redis:
 #    host: blurblur.kr
